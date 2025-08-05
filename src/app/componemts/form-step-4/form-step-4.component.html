@@ -1,0 +1,130 @@
+<div class="grid">
+  <div class="col-6">
+    <p-card>
+      <p-fieldset legend="Contact info">
+        <form #myForm="ngForm" (change)="formService.save()">
+          <div class="field">
+            <p-iftalabel>
+              <input
+                #name="ngModel" [(ngModel)]="formData.contact.firstName" name="name"
+                class="ng-dirty w-full"
+                placeholder="" pSize="large" pInputText id="field_1"/>
+              <label for="field_1">Name</label>
+            </p-iftalabel>
+          </div>
+          <div class="field">
+            <p-iftalabel>
+              <input #email="ngModel" [(ngModel)]="formData.contact.email" name="email"
+                     class="w-full" placeholder="" pSize="large" pInputText id="field_8"/>
+              <label for="field_8">E-mail</label>
+            </p-iftalabel>
+          </div>
+        </form>
+      </p-fieldset>
+      <ng-template #footer>
+        <p-button
+          (click)="onBack.emit()"
+          type="button" label="Back" icon="pi pi-angle-left"
+          [raised]="true" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"/>
+      </ng-template>
+    </p-card>
+
+    <img class="w-full" src="/assets/images/payments.png" alt="">
+
+    <p-card header="Pay for the order:">
+      <div class="pt-2">
+        <p-button (click)="submit()" [fluid]="true" [loading]="isLoading()"
+                  severity="primary" class="w-full" size="large" label="Checkout now" icon="pi pi-wallet" />
+      </div>
+    </p-card>
+  </div>
+  <div class="col-6">
+    <p-card class="p-card-colored p-card-green text-color-secondary">
+      <ng-template #header>
+        <h3 class="m-0">
+          <div class="grid justify-content-between align-items-center">
+            <div class="col py-0">
+              <i class="pi pi-shopping-bag pi-x2 mr-2"></i>
+              Order summary
+            </div>
+            <div class="col-fixed py-0">
+              {{productService.targetProducts.length}} items
+            </div>
+          </div>
+        </h3>
+      </ng-template>
+
+
+      <div class="grid align-items-center">
+        <div class="col">
+          <div class="">23424234 Trademark in AU</div>
+        </div>
+        <div *ngIf="formService.fees() as fees" class="col-fixed">
+          <b>AU${{fees?.baseFee}}</b>
+        </div>
+      </div>
+      <p-divider></p-divider>
+      <div class="order__list">
+        <p-timeline [value]="productService.targetProducts" class="w-full">
+          <ng-template #content let-event>
+
+            <div class="grid align-items-center" [style.margin-top.px]="-4">
+              <div class="col py-0">
+                <div class="order__item-name">
+                  <div><span>{{ event.name }}</span></div>
+                </div>
+              </div>
+              <div class="col-auto py-0">
+                <div class="order__item-price">AU${{formService.fees()?.classFee}}</div>
+              </div>
+            </div>
+            <!--<div>
+              <ng-template let-tag let-index="index" ngFor [ngForOf]="event.categories">
+                <div class="grid align-items-center mt-1">
+                  <div class="col py-0">
+                    <div class="order__item-name">
+                      <div><span>{{tag.name}}</span></div>
+                    </div>
+                  </div>
+                  <div class="col-auto py-0">
+                    <div class="order__item-price">AU$400</div>
+                  </div>
+                </div>
+              </ng-template>
+            </div>-->
+          </ng-template>
+        </p-timeline>
+      </div>
+      <p-divider></p-divider>
+
+
+      <p-fieldset legend="Order price">
+        <div class="grid pt-2 align-items-center">
+          <div class="col text-gray-600">
+            Sub total:
+          </div>
+          <div class="col-fixed py-0">
+            {{subTotal | currency : 'AUD' :'symbol' : '1.0-0'}}
+          </div>
+        </div>
+        <div class="grid mb-3 align-items-center">
+          <div class="col text-gray-600">
+            GST:
+          </div>
+          <div class="col-fixed py-0">
+            {{subTotal * 0.1 | currency : 'AUD' :'symbol' : '1.0-0'}}
+          </div>
+        </div>
+
+        <div class="grid align-items-center">
+          <div class="col py-0 text-gray-600 font-bold text-lg">
+            Total:
+          </div>
+          <div class="col-fixed py-0 text-lg">
+            <b>{{subTotal * 1.1 | currency : 'AUD' :'symbol' : '1.0-0'}}</b>
+          </div>
+        </div>
+      </p-fieldset>
+    </p-card>
+  </div>
+</div>

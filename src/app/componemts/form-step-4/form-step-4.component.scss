@@ -1,0 +1,26 @@
+:host ::ng-deep .p-timeline-event-opposite {
+  display: none;
+}
+
+.order__list {
+  overflow: auto;
+  max-height: 300px;
+
+  div.order__item-name {
+    position: relative;
+    vertical-align: top;
+    background: url(/assets/images/dot.svg) repeat-x 0px 12px;
+
+    & > div > span {
+      background: var(--secondary-bg-color);
+      padding-right: 10px;
+      color: var(--muted-color);
+    }
+  }
+
+  .order__item-price {
+    font-size: 15px;
+    line-height: 26px;
+  }
+
+}

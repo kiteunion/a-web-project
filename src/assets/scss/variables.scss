@@ -1,0 +1,21 @@
+:root {
+  --text-color: #000;
+  --muted-color: #777;
+  --base-bg-color: #fff;
+  --secondary-bg-color: #edf4fb;
+  --secondary-text-color: #0082ba;
+  --primary-text-color: #0082ba;
+  --primary-bg-color: #008bc0;
+  --info-bg-color: #edf4fb;
+
+  --primary-bg-button: var(--primary-bg-color);
+  --primary-bg-button-active: var(--primary-text-color);
+
+  --success-bg-button: #6DC067;
+  --success-bg-button-active: #60b35a;
+
+  --card-bg-inactive: #d2d2d2;
+
+  --tag-bg-secondary: #d2d2d2;
+  --tag-text-secondary: #3c3533;
+}

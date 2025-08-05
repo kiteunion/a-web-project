@@ -1,0 +1,57 @@
+<div class="grid">
+  <div class="col-6">
+    <p-card class="h-100 p-card-colored p-card-gray p-card-table">
+      <ng-template #header>
+        <p-floatlabel variant="on">
+          <p-iconfield>
+            <p-inputicon class="pi pi-search"/>
+            <input class="w-full" pInputText id="on_label" [(ngModel)]="q" (ngModelChange)="isLoading.set(true)" autocomplete="off"/>
+            <p-inputicon *ngIf="isLoading()" class="">
+              <p-progress-spinner strokeWidth="4" fill="transparent" animationDuration=".5s"
+                                  [style]="{ width: '20px', height: '20px' }"/>
+            </p-inputicon>
+
+          </p-iconfield>
+          <label for="on_label">Search</label>
+        </p-floatlabel>
+      </ng-template>
+      <app-table-source-products (onLoad)="onLoaded()" [isLoading]="isLoading" [q]="q"></app-table-source-products>
+    </p-card>
+
+  </div>
+  <div class="col-6">
+    <p-card class="p-card-colored p-card-blue p-card-table" header="">
+      <ng-template #header>
+        <h3 class="m-0">
+          <div class="grid justify-content-between align-items-center">
+            <div class="col">
+              <i class="pi pi-shopping-bag pi-x2 mr-2"></i>
+              3 Classes
+            </div>
+            <div class="col">
+              26 items
+            </div>
+
+            <div class="col-fixed">
+              <b>{{totalPrice() | currency : 'AUD' :'symbol' : '1.0-0'}}</b>
+            </div>
+          </div>
+        </h3>
+      </ng-template>
+      <app-table-target-products></app-table-target-products>
+    </p-card>
+  </div>
+</div>
+
+    <div class="flex gap-4 mt-1">
+      <p-button
+        (click)="onBack.emit()"
+        type="button" label="Back" icon="pi pi-angle-left"
+        [raised]="true" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"/>
+      <p-button
+        (click)="next()" [loading]="isLoading()"
+        type="button" label="Next" icon="pi pi-angle-double-right"
+        [raised]="true" severity="success" class="w-full" styleClass="w-full"/>
+    </div>
+
+

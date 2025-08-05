@@ -1,0 +1,11 @@
+:host .p-tag-secondary {
+  background: var(--tag-bg-secondary);
+  color: var(--tag-text-secondary);
+
+  transition: all .5s;
+
+  &:hover {
+    background: var(--p-tag-success-background);
+    color: var(--p-tag-success-color);
+  }
+}

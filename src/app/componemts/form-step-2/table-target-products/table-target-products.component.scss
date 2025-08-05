@@ -1,0 +1,8 @@
+:host .p-tag-success {
+  transition: all .5s;
+
+  &:hover {
+    background: var(--p-tag-danger-background);
+    color: var(--p-tag-danger-color);
+  }
+}

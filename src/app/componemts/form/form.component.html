@@ -1,0 +1,32 @@
+<p-stepper [linear]="true" (valueChange)="onStepChange($event)" [value]="activeStep" class="basis-[50rem]">
+  <p-card class="no-print" header="">
+    <p-step-list>
+      <p-step [value]="1">Register your trademark</p-step>
+      <p-step [value]="2">Choose products</p-step>
+      <p-step [value]="3">Provide owner information</p-step>
+      <p-step [value]="4">Review and pay</p-step>
+    </p-step-list>
+  </p-card>
+  <p-step-panels>
+    <p-step-panel [value]="1">
+      <ng-template #content let-activateCallback="activateCallback">
+      <app-form-step-1 (onNext)="activeStep = 2"></app-form-step-1>
+      </ng-template>
+    </p-step-panel>
+    <p-step-panel [value]="2">
+      <ng-template #content let-activateCallback="activateCallback">
+        <app-form-step-2 (onNext)="activeStep = 3" (onBack)="activeStep = 1"></app-form-step-2>
+      </ng-template>
+    </p-step-panel>
+    <p-step-panel [value]="3">
+      <ng-template #content let-activateCallback="activateCallback">
+        <app-form-step-3 (onNext)="activeStep = 4" (onBack)="activeStep = 2"></app-form-step-3>
+      </ng-template>
+    </p-step-panel>
+    <p-step-panel [value]="4">
+      <ng-template #content let-activateCallback="activateCallback">
+        <app-form-step-4 (onBack)="activeStep = 3"></app-form-step-4>
+      </ng-template>
+    </p-step-panel>
+  </p-step-panels>
+</p-stepper>

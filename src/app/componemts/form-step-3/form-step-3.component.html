@@ -1,0 +1,202 @@
+<div class="mb-4">
+  <label class="mb-2 block" for="">Who owns the trademark:</label>
+  <div>
+    <p-select-button [options]="stateOptions" [(ngModel)]="formData.contact.ownershipType"
+                     optionLabel="label" optionValue="value"
+                     aria-labelledby="basic" (ngModelChange)="formService.save()"/>
+  </div>
+</div>
+<form #myForm="ngForm" (change)="formService.save()" (ngSubmit)="onSubmit($event, myForm)">
+  <div class="mb-3"></div>
+  <p-card>
+    <p-fieldset legend="Details">
+      <div class="formgrid grid">
+        <div class="field col">
+          <p-iftalabel>
+            <input #name="ngModel" [(ngModel)]="formData.company.businessName" name="name"
+                   class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(name, myForm)"
+                   placeholder="" pSize="large" pInputText id="field_1"/>
+            <label for="field_1">Name of trademark owner&nbsp;<span class="text-red-400">*</span></label>
+          </p-iftalabel>
+          <p-message *ngIf="formService.isValidField(name, myForm)" class="mt-2" severity="error" variant="simple" size="small">Name
+            is required
+          </p-message>
+        </div>
+        <div *ngIf="formData.contact.ownershipType === 1" class="field col">
+          <p-iftalabel>
+            <input #abn="ngModel" [(ngModel)]="formData.company.businessNumber" name="abn"
+                   class="w-full" placeholder="" pSize="large" pInputText id="field_2"/>
+            <label for="field_2">ABN/ACN (if relevant)</label>
+          </p-iftalabel>
+        </div>
+      </div>
+    </p-fieldset>
+
+    <div class="mb-3"></div>
+
+    <p-fieldset legend="Contacts">
+      <div class="formgrid grid">
+        <div class="field col">
+          <p-iftalabel>
+            <input #email="ngModel" [(ngModel)]="formData.contact.email" name="email"
+                   class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(email, myForm)"
+                   placeholder="" pSize="large" pInputText id="field_8"/>
+            <label for="field_8">E-mail&nbsp;<span class="text-red-400">*</span></label>
+          </p-iftalabel>
+          <p-message *ngIf="formService.isValidField(email, myForm)" class="mt-2" severity="error" variant="simple" size="small">
+            E-mail is required
+          </p-message>
+        </div>
+        <div class="field col">
+          <p-iftalabel>
+            <input #phone="ngModel" [(ngModel)]="formData.contact.phone" name="phone" type="hidden">
+            <ngx-intl-tel-input
+              [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="onPhoneChange($event)"
+              [(ngModel)]="phoneValue"
+              [cssClass]="'custom'"
+              [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom]"
+              [enableAutoCountrySelect]="false"
+              [enablePlaceholder]="true"
+              [searchCountryFlag]="true"
+              [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+              [selectFirstCountry]="false"
+              [selectedCountryISO]="CountryISO.Australia"
+              [maxLength]="15"
+              [phoneValidation]="true"
+              [inputId]="'field_phone'"
+            ></ngx-intl-tel-input>
+            <!--<input class="w-full" placeholder="" pSize="large" required pInputText id="field_9"/>-->
+            <label for="field_phone">Phone number <span class="text-red-400">*</span></label>
+          </p-iftalabel>
+          <p-message *ngIf="formService.isValidField(phone, myForm)" class="mt-2" severity="error" variant="simple" size="small">
+            Phone is required
+          </p-message>
+        </div>
+      </div>
+    </p-fieldset>
+
+    <div class="mb-3"></div>
+
+    <p-fieldset legend="Address">
+      <div class="formgrid grid">
+        <div class="field col">
+          <p-iftalabel>
+            <p-select
+              #country="ngModel" [(ngModel)]="formData.address.countryCode" name="country" [options]="this.formService.countries"
+              optionLabel="name" [filter]="true" optionValue="Code2" filterBy="Name" id="field_3"
+              [showClear]="true" placeholder="Select a Country" class="w-full md:w-56">
+              <ng-template #selectedItem let-selectedOption>
+                <div class="flex items-center gap-2">
+                  <img src="/assets/images/flag_placeholder.png"
+                       [class]="'flag flag-' + selectedOption.Code2?.toLowerCase()"
+                       style="width: 18px"/>
+                  <div>{{ selectedOption.Name }}</div>
+                </div>
+              </ng-template>
+              <ng-template let-country #item>
+                <div class="flex items-center gap-2">
+                  <img src="/assets/images/flag_placeholder.png" [class]="'flag flag-' + country.Code2.toLowerCase()"
+                       style="width: 18px"/>
+                  <div>{{ country.Name }}</div>
+                </div>
+              </ng-template>
+            </p-select>
+            <label for="field_3">Country of residence<span class="text-red-400">*</span></label>
+          </p-iftalabel>
+        </div>
+        <div class="field col">
+          <p-iftalabel>
+            <input #state="ngModel" [(ngModel)]="formData.address.region" name="state"
+                   class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(state, myForm)"
+                   placeholder="" pSize="large" pInputText id="field_4"/>
+            <label for="field_4">State or Region&nbsp;<span class="text-red-400">*</span></label>
+          </p-iftalabel>
+          <p-message *ngIf="formService.isValidField(state, myForm)" class="mt-2" severity="error" variant="simple" size="small">
+            State is required
+          </p-message>
+        </div>
+      </div>
+
+      <div class="field">
+        <p-iftalabel>
+          <input #address="ngModel" [(ngModel)]="formData.address.address" name="address"
+                 class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(address, myForm)"
+                 placeholder="" pSize="large" pInputText id="field_5"/>
+          <label for="field_5">Street address&nbsp;<span class="text-red-400">*</span></label>
+        </p-iftalabel>
+        <p-message *ngIf="formService.isValidField(address, myForm)" class="mt-2" severity="error" variant="simple" size="small">
+          Address is required
+        </p-message>
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field col">
+          <p-iftalabel>
+            <input #city="ngModel" [(ngModel)]="formData.address.city" name="city"
+                   class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(city, myForm)"
+                   placeholder="" pSize="large" pInputText id="field_6"/>
+            <label for="field_6">City / Suburb&nbsp;<span class="text-red-400">*</span></label>
+          </p-iftalabel>
+          <p-message *ngIf="formService.isValidField(city, myForm)" class="mt-2" severity="error" variant="simple" size="small">City
+            is required
+          </p-message>
+        </div>
+        <div class="field col">
+          <p-iftalabel>
+            <input
+              #zip="ngModel" [(ngModel)]="formData.address.postCode" name="zip"
+              class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(zip, myForm)"
+              placeholder="" pSize="large" pInputText id="field_7"/>
+            <label for="field_7">Postal code&nbsp;<span class="text-red-400">*</span></label>
+          </p-iftalabel>
+          <p-message *ngIf="formService.isValidField(zip, myForm)" class="mt-2" severity="error" variant="simple" size="small">ZIP
+            is required
+          </p-message>
+        </div>
+      </div>
+    </p-fieldset>
+
+    <div class="mb-4"></div>
+
+    <div>
+      <div class="mb-3">
+        <div class="flex items-center gap-1">
+          <p-checkbox #agree="ngModel" [(ngModel)]="formService.agree" name="agree"
+                      [required]="true" class="ng-dirty" value="I acknowledge that:" inputId="confirm"/>
+          <label for="confirm" class="ml-2">I acknowledge that:</label>
+        </div>
+        <p-message *ngIf="formService.isValidField(agree, myForm)" class="mt-2" severity="error" variant="simple" size="small">You
+          must agree to the terms
+        </p-message>
+      </div>
+      <p-message severity="info">
+        <ul class="text-gray-600">
+          <li>
+            The applicant plans to use the trademark and has the legal right to own it.
+          </li>
+          <li>
+            The Trademark Office will not allow changes to the trademark or associated goods and services after
+            submission.
+          </li>
+          <li>
+            I have reviewed and accept the Terms of Use and agree to receive emails as outlined in them.
+          </li>
+        </ul>
+      </p-message>
+
+    </div>
+
+    <ng-template #footer>
+      <div class="flex gap-4 mt-1">
+        <p-button
+          (click)="onBack.emit()"
+          type="button" label="Back" icon="pi pi-angle-left"
+          [raised]="true" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"/>
+        <p-button
+          type="submit" [loading]="isLoading()" label="Next" icon="pi pi-angle-double-right"
+          [raised]="true" severity="success" class="w-full" styleClass="w-full"/>
+      </div>
+    </ng-template>
+  </p-card>
+</form>

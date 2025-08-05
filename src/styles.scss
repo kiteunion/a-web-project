@@ -1,0 +1,185 @@
+@use "primeflex/primeflex.css";
+@use "primeflex/themes/primeone-dark.css";
+@use "primeicons/primeicons.css";
+@use "intl-tel-input/build/css/intlTelInput.css";
+@use "./assets/scss/variables";
+
+body {
+  font-family: sans-serif;
+}
+
+.container {
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+p-card.p-card-colored {
+  .p-card-header {
+
+  }
+
+  &.p-card-green {
+    .p-card-title, .p-card-header {
+      background: var(--success-bg-button);
+    }
+  }
+
+  .p-card-title, .p-card-header {
+    background: var(--primary-bg-color);
+    color: #fff;
+    border-radius: var(--p-border-radius-xl) var(--p-border-radius-xl) 0 0;
+    padding: 1.25rem;
+  }
+
+  .p-card-title {
+    margin: -1.25rem -1.25rem 0 -1.25rem;
+  }
+
+  &.p-card-gray {
+    .p-card-title, .p-card-header {
+      background: var(--card-bg-inactive);
+    }
+  }
+}
+
+
+.pi-x2 {
+  font-size: 1.5rem !important;
+  vertical-align: bottom;
+}
+
+p-tag i.pi {
+  margin-right: -5px;
+}
+
+:root {
+  --p-primary-color: var(--primary-text-color) !important;
+  --p-panel-toggleable-header-padding: 0.775rem 1.125rem !important;
+  --p-togglebutton-checked-color: #fff !important;
+
+
+  --p-button-success-background: var(--success-bg-button) !important;
+  --p-button-success-border-color: var(--success-bg-button) !important;
+  --p-button-success-active-background: var(--success-bg-button-active) !important;
+  --p-button-success-active-border-color: var(--success-bg-button-active) !important;
+  --p-button-success-hover-border-color: var(--success-bg-button-active) !important;
+  --p-button-success-hover-background: var(--success-bg-button-active) !important;
+
+  --p-button-primary-background: var(--primary-bg-button) !important;
+  --p-button-primary-border-color: var(--primary-bg-button) !important;
+  --p-button-primary-active-background: var(--primary-bg-button-active) !important;
+  --p-button-primary-active-border-color: var(--primary-bg-button-active) !important;
+  --p-button-primary-hover-border-color: var(--primary-bg-button-active) !important;
+  --p-button-primary-hover-background: var(--primary-bg-button-active) !important;
+
+  --p-togglebutton-content-checked-background: var(--success-bg-button) !important;
+  --p-fieldset-legend-color: var(--primary-text-color) !important;
+
+  --p-message-info-background: #fff !important;
+  --p-message-info-outlined-color: var(--primary-text-color) !important;
+  --p-message-info-color: var(--primary-text-color) !important;
+  --p-message-info-outlined-border-color: var(--primary-text-color) !important;
+
+
+  --p-stepper-step-title-active-color: var(--success-bg-button) !important;
+  --p-stepper-separator-active-background: var(--success-bg-button) !important;
+  --p-stepper-step-title-color: var(--muted-color) !important;
+
+  --p-stepper-step-number-active-color: #fff !important;
+  --p-stepper-step-number-color: var(--muted-color) !important;
+  --p-stepper-step-number-active-background: var(--success-bg-button-active) !important;
+
+  --p-tag-success-background: var(--success-bg-button) !important;
+  --p-tag-success-color: #fff !important;
+
+  --p-timeline-event-min-height: 0!important;
+  /*--p-card-background: #f1f5f9!important;*/
+}
+
+.text-muted {
+  color: var(--muted-color);
+}
+
+.iti {
+  width: 100%;
+
+  .iti__country-list {
+    max-height: 200px;
+  }
+
+  input.iti__tel-input {
+    font-family: inherit;
+    font-feature-settings: inherit;
+    color: var(--p-inputtext-color);
+    background: var(--p-inputtext-background);
+    padding-block: var(--p-inputtext-padding-y);
+    padding-inline: var(--p-inputtext-padding-x);
+    border: 1px solid var(--p-inputtext-border-color);
+    transition: background var(--p-inputtext-transition-duration), color var(--p-inputtext-transition-duration), border-color var(--p-inputtext-transition-duration), outline-color var(--p-inputtext-transition-duration), box-shadow var(--p-inputtext-transition-duration);
+    appearance: none;
+    border-radius: var(--p-inputtext-border-radius);
+    outline-color: transparent;
+    box-shadow: var(--p-inputtext-shadow);
+    font-size: var(--p-inputtext-lg-font-size);
+    padding-top: var(--p-iftalabel-input-padding-top);
+    width: 100%;
+
+    &:focus {
+      border-color: var(--p-inputtext-focus-border-color);
+      box-shadow: var(--p-inputtext-focus-ring-shadow);
+      outline: var(--p-inputtext-focus-ring-width) var(--p-inputtext-focus-ring-style) var(--p-inputtext-focus-ring-color);
+      outline-offset: var(--p-inputtext-focus-ring-offset);
+    }
+  }
+
+  .iti__selected-flag .iti__flag {
+    margin-top: 15px;
+  }
+
+  .iti__arrow {
+    margin-top: 15px;
+  }
+
+  input#country-search-box {
+    padding-left: 6px;
+    height: 30px;
+  }
+}
+
+
+.p-card {
+  overflow: hidden;
+
+  .p-card-body {
+    overflow: hidden;
+    background: var(--secondary-bg-color);
+    /*color: var(--primary-text-color);*/
+    /*border-radius: 35px !important;*/
+    border-color: #eaeaea !important;
+  }
+}
+
+.p-card-table {
+  .p-card-body {
+    padding: 0;
+    background-color: #fff;
+  }
+}
+
+.p-message-outlined {
+  background-color: #fff !important;
+}
+
+.p-divider-horizontal:before {
+  border-block-start: 2px solid #e2e8f0!important;
+}
+
+.p-button-outlined.p-button-secondary {
+  background: #fff;
+}
+
+p-card.h-100 .p-card {
+  height: 100%;
+}
