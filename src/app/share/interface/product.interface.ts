@@ -10,6 +10,7 @@ export interface DataInterface {
 }
 
 export interface ClassInterface {
+  index?: number;
   name:       string;
   categories: CategoryInterface[];
 }

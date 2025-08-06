@@ -1,3 +1,16 @@
+<div class="text-sm">
+    <p class="mb-1"><b>Choosing the correct protection trade mark class (es)</b></p>
+
+    <div><b>What is this brand promoted as?</b></div>
+    <ul class="mt-2">
+        <li>Is it a product? example: WHOPPER (hamburger)</li>
+        <li>Is it a service? example: HUNGRY JACK'S (restaurant services)</li>
+    </ul>
+
+
+    <p>You may need more than 1 protection class depending on your service.</p>
+</div>
+
 <div class="grid">
   <div class="col-6">
     <p-card class="h-100 p-card-colored p-card-gray p-card-table">
@@ -29,10 +42,17 @@
               3 Classes
             </div>
             <div class="col">
-              26 items
+              <!--26 items-->
             </div>
 
             <div class="col-fixed">
+              <i [pTooltip]="tooltipContent" tooltipPosition="top" class="pi pi-info-circle pi-x2 mr-2"></i>
+              <ng-template #tooltipContent>
+                  <div class="mb-1">Base fee: {{545 | currency : 'AUD' :'symbol' : '1.0-0'}} x 2</div>
+                  <div class="mb-1">Class 44: {{250 | currency : 'AUD' :'symbol' : '1.0-0'}}</div>
+                  <div class="mb-1">Class 21: {{250 | currency : 'AUD' :'symbol' : '1.0-0'}}</div>
+                  <div class="font-bold">Total: {{28 | currency : 'AUD' :'symbol' : '1.0-0'}}</div>
+              </ng-template>
               <b>{{totalPrice() | currency : 'AUD' :'symbol' : '1.0-0'}}</b>
             </div>
           </div>

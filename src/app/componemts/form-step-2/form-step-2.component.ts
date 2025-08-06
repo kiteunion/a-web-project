@@ -14,25 +14,27 @@ import { CurrencyPipe, DecimalPipe, NgIf } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { FormService } from '../../share/services/form.service';
 import { debounceTime, finalize, Subject, takeUntil } from 'rxjs';
+import {Tooltip} from "primeng/tooltip";
 
 @Component({
   standalone: true,
   selector: 'app-form-step-2',
-  imports: [
-    Card,
-    IconField,
-    InputIcon,
-    InputText,
-    FloatLabel,
-    FormsModule,
-    ProgressSpinner,
-    TableTargetProductsComponent,
-    TableSourceProductsComponent,
-    Button,
-    NgIf,
-    DecimalPipe,
-    CurrencyPipe
-  ],
+    imports: [
+        Card,
+        IconField,
+        InputIcon,
+        InputText,
+        FloatLabel,
+        FormsModule,
+        ProgressSpinner,
+        TableTargetProductsComponent,
+        TableSourceProductsComponent,
+        Button,
+        NgIf,
+        DecimalPipe,
+        CurrencyPipe,
+        Tooltip
+    ],
   templateUrl: './form-step-2.component.html',
   styleUrl: './form-step-2.component.scss'
 })

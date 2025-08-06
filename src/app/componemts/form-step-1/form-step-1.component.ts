@@ -1,18 +1,18 @@
-import { Component, EventEmitter, Output, signal, WritableSignal } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { FileUpload } from 'primeng/fileupload';
-import { Message } from 'primeng/message';
-import { NgIf } from '@angular/common';
-import { SelectButton } from 'primeng/selectbutton';
-import { FormsModule } from '@angular/forms';
-import { InputText } from 'primeng/inputtext';
-import { IftaLabel } from 'primeng/iftalabel';
-import { Card } from 'primeng/card';
-import { Button } from 'primeng/button';
-import { Fieldset } from 'primeng/fieldset';
-import { FormService } from '../../share/services/form.service';
-import { debounceTime, finalize, forkJoin, takeUntil } from 'rxjs';
-import { ProductService } from '../../share/services/product.service';
+import {Component, EventEmitter, Output, signal, ViewChild, WritableSignal} from '@angular/core';
+import {MessageService} from 'primeng/api';
+import {FileUpload} from 'primeng/fileupload';
+import {Message} from 'primeng/message';
+import {NgIf} from '@angular/common';
+import {SelectButton} from 'primeng/selectbutton';
+import {FormsModule} from '@angular/forms';
+import {InputText} from 'primeng/inputtext';
+import {IftaLabel} from 'primeng/iftalabel';
+import {Card} from 'primeng/card';
+import {Button} from 'primeng/button';
+import {Fieldset} from 'primeng/fieldset';
+import {FormService} from '../../share/services/form.service';
+import {finalize, forkJoin} from 'rxjs';
+import {ProductService} from '../../share/services/product.service';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -40,17 +40,14 @@ interface UploadEvent {
 export class FormStep1Component {
   @Output()
   onNext: EventEmitter<void> = new EventEmitter();
+  @ViewChild('fileUpload') fileUpload!: FileUpload; // Reference to p-fileupload component
 
   readonly isLoading: WritableSignal<boolean> = signal(false);
 
-  uploadedLogo?: File;
-  uploadedLogoUri?: any;
   stateOptions: any[] = [
-    {label: 'A word or words', value: 'words'},
-    {label: 'Graphic or logo', value: 'logo'}
+    {label: "Word or Words", value: 'words'},
+    {label: "Logo or Graphic", value: 'logo'}
   ];
-
-  value: 'logo' | 'words' = 'words';
 
   constructor(
     public formService: FormService,
@@ -59,25 +56,26 @@ export class FormStep1Component {
   ) {
   }
 
-  onUpload(event: any) {
+  onSelect(event: any) {
     for (let file of event.files) {
       console.log(file)
-      this.uploadedLogoUri = URL.createObjectURL(file);
-      this.uploadedLogo = file;
+      this.formService.uploadedLogoUri = URL.createObjectURL(file);
+      this.formService.uploadedLogo = file;
     }
 
     this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
 
   reset() {
-    delete this.uploadedLogo;
-    delete this.uploadedLogoUri;
+    delete this.formService.uploadedLogo;
+    delete this.formService.uploadedLogoUri;
     this.formService.applicationData.word.word = '';
+    this.fileUpload.clear();
   }
 
   next(): void {
     this.messageService.clear();
-    if (this.value == 'words' && !this.formService.applicationData.word.word) {
+    if (this.formService.trademarkType == 'words' && !this.formService.applicationData.word.word) {
       this.messageService.add({
         severity: 'error',
         summary: 'Required field',

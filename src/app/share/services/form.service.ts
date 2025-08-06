@@ -14,6 +14,12 @@ import { CountriesItem, CountriesResultInterface } from '../interface/countries.
 
 export class FormService {
   public agree = undefined;
+  public expedited = undefined;
+  public privacy = undefined;
+  public trademarkType: 'logo' | 'words' = 'words';
+  public uploadedLogo?: File;
+  public uploadedLogoUri?: any;
+
   public applicationRef: string | null = null;
   public fees: WritableSignal<FeesDataInterface | null> = signal(null);
   public applicationData: ApplicationData = {
@@ -24,6 +30,9 @@ export class FormService {
     image: {
       imageRef: null
     },
+    contacts: [
+      {email: '', phone: ''}
+    ],
     contact: {
       firstName: '',
       lastName: 'Undefined',
@@ -44,6 +53,7 @@ export class FormService {
       businessName: '',
       citizenCountryCode: 'AU',
       businessNumber: '',
+      australianCompanyNumber: '',
       phoneNumber: ''
     },
     selectedClasses: []

@@ -6,12 +6,16 @@ import { Card } from 'primeng/card';
 import { Divider } from 'primeng/divider';
 import { Timeline } from 'primeng/timeline';
 import { FormService } from '../../share/services/form.service';
-import { CurrencyPipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
+import {CurrencyPipe, DecimalPipe, JsonPipe, NgForOf, NgIf} from '@angular/common';
 import { Button } from 'primeng/button';
 import { ProductService } from '../../share/services/product.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApplicationData } from '../../share/interface/form.interface';
 import { debounceTime, finalize, Subject, takeUntil } from 'rxjs';
+import {Checkbox} from "primeng/checkbox";
+import {Tooltip} from "primeng/tooltip";
+import {PrimeTemplate} from "primeng/api";
+import {ClassInterface} from "../../share/interface/product.interface";
 
 @Component({
   standalone: true,
@@ -29,7 +33,11 @@ import { debounceTime, finalize, Subject, takeUntil } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     DecimalPipe,
-    CurrencyPipe
+    CurrencyPipe,
+    Checkbox,
+    Tooltip,
+    JsonPipe,
+    PrimeTemplate
   ],
   templateUrl: './form-step-4.component.html',
   styleUrl: './form-step-4.component.scss'
@@ -38,8 +46,16 @@ export class FormStep4Component implements OnDestroy {
   @Output()
   public onBack: EventEmitter<void> = new EventEmitter();
   readonly isLoading: WritableSignal<boolean> = signal(false);
+  public tooltipExpedited = "This option is recommended, especially if you are a startup and what to find out sooner than later if your brand is approved for registration within 14 working days. If the application comes back with descriptive issues, you can submit the “logo” mark for FREE if your logo is distinctive. And if the application is not accepted due to cited marks (potential infringement), you an submit another name for FREE! But you must have a second name ready within 4 working days or the offer is void.";
 
   private destroy$: Subject<void> = new Subject();
+  get targetProducts(): ClassInterface[] {
+    this.productService.targetProducts.map((v, i) => {
+      v.index = i;
+    })
+    return this.productService.targetProducts;
+  };
+
   get subTotal() {
     return this.productService.targetProducts.length
       * (this.formService.fees()?.classFee || 0)

@@ -8,3 +8,9 @@ p-fieldset {
   }
 
 }
+:host ::ng-deep {
+  .p-fileupload-file-list, p-progressbar {
+    display: none;
+  }
+}
+

@@ -12,6 +12,7 @@ export interface ApplicationData {
   word:            Word;
   image:           Image;
   contact:         Contact;
+  contacts:        Contact[];
   address:         Address;
   company:         Company;
   selectedClasses: SelectedClass[];
@@ -30,16 +31,17 @@ export interface Company {
   businessName:       string;
   citizenCountryCode: string;
   businessNumber:     string;
+  australianCompanyNumber:     string;
   phoneNumber:        string;
 }
 
 export interface Contact {
-  firstName:     string;
-  lastName:      string;
+  firstName?:     string;
+  lastName?:      string;
   email:         string;
   phone:         string;
-  declaration:   boolean;
-  ownershipType: number;
+  declaration?:   boolean;
+  ownershipType?: number;
 }
 
 export interface Image {
