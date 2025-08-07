@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { JsonPipe } from '@angular/common';
 import { Tag } from 'primeng/tag';
 import { ProductService } from '../../../share/services/product.service';
 import { CategoryInterface, ClassInterface } from '../../../share/interface/product.interface';
@@ -10,9 +9,8 @@ import { CategoryInterface, ClassInterface } from '../../../share/interface/prod
   selector: 'app-table-target-products',
   imports: [
     TableModule,
-    Tag,
-    JsonPipe
-],
+    Tag
+  ],
   templateUrl: './table-target-products.component.html',
   styleUrl: './table-target-products.component.scss'
 })

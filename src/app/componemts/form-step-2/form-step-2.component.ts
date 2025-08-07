@@ -10,7 +10,7 @@ import { TableTargetProductsComponent } from './table-target-products/table-targ
 import { TableSourceProductsComponent } from './table-source-products/table-source-products.component';
 import { Button } from "primeng/button";
 import { ProductService } from '../../share/services/product.service';
-import { CurrencyPipe, DecimalPipe, NgIf } from '@angular/common';
+import { CurrencyPipe, NgIf } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { FormService } from '../../share/services/form.service';
 import { debounceTime, finalize, Subject, takeUntil } from 'rxjs';
@@ -31,7 +31,6 @@ import {Tooltip} from "primeng/tooltip";
         TableSourceProductsComponent,
         Button,
         NgIf,
-        DecimalPipe,
         CurrencyPipe,
         Tooltip
     ],
