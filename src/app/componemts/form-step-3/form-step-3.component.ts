@@ -6,7 +6,7 @@ import { InputText } from 'primeng/inputtext';
 import { Fieldset } from 'primeng/fieldset';
 import { Select } from 'primeng/select';
 import { counties } from '../../data/counties';
-import {NgForOf, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault} from '@angular/common';
+
 import { Card } from 'primeng/card';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 import { Checkbox } from 'primeng/checkbox';
@@ -22,25 +22,20 @@ import {Tooltip} from "primeng/tooltip";
   standalone: true,
   selector: 'app-form-step-3',
     imports: [
-        ReactiveFormsModule,
-        SelectButton,
-        FormsModule,
-        IftaLabel,
-        InputText,
-        Fieldset,
-        Select,
-        NgIf,
-        Card,
-        NgxIntlTelInputModule,
-        Checkbox,
-        Message,
-        Button,
-        Tooltip,
-        NgSwitchCase,
-        NgSwitch,
-        NgSwitchDefault,
-        NgForOf
-    ],
+    ReactiveFormsModule,
+    SelectButton,
+    FormsModule,
+    IftaLabel,
+    InputText,
+    Fieldset,
+    Select,
+    Card,
+    NgxIntlTelInputModule,
+    Checkbox,
+    Message,
+    Button,
+    Tooltip
+],
   templateUrl: './form-step-3.component.html',
   styleUrls: ['./form-step-3.component.scss', '../../../assets/scss/flags.scss']
 })

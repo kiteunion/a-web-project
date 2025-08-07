@@ -6,7 +6,7 @@ import { Card } from 'primeng/card';
 import { Divider } from 'primeng/divider';
 import { Timeline } from 'primeng/timeline';
 import { FormService } from '../../share/services/form.service';
-import {CurrencyPipe, DecimalPipe, JsonPipe, NgForOf, NgIf} from '@angular/common';
+import { CurrencyPipe, DecimalPipe, JsonPipe } from '@angular/common';
 import { Button } from 'primeng/button';
 import { ProductService } from '../../share/services/product.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,9 +29,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     Card,
     Divider,
     Timeline,
-    NgForOf,
     Button,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     DecimalPipe,
@@ -40,7 +38,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     Tooltip,
     JsonPipe,
     PrimeTemplate
-  ],
+],
   templateUrl: './form-step-4.component.html',
   styleUrl: './form-step-4.component.scss',
   animations: [

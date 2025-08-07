@@ -1,25 +1,25 @@
 <div class="mb-4">
   <label class="mb-2 block" for="">
-      Who owns the trademark:
-      <i [pTooltip]="tooltipContent" tooltipPosition="right" tooltipStyleClass="tooltip-wide" class="pi pi-info-circle mr-2"></i>
-      <ng-template #tooltipContent>
-          <p class="p1"><strong>Who is the rightful owner of the trade mark?</strong></p>
-          <p class="p1"><strong>It&rsquo;s important to spend time to consider who is the owner of the trade mark.</strong></p>
-          <p class="p1">A trade mark can be owned by an <strong>individual/ sole trader</strong> or <strong>by a business/ company</strong>.</p>
-          <p class="p1"><strong>Individual/ Sole Trader</strong></p>
-          <p class="p1">If you are a sole trader, then you need to complete the section &ldquo;individual/ sole trader&rdquo; with an Australian Business Number (ABN) if you have one.</p>
-          <p class="p1">If not, your name on your drivers licence or passport would be fine without an ABN number.</p>
-          <p class="p1"><strong>Business/ Company</strong></p>
-          <p class="p1">If you are operating a business/ company, then you need to complete &ldquo;business/company&rdquo; section with an Australian Company Number (ACN).</p>
-          <p class="p1">If you are unsure, you can click the box for us to call you to double check!</p>
-          <p>[ ] Please call me to double check</p>
-          <p class="p1"><a href="tel:(02) 9393 0391">(02) 9393 0391</a></p>
-      </ng-template>
+    Who owns the trademark:
+    <i [pTooltip]="tooltipContent" tooltipPosition="right" tooltipStyleClass="tooltip-wide" class="pi pi-info-circle mr-2"></i>
+    <ng-template #tooltipContent>
+      <p class="p1"><strong>Who is the rightful owner of the trade mark?</strong></p>
+      <p class="p1"><strong>It&rsquo;s important to spend time to consider who is the owner of the trade mark.</strong></p>
+      <p class="p1">A trade mark can be owned by an <strong>individual/ sole trader</strong> or <strong>by a business/ company</strong>.</p>
+      <p class="p1"><strong>Individual/ Sole Trader</strong></p>
+      <p class="p1">If you are a sole trader, then you need to complete the section &ldquo;individual/ sole trader&rdquo; with an Australian Business Number (ABN) if you have one.</p>
+      <p class="p1">If not, your name on your drivers licence or passport would be fine without an ABN number.</p>
+      <p class="p1"><strong>Business/ Company</strong></p>
+      <p class="p1">If you are operating a business/ company, then you need to complete &ldquo;business/company&rdquo; section with an Australian Company Number (ACN).</p>
+      <p class="p1">If you are unsure, you can click the box for us to call you to double check!</p>
+      <p>[ ] Please call me to double check</p>
+      <p class="p1"><a href="tel:(02) 9393 0391">(02) 9393 0391</a></p>
+    </ng-template>
   </label>
   <div>
     <p-select-button [options]="stateOptions" [(ngModel)]="formData.contact.ownershipType"
-                     optionLabel="label" optionValue="value"
-                     aria-labelledby="basic" (ngModelChange)="onSelectType()"/>
+      optionLabel="label" optionValue="value"
+      aria-labelledby="basic" (ngModelChange)="onSelectType()"/>
   </div>
 </div>
 <form #myForm="ngForm" (change)="formService.save()" (ngSubmit)="onSubmit($event, myForm)">
@@ -30,153 +30,178 @@
         <div class="field col">
           <p-iftalabel>
             <input #name="ngModel" [(ngModel)]="formData.company.businessName" name="name"
-                   class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(name, myForm)"
-                   placeholder="" pSize="large" pInputText id="field_1"/>
+              class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(name, myForm)"
+              placeholder="" pSize="large" pInputText id="field_1"/>
             <label for="field_1">Name of trademark owner&nbsp;<span class="text-red-400">*</span></label>
           </p-iftalabel>
-          <p-message *ngIf="formService.isValidField(name, myForm)" class="mt-2" severity="error" variant="simple" size="small">Name
-            is required
-          </p-message>
+          @if (formService.isValidField(name, myForm)) {
+            <p-message class="mt-2" severity="error" variant="simple" size="small">Name
+              is required
+            </p-message>
+          }
         </div>
 
+        @if (formData.contact.ownershipType === 1 || formData.contact.ownershipType === 3) {
           <div
-                  *ngIf="formData.contact.ownershipType === 1 || formData.contact.ownershipType === 3"
-                  [class.col-6]="formData.contact.ownershipType === 3"
-                  class="field col">
-              <p-iftalabel>
-                  <input #acn="ngModel" [(ngModel)]="formData.company.australianCompanyNumber" name="acn"
-                         placeholder="" [required]="true" pSize="large" pInputText id="field_2"
-                         class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(acn, myForm)"
-                  />
-                  <label for="field_2">
-                      ACN
-                      <span *ngIf="formData.contact.ownershipType === 3"> of company</span>
-                      &nbsp;<span class="text-red-400">*</span>
-                  </label>
-              </p-iftalabel>
-              <p-message *ngIf="formService.isValidField(acn, myForm)" class="mt-2" severity="error" variant="simple" size="small">
-                  ACN is required
+            [class.col-6]="formData.contact.ownershipType === 3"
+            class="field col">
+            <p-iftalabel>
+              <input #acn="ngModel" [(ngModel)]="formData.company.australianCompanyNumber" name="acn"
+                placeholder="" [required]="true" pSize="large" pInputText id="field_2"
+                class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(acn, myForm)"
+                />
+              <label for="field_2">
+                ACN
+                @if (formData.contact.ownershipType === 3) {
+                  <span> of company</span>
+                }
+                &nbsp;<span class="text-red-400">*</span>
+              </label>
+            </p-iftalabel>
+            @if (formService.isValidField(acn, myForm)) {
+              <p-message class="mt-2" severity="error" variant="simple" size="small">
+                ACN is required
               </p-message>
+            }
           </div>
-          <div *ngIf="formData.contact.ownershipType === 3" class="field col-6">
-              <p-iftalabel>
-                  <input #name="ngModel" [(ngModel)]="formData.company.businessName" name="name"
-                         class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(name, myForm)"
-                         placeholder="" pSize="large" pInputText id="field_1"/>
-                  <label for="field_1">Name of trust&nbsp;(the trustee can be an individual or a company)<span class="text-red-400">*</span></label>
-              </p-iftalabel>
-              <p-message *ngIf="formService.isValidField(name, myForm)" class="mt-2" severity="error" variant="simple" size="small">Name
-                  is required
+        }
+        @if (formData.contact.ownershipType === 3) {
+          <div class="field col-6">
+            <p-iftalabel>
+              <input #name="ngModel" [(ngModel)]="formData.company.businessName" name="name"
+                class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(name, myForm)"
+                placeholder="" pSize="large" pInputText id="field_1"/>
+              <label for="field_1">Name of trust&nbsp;(the trustee can be an individual or a company)<span class="text-red-400">*</span></label>
+            </p-iftalabel>
+            @if (formService.isValidField(name, myForm)) {
+              <p-message class="mt-2" severity="error" variant="simple" size="small">Name
+                is required
               </p-message>
+            }
           </div>
+        }
+        @if (formData.contact.ownershipType === 0 || formData.contact.ownershipType === 2 || formData.contact.ownershipType === 3) {
           <div
-                  *ngIf="formData.contact.ownershipType === 0 || formData.contact.ownershipType === 2 || formData.contact.ownershipType === 3"
-                  [class.col-6]="formData.contact.ownershipType === 3"
-                  class="field col">
-              <p-iftalabel>
-                  <input #abn="ngModel" [(ngModel)]="formData.company.businessNumber" name="abn"
-                         class="w-full" placeholder="" pSize="large" pInputText id="field_2"/>
-                  <label for="field_2">
-                      ABN
-                      <span *ngIf="formData.contact.ownershipType === 3"> of trust name</span>
-                  </label>
-              </p-iftalabel>
+            [class.col-6]="formData.contact.ownershipType === 3"
+            class="field col">
+            <p-iftalabel>
+              <input #abn="ngModel" [(ngModel)]="formData.company.businessNumber" name="abn"
+                class="w-full" placeholder="" pSize="large" pInputText id="field_2"/>
+              <label for="field_2">
+                ABN
+                @if (formData.contact.ownershipType === 3) {
+                  <span> of trust name</span>
+                }
+              </label>
+            </p-iftalabel>
           </div>
+        }
       </div>
     </p-fieldset>
 
     <div class="mb-3"></div>
 
     <p-fieldset legend="Contacts">
-      <div *ngFor="let contact of formData.contacts; let index = index" class="formgrid grid">
-        <div class="field col">
-          <p-iftalabel>
-            <input #email="ngModel" [(ngModel)]="formData.contact.email" name="email"
-                   class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(email, myForm)"
-                   placeholder="" pSize="large" pInputText id="field_8" [value]="contact.email"/>
-            <label for="field_8">E-mail&nbsp;<span class="text-red-400">*</span></label>
-          </p-iftalabel>
-          <p-message *ngIf="formService.isValidField(email, myForm)" class="mt-2" severity="error" variant="simple" size="small">
-            E-mail is required
-          </p-message>
-        </div>
-        <div class="field col">
-          <p-iftalabel>
-            <input #phone="ngModel" [(ngModel)]="formData.contact.phone" name="phone" type="hidden">
-            <ngx-intl-tel-input
-              [ngModelOptions]="{standalone: true}"
-              (ngModelChange)="onPhoneChange($event)"
-              [(ngModel)]="phoneValue"
-              [cssClass]="'custom'"
-              [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom]"
-              [enableAutoCountrySelect]="false"
-              [enablePlaceholder]="true"
-              [searchCountryFlag]="true"
-              [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-              [selectFirstCountry]="false"
-              [selectedCountryISO]="CountryISO.Australia"
-              [maxLength]="15"
-              [value]="contact.phone"
-              [phoneValidation]="true"
-              [inputId]="'field_phone'"
-              [separateDialCode]="true"
-            ></ngx-intl-tel-input>
-            <!--<input class="w-full" placeholder="" pSize="large" required pInputText id="field_9"/>-->
-            <label for="field_phone">Phone number <span class="text-red-400">*</span></label>
-          </p-iftalabel>
-          <p-message *ngIf="formService.isValidField(phone, myForm)" class="mt-2" severity="error" variant="simple" size="small">
-            Phone is required
-          </p-message>
-        </div>
-          <div *ngIf="formData.contact.ownershipType == 2 && formData.contacts.length > 1" class="field col-auto">
-              <p-button
-                      size="large"
-                      styleClass="h-95"
-                      (click)="removeContact(index)"
-                      type="button" icon="pi pi-minus"
-                      [raised]="true" severity="danger"/>
+      @for (contact of formData.contacts; track contact; let index = $index) {
+        <div class="formgrid grid">
+          <div class="field col">
+            <p-iftalabel>
+              <input #email="ngModel" [(ngModel)]="formData.contact.email" name="email"
+                class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(email, myForm)"
+                placeholder="" pSize="large" pInputText id="field_8" [value]="contact.email"/>
+              <label for="field_8">E-mail&nbsp;<span class="text-red-400">*</span></label>
+            </p-iftalabel>
+            @if (formService.isValidField(email, myForm)) {
+              <p-message class="mt-2" severity="error" variant="simple" size="small">
+                E-mail is required
+              </p-message>
+            }
           </div>
-      </div>
-
-        <div *ngIf="formData.contact.ownershipType == 2">
-            <p-button
-                    (click)="addContact()"
-                    type="button" label="Add contact" icon="pi pi-plus"
-                    [raised]="true" [severity]="formData.contacts.length >= 5 ? 'secondary' : 'success'" class="w-full" styleClass="w-full"/>
+          <div class="field col">
+            <p-iftalabel>
+              <input #phone="ngModel" [(ngModel)]="formData.contact.phone" name="phone" type="hidden">
+              <ngx-intl-tel-input
+                [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="onPhoneChange($event)"
+                [(ngModel)]="phoneValue"
+                [cssClass]="'custom'"
+                [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom]"
+                [enableAutoCountrySelect]="false"
+                [enablePlaceholder]="true"
+                [searchCountryFlag]="true"
+                [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                [selectFirstCountry]="false"
+                [selectedCountryISO]="CountryISO.Australia"
+                [maxLength]="15"
+                [value]="contact.phone"
+                [phoneValidation]="true"
+                [inputId]="'field_phone'"
+                [separateDialCode]="true"
+              ></ngx-intl-tel-input>
+              <!--<input class="w-full" placeholder="" pSize="large" required pInputText id="field_9"/>-->
+              <label for="field_phone">Phone number <span class="text-red-400">*</span></label>
+            </p-iftalabel>
+            @if (formService.isValidField(phone, myForm)) {
+              <p-message class="mt-2" severity="error" variant="simple" size="small">
+                Phone is required
+              </p-message>
+            }
+          </div>
+          @if (formData.contact.ownershipType == 2 && formData.contacts.length > 1) {
+            <div class="field col-auto">
+              <p-button
+                size="large"
+                styleClass="h-95"
+                (click)="removeContact(index)"
+                type="button" icon="pi pi-minus"
+                [raised]="true" severity="danger"/>
+            </div>
+          }
         </div>
+      }
+
+      @if (formData.contact.ownershipType == 2) {
+        <div>
+          <p-button
+            (click)="addContact()"
+            type="button" label="Add contact" icon="pi pi-plus"
+            [raised]="true" [severity]="formData.contacts.length >= 5 ? 'secondary' : 'success'" class="w-full" styleClass="w-full"/>
+        </div>
+      }
     </p-fieldset>
 
     <div class="mb-3"></div>
 
     <p-fieldset >
-        <ng-template #header>
-            <div [ngSwitch]="formData.contact.ownershipType">
-                <ng-template [ngSwitchCase]="0">
-                    Address for individual/ soletrader
-                    <i pTooltip="please be aware that it is on a public database" tooltipPosition="right"
-                       class="pi pi-info-circle mr-2"></i>
-                </ng-template>
-                <ng-template [ngSwitchCase]="1">
-                    Address for business
-                    <i pTooltip="please be aware that it is on a public database" tooltipPosition="right"
-                       class="pi pi-info-circle mr-2"></i>
-                </ng-template>
-                <ng-template [ngSwitchCase]="2">
-                    Address for partnership
-                    <i pTooltip="please be aware that it is on a public database" tooltipPosition="right"
-                       class="pi pi-info-circle mr-2"></i>
-                </ng-template>
-                <ng-template [ngSwitchCase]="3">
-                    Address for trustee
-                    <i pTooltip="please be aware that it is on a public database" tooltipPosition="right"
-                       class="pi pi-info-circle mr-2"></i>
-                </ng-template>
-
-                <ng-template ngSwitchDefault>
-                    Address
-                </ng-template>
-            </div>
-        </ng-template>
+      <ng-template #header>
+        <div>
+          @switch (formData.contact.ownershipType) {
+            @case (0) {
+              Address for individual/ soletrader
+              <i pTooltip="please be aware that it is on a public database" tooltipPosition="right"
+              class="pi pi-info-circle mr-2"></i>
+            }
+            @case (1) {
+              Address for business
+              <i pTooltip="please be aware that it is on a public database" tooltipPosition="right"
+              class="pi pi-info-circle mr-2"></i>
+            }
+            @case (2) {
+              Address for partnership
+              <i pTooltip="please be aware that it is on a public database" tooltipPosition="right"
+              class="pi pi-info-circle mr-2"></i>
+            }
+            @case (3) {
+              Address for trustee
+              <i pTooltip="please be aware that it is on a public database" tooltipPosition="right"
+              class="pi pi-info-circle mr-2"></i>
+            }
+            @default {
+              Address
+            }
+          }
+        </div>
+      </ng-template>
       <div class="formgrid grid">
         <div class="field col">
           <p-iftalabel>
@@ -187,15 +212,15 @@
               <ng-template #selectedItem let-selectedOption>
                 <div class="flex items-center gap-2">
                   <img src="/assets/images/flag_placeholder.png"
-                       [class]="'flag flag-' + selectedOption.Code2?.toLowerCase()"
-                       style="width: 18px"/>
+                    [class]="'flag flag-' + selectedOption.Code2?.toLowerCase()"
+                    style="width: 18px"/>
                   <div>{{ selectedOption.Name }}</div>
                 </div>
               </ng-template>
               <ng-template let-country #item>
                 <div class="flex items-center gap-2">
                   <img src="/assets/images/flag_placeholder.png" [class]="'flag flag-' + country.Code2.toLowerCase()"
-                       style="width: 18px"/>
+                    style="width: 18px"/>
                   <div>{{ country.Name }}</div>
                 </div>
               </ng-template>
@@ -206,39 +231,45 @@
         <div class="field col">
           <p-iftalabel>
             <input #state="ngModel" [(ngModel)]="formData.address.region" name="state"
-                   class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(state, myForm)"
-                   placeholder="" pSize="large" pInputText id="field_4"/>
+              class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(state, myForm)"
+              placeholder="" pSize="large" pInputText id="field_4"/>
             <label for="field_4">State or Region&nbsp;<span class="text-red-400">*</span></label>
           </p-iftalabel>
-          <p-message *ngIf="formService.isValidField(state, myForm)" class="mt-2" severity="error" variant="simple" size="small">
-            State is required
-          </p-message>
+          @if (formService.isValidField(state, myForm)) {
+            <p-message class="mt-2" severity="error" variant="simple" size="small">
+              State is required
+            </p-message>
+          }
         </div>
       </div>
 
       <div class="field">
         <p-iftalabel>
           <input #address="ngModel" [(ngModel)]="formData.address.address" name="address"
-                 class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(address, myForm)"
-                 placeholder="" pSize="large" pInputText id="field_5"/>
+            class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(address, myForm)"
+            placeholder="" pSize="large" pInputText id="field_5"/>
           <label for="field_5">Street address&nbsp;<span class="text-red-400">*</span></label>
         </p-iftalabel>
-        <p-message *ngIf="formService.isValidField(address, myForm)" class="mt-2" severity="error" variant="simple" size="small">
-          Address is required
-        </p-message>
+        @if (formService.isValidField(address, myForm)) {
+          <p-message class="mt-2" severity="error" variant="simple" size="small">
+            Address is required
+          </p-message>
+        }
       </div>
 
       <div class="formgrid grid">
         <div class="field col">
           <p-iftalabel>
             <input #city="ngModel" [(ngModel)]="formData.address.city" name="city"
-                   class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(city, myForm)"
-                   placeholder="" pSize="large" pInputText id="field_6"/>
+              class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(city, myForm)"
+              placeholder="" pSize="large" pInputText id="field_6"/>
             <label for="field_6">City / Suburb&nbsp;<span class="text-red-400">*</span></label>
           </p-iftalabel>
-          <p-message *ngIf="formService.isValidField(city, myForm)" class="mt-2" severity="error" variant="simple" size="small">City
-            is required
-          </p-message>
+          @if (formService.isValidField(city, myForm)) {
+            <p-message class="mt-2" severity="error" variant="simple" size="small">City
+              is required
+            </p-message>
+          }
         </div>
         <div class="field col">
           <p-iftalabel>
@@ -248,9 +279,11 @@
               placeholder="" pSize="large" pInputText id="field_7"/>
             <label for="field_7">Postal code&nbsp;<span class="text-red-400">*</span></label>
           </p-iftalabel>
-          <p-message *ngIf="formService.isValidField(zip, myForm)" class="mt-2" severity="error" variant="simple" size="small">ZIP
-            is required
-          </p-message>
+          @if (formService.isValidField(zip, myForm)) {
+            <p-message class="mt-2" severity="error" variant="simple" size="small">ZIP
+              is required
+            </p-message>
+          }
         </div>
       </div>
     </p-fieldset>
@@ -261,12 +294,14 @@
       <div class="mb-3">
         <div class="flex items-center gap-1">
           <p-checkbox #agree="ngModel" [binary]="true" [(ngModel)]="formService.agree" name="agree"
-                      [required]="true" class="ng-dirty" [value]="true" inputId="confirm"/>
+            [required]="true" class="ng-dirty" [value]="true" inputId="confirm"/>
           <label for="confirm" class="ml-2">I acknowledge that:</label>
         </div>
-        <p-message *ngIf="formService.isValidField(agree, myForm)" class="mt-2" severity="error" variant="simple" size="small">You
-          must agree to the terms
-        </p-message>
+        @if (formService.isValidField(agree, myForm)) {
+          <p-message class="mt-2" severity="error" variant="simple" size="small">You
+            must agree to the terms
+          </p-message>
+        }
       </div>
       <p-message severity="info">
         <ul class="text-gray-600">

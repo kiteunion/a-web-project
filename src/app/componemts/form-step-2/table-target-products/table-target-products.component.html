@@ -1,8 +1,8 @@
 <div [style.min-height.px]="500">
   <p-table [value]="productService.targetProducts" sortField="class" sortMode="single"
-           [scrollable]="true" scrollHeight="500px"
-           rowGroupMode="subheader"
-           groupRowsBy="name" [tableStyle]="{'width': '100%'}">
+    [scrollable]="true" scrollHeight="500px"
+    rowGroupMode="subheader"
+    groupRowsBy="name" [tableStyle]="{'width': '100%'}">
     <ng-template #groupheader let-item>
       <tr pRowGroupHeader>
         <td>
@@ -15,13 +15,15 @@
       <tr>
         <td>
 
-          <p-tag *ngFor="let category of item.categories"
-                 (click)="remove(category, item)"
-                 class="mr-2 mb-2 cursor-pointer"
-                 severity="success">
-            {{category.name}}
-            <i class="pi pi-minus-circle ml-2"></i>
-          </p-tag>
+          @for (category of item.categories; track category) {
+            <p-tag
+              (click)="remove(category, item)"
+              class="mr-2 mb-2 cursor-pointer"
+              severity="success">
+              {{category.name}}
+              <i class="pi pi-minus-circle ml-2"></i>
+            </p-tag>
+          }
 
         </td>
       </tr>

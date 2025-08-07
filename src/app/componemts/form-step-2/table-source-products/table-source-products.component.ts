@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { FormService } from '../../../share/services/form.service';
 import { TableModule } from 'primeng/table';
-import { NgForOf, NgIf } from '@angular/common';
+
 import { Tag } from 'primeng/tag';
 import { ProductService } from '../../../share/services/product.service';
 import { BehaviorSubject, debounceTime, finalize, Subject, takeUntil } from 'rxjs';
@@ -22,10 +22,8 @@ import { CategoryInterface, ClassInterface } from '../../../share/interface/prod
   selector: 'app-table-source-products',
   imports: [
     TableModule,
-    NgForOf,
-    Tag,
-    NgIf
-  ],
+    Tag
+],
   templateUrl: './table-source-products.component.html',
   styleUrl: './table-source-products.component.scss'
 })

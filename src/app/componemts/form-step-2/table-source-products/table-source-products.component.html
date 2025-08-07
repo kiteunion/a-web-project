@@ -1,6 +1,6 @@
 <p-table [value]="productService.sourceProducts()" sortField="class" sortMode="single"
-         [scrollable]="true" scrollHeight="500px" rowGroupMode="subheader"
-         groupRowsBy="name" [tableStyle]="{'width': '100%'}">
+  [scrollable]="true" scrollHeight="500px" rowGroupMode="subheader"
+  groupRowsBy="name" [tableStyle]="{'width': '100%'}">
   <ng-template #groupheader let-item>
     <tr pRowGroupHeader>
       <td>
@@ -12,23 +12,25 @@
   <ng-template #body let-item let-rowIndex="rowIndex">
     <tr>
       <td>
-        <ng-template let-category let-index="index" ngFor [ngForOf]="item.categories">
+        @for (category of item.categories; track category; let index = $index) {
+          @if (index < 10 || item.open) {
+            <p-tag
+              (click)="add(category, item)"
+              class="mr-2 mb-2 cursor-pointer"
+              severity="secondary">
+              {{category.name}}
+              <i class="pi pi-plus-circle ml-2"></i>
+            </p-tag>
+          }
+        }
+        @if (item.categories.length > 10 && !item.open) {
           <p-tag
-            (click)="add(category, item)"
-            *ngIf="index < 10 || item.open"
+            (click)="showAll(item)"
             class="mr-2 mb-2 cursor-pointer"
-            severity="secondary">
-            {{category.name}}
-            <i class="pi pi-plus-circle ml-2"></i>
+            severity="info">
+            More...
           </p-tag>
-        </ng-template>
-        <p-tag
-          (click)="showAll(item)"
-          *ngIf="item.categories.length > 10 && !item.open"
-          class="mr-2 mb-2 cursor-pointer"
-          severity="info">
-          More...
-        </p-tag>
+        }
       </td>
     </tr>
   </ng-template>
