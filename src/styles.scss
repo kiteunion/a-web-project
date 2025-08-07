@@ -101,6 +101,7 @@ p-tag i.pi {
   --p-tabs-active-bar-background: var(--success-bg-button) !important;
   --p-tabs-tab-color: inherit!important;
   --p-tabs-tab-font-weight: normal!important;
+  --p-icon-size: 0.85rem!important;
 }
 
 .text-muted {
@@ -209,4 +210,9 @@ p-card.h-100 .p-card {
 
 .no-shadow {
   box-shadow: none!important;
+}
+
+
+.p-steppanel:not(.p-steppanel-active) > .p-steppanel-content {
+  overflow: visible!important;
 }
