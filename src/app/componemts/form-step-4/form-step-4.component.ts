@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, Output, signal, WritableSignal } from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, Output, signal, WritableSignal} from '@angular/core';
 import { Fieldset } from "primeng/fieldset";
 import { IftaLabel } from "primeng/iftalabel";
 import { InputText } from "primeng/inputtext";
@@ -16,6 +16,8 @@ import {Checkbox} from "primeng/checkbox";
 import {Tooltip} from "primeng/tooltip";
 import {PrimeTemplate} from "primeng/api";
 import {ClassInterface} from "../../share/interface/product.interface";
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
 
 @Component({
   standalone: true,
@@ -40,7 +42,18 @@ import {ClassInterface} from "../../share/interface/product.interface";
     PrimeTemplate
   ],
   templateUrl: './form-step-4.component.html',
-  styleUrl: './form-step-4.component.scss'
+  styleUrl: './form-step-4.component.scss',
+  animations: [
+    trigger('numberChange', [
+      state('void', style({ opacity: 0, transform: 'translateY(20px)' })),
+      state('*', style({ opacity: 1, transform: 'translateY(0)' })),
+      transition('void <=> *', animate('700ms ease-in-out')),
+      transition(':increment, :decrement', [
+        style({ opacity: 0.5, transform: 'scale(1.2)' }),
+        animate('600ms ease-in-out', style({ opacity: 1, transform: 'scale(1)' })),
+      ]),
+    ]),
+  ],
 })
 export class FormStep4Component implements OnDestroy {
   @Output()
@@ -55,16 +68,36 @@ export class FormStep4Component implements OnDestroy {
     })
     return this.productService.targetProducts;
   };
-
+  get classesCount(): number {
+    return this.productService.targetProducts.length;
+  }
   get subTotal() {
-    return this.productService.targetProducts.length
-      * (this.formService.fees()?.classFee || 0)
-      + (this.formService.fees()?.baseFee || 0);
+    return (this.classFee * this.classesCount);
+  }
+
+  get GST(): number {
+    let total = this.subTotal - (this.classesCount * 250);
+    if (this.formService.expedited) {
+      total += (475 - 230) / 11;
+    }
+    return total;
+  }
+  get total(): number {
+    let total = this.subTotal;
+    if (this.formService.expedited) {
+      total += 475;
+    }
+    console.log(this.formService.expedited);
+    return total;
+  }
+  get classFee(): number {
+    return this.formService.fees()?.classFee || 0;
   }
 
   constructor(
     public formService: FormService,
-    public productService: ProductService
+    public productService: ProductService,
+    private cd: ChangeDetectorRef,
   ) {
   }
 
@@ -89,5 +122,9 @@ export class FormStep4Component implements OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  onChangeExpedited() {
+    this.cd.detectChanges();
   }
 }

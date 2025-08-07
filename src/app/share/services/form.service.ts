@@ -14,7 +14,7 @@ import { CountriesItem, CountriesResultInterface } from '../interface/countries.
 
 export class FormService {
   public agree = undefined;
-  public expedited = undefined;
+  public expedited: boolean = false;
   public privacy = undefined;
   public trademarkType: 'logo' | 'words' = 'words';
   public uploadedLogo?: File;

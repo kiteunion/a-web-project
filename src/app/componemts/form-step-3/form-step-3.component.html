@@ -260,8 +260,8 @@
     <div>
       <div class="mb-3">
         <div class="flex items-center gap-1">
-          <p-checkbox #agree="ngModel" [(ngModel)]="formService.agree" name="agree"
-                      [required]="true" class="ng-dirty" value="I acknowledge that:" inputId="confirm"/>
+          <p-checkbox #agree="ngModel" [binary]="true" [(ngModel)]="formService.agree" name="agree"
+                      [required]="true" class="ng-dirty" [value]="true" inputId="confirm"/>
           <label for="confirm" class="ml-2">I acknowledge that:</label>
         </div>
         <p-message *ngIf="formService.isValidField(agree, myForm)" class="mt-2" severity="error" variant="simple" size="small">You

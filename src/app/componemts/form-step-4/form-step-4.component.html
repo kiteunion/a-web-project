@@ -20,18 +20,18 @@
             </p-iftalabel>
           </div>
             <div class="field mb-2 flex items-center gap-1">
-                <p-checkbox #expedited="ngModel" [(ngModel)]="formService.expedited" name="expedited"
-                            class="ng-dirty" value="Expedited examination" inputId="confirm"/>
-                <label for="confirm" class="ml-2">
+                <p-checkbox #expedited="ngModel" [binary]="true" (ngModelChange)="onChangeExpedited()" [(ngModel)]="formService.expedited" name="expedited"
+                            class="ng-dirty" [value]="true" inputId="expedited"/>
+                <label for="expedited" class="ml-2">
                     Expedited examination
                     <i [pTooltip]="tooltipExpedited" tooltipStyleClass="tooltip-wide"
                        class="pi pi-info-circle mr-2"></i>
                 </label>
             </div>
             <div class="field mb-0 flex items-center gap-1">
-                <p-checkbox #privacy="ngModel" [(ngModel)]="formService.privacy" name="privacy"
-                            class="ng-dirty" value="Privacy option" inputId="confirm"/>
-                <label for="confirm" class="ml-2">
+                <p-checkbox #privacy="ngModel" [binary]="true" [(ngModel)]="formService.privacy" name="privacy"
+                            class="ng-dirty" [value]="true" inputId="privacy"/>
+                <label for="privacy" class="ml-2">
                     Privacy option
                     <i pTooltip="Correspondence will be directed to PO BOX 20015, World Square, NSW 2002" tooltipStyleClass="tooltip-wide"
                        class="pi pi-info-circle mr-2"></i>
@@ -40,19 +40,19 @@
         </form>
       </p-fieldset>
       <ng-template #footer>
-        <p-button
-          (click)="onBack.emit()"
-          type="button" label="Back" icon="pi pi-angle-left"
-          [raised]="true" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"/>
       </ng-template>
     </p-card>
 
     <img class="w-full" src="/assets/images/payments.png" alt="">
       <p-card header="Pay for trade mark(s) application(s):">
-          <div class="pt-2">
+          <div class="pt-2 mb-3">
               <p-button (click)="submit()" [fluid]="true" [loading]="isLoading()"
                         severity="primary" class="w-full" size="large" label="Checkout now" icon="pi pi-wallet" />
           </div>
+          <p-button
+                  (click)="onBack.emit()"
+                  type="button" label="Back" icon="pi pi-angle-left"
+                  [raised]="true" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"/>
       </p-card>
   </div>
   <div class="col-6">
@@ -120,20 +120,20 @@
 
 
       <p-fieldset legend="Order price">
-        <div class="grid pt-2 align-items-center">
+        <!--<div class="grid pt-2 align-items-center">
           <div class="col text-gray-600">
             Sub total:
           </div>
           <div class="col-fixed py-0">
             {{subTotal | currency : 'AUD' :'symbol' : '1.0-0'}}
           </div>
-        </div>
+        </div>-->
         <div class="grid mb-3 align-items-center">
           <div class="col text-gray-600">
-            GST:
+            GST component:
           </div>
-          <div class="col-fixed py-0">
-            {{subTotal * 0.1 | currency : 'AUD' :'symbol' : '1.0-0'}}
+          <div [@numberChange]="GST" class="col-fixed py-0">
+            {{GST | currency : 'AUD' :'symbol' : '1.0-0'}}
           </div>
         </div>
 
@@ -142,7 +142,7 @@
             Total:
           </div>
           <div class="col-fixed py-0 text-lg">
-            <b>{{subTotal * 1.1 | currency : 'AUD' :'symbol' : '1.0-0'}}</b>
+            <b [@numberChange]="total">{{total | currency : 'AUD' :'symbol' : '1.0-0'}}</b>
           </div>
         </div>
       </p-fieldset>
