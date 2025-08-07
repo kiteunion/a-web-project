@@ -10,7 +10,7 @@ import { TableTargetProductsComponent } from './table-target-products/table-targ
 import { TableSourceProductsComponent } from './table-source-products/table-source-products.component';
 import { Button } from "primeng/button";
 import { ProductService } from '../../share/services/product.service';
-import { CurrencyPipe, NgIf } from '@angular/common';
+import {CurrencyPipe, NgForOf, NgIf} from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { FormService } from '../../share/services/form.service';
 import { debounceTime, finalize, Subject, takeUntil } from 'rxjs';
@@ -32,7 +32,8 @@ import {Tooltip} from "primeng/tooltip";
         Button,
         NgIf,
         CurrencyPipe,
-        Tooltip
+        Tooltip,
+        NgForOf
     ],
   templateUrl: './form-step-2.component.html',
   styleUrl: './form-step-2.component.scss'
@@ -53,7 +54,7 @@ export class FormStep2Component implements OnInit, OnDestroy {
   q: string = '';
   private lastError: string = '';
   constructor(
-    private formService: FormService,
+    public formService: FormService,
     private messageService: MessageService,
     public productService: ProductService,
   ) {

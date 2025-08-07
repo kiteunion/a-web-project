@@ -39,7 +39,7 @@
           <div class="grid justify-content-between align-items-center">
             <div class="col">
               <i class="pi pi-shopping-bag pi-x2 mr-2"></i>
-              3 Classes
+              {{productService.targetProducts.length}} Classes
             </div>
             <div class="col">
               <!--26 items-->
@@ -48,10 +48,8 @@
             <div class="col-fixed">
               <i [pTooltip]="tooltipContent" tooltipPosition="top" class="pi pi-info-circle pi-x2 mr-2"></i>
               <ng-template #tooltipContent>
-                  <div class="mb-1">Base fee: {{545 | currency : 'AUD' :'symbol' : '1.0-0'}} x 2</div>
-                  <div class="mb-1">Class 44: {{250 | currency : 'AUD' :'symbol' : '1.0-0'}}</div>
-                  <div class="mb-1">Class 21: {{250 | currency : 'AUD' :'symbol' : '1.0-0'}}</div>
-                  <div class="font-bold">Total: {{28 | currency : 'AUD' :'symbol' : '1.0-0'}}</div>
+                  <div *ngFor="let clas of productService.targetProducts" class="mb-1">{{clas.name}}: {{formService.fees()?.classFee | currency : 'AUD' :'symbol' : '1.0-0'}}</div>
+                  <div class="font-bold">Total: {{totalPrice() | currency : 'AUD' :'symbol' : '1.0-0'}}</div>
               </ng-template>
               <b>{{totalPrice() | currency : 'AUD' :'symbol' : '1.0-0'}}</b>
             </div>

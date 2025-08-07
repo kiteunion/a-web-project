@@ -90,17 +90,20 @@
     </div>
     <p-divider></p-divider>
     <div class="order__list">
+        @if (formService.trademarkType == 'words') {
+        <div></div>
+        }
       <p-timeline [value]="targetProducts" class="w-full">
         <ng-template pTemplate="content" let-event>
 
           <div class="grid align-items-center" [style.margin-top.px]="-4">
             <div class="col py-0">
               <div class="order__item-name">
-                <div>Trade Mark {{event.index + 1}} <span>{{ event.name }}</span> <i pTooltip="*service fee (incl. GST) & govt fees (GST-exempt)" tooltipStyleClass="tooltip-wide" class="pi pi-info-circle mr-2"></i></div>
+                <div>{{ event.prefix }} <span>{{ event.name }}</span>&nbsp;<i tooltipPosition="left" pTooltip="*service fee (incl. GST) & govt fees (GST-exempt)" tooltipStyleClass="tooltip-wide" class="pi pi-info-circle mr-2"></i></div>
               </div>
             </div>
             <div class="col-auto py-0">
-              <div class="order__item-price">AU${{formService.fees()?.classFee}}</div>
+              <div class="order__item-price">{{event.price | currency : 'AUD' :'symbol' : '1.0-0'}}</div>
             </div>
           </div>
           <!--<div>

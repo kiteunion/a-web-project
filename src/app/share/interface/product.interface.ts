@@ -11,6 +11,8 @@ export interface DataInterface {
 
 export interface ClassInterface {
   index?: number;
+  price?: number;
+  prefix?: string;
   name:       string;
   categories: CategoryInterface[];
 }
