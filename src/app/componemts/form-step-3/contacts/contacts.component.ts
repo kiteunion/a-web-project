@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {Button} from "primeng/button";
 import {Fieldset} from "primeng/fieldset";
 import {FormsModule, NgForm} from "@angular/forms";
 import {IftaLabel} from "primeng/iftalabel";
@@ -13,7 +12,6 @@ import {FormService} from "../../../share/services/form.service";
     standalone: true,
     selector: 'app-contacts',
     imports: [
-        Button,
         Fieldset,
         FormsModule,
         IftaLabel,

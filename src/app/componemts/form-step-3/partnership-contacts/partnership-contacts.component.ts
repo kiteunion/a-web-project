@@ -1,6 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Button} from "primeng/button";
-import {Fieldset} from "primeng/fieldset";
 import {FormsModule, NgForm} from "@angular/forms";
 import {IftaLabel} from "primeng/iftalabel";
 import {InputText} from "primeng/inputtext";
@@ -9,17 +8,14 @@ import {CountryISO, NgxIntlTelInputModule, SearchCountryField} from "ngx-intl-te
 import {FormService} from "../../../share/services/form.service";
 import {MessageService} from "primeng/api";
 import {ApplicationData} from "../../../share/interface/form.interface";
-import {ProductService} from "../../../share/services/product.service";
-import {debounceTime, Subject, takeUntil} from "rxjs";
+import {Subject} from "rxjs";
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from "primeng/tabs";
-import {RouterLink} from "@angular/router";
 
 @Component({
     standalone: true,
     selector: 'app-partnership-contacts',
     imports: [
         Button,
-        Fieldset,
         FormsModule,
         IftaLabel,
         InputText,
@@ -28,7 +24,6 @@ import {RouterLink} from "@angular/router";
         Tabs,
         TabList,
         Tab,
-        RouterLink,
         TabPanels,
         TabPanel
     ],
