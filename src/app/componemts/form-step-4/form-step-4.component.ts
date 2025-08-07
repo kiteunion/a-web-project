@@ -58,6 +58,16 @@ export class FormStep4Component implements OnDestroy {
     public tooltipExpedited = "This option is recommended, especially if you are a startup and what to find out sooner than later if your brand is approved for registration within 14 working days. If the application comes back with descriptive issues, you can submit the “logo” mark for FREE if your logo is distinctive. And if the application is not accepted due to cited marks (potential infringement), you an submit another name for FREE! But you must have a second name ready within 4 working days or the offer is void.";
 
     private destroy$: Subject<void> = new Subject();
+    get cartCount(): number {
+        let count = this.productService.targetProducts.length;
+        if (this.formService.expedited) {
+            count += 1;
+        }
+        if (this.formService.privacy) {
+            count += 1;
+        }
+        return count;
+    }
 
     get targetProducts(): ClassInterface[] {
         const deepCopy = this.productService.targetProducts.map(item => ({...item}));
@@ -70,7 +80,7 @@ export class FormStep4Component implements OnDestroy {
             deepCopy.unshift({
                 categories: [],
                 name: "Expedite the trade mark application",
-                price: 475,
+                price: this.formService.fees()?.expenditureFee || 0,
                 prefix: ''
             })
         }
@@ -79,7 +89,7 @@ export class FormStep4Component implements OnDestroy {
             deepCopy.unshift({
                 categories: [],
                 name: "Privacy option",
-                price: 95,
+                price: this.formService.fees()?.postalFee || 0,
                 prefix: ''
             })
         }
@@ -95,23 +105,31 @@ export class FormStep4Component implements OnDestroy {
     }
 
     get GST(): number {
-        let total = this.subTotal - (this.classesCount * 250);
-        if (this.formService.expedited) {
-            total += (475 - 230) / 11;
+        const classGovFee = this.formService.fees()?.classGovFee || 0;
+        let total = (this.subTotal - (this.classesCount * classGovFee)) / 11;
+        const expenditureFee = this.formService.fees()?.expenditureFee || 0;
+        const expenditureGovFee = this.formService.fees()?.expenditureGovFee || 0;
+
+        if (this.formService.expedited && expenditureFee > 0) {
+            total += (expenditureFee - expenditureGovFee) / 11;
         }
-        if (this.formService.privacy) {
-            total += 95 / 11;
+
+        const postalFee = this.formService.fees()?.postalFee || 0;
+        if (this.formService.privacy && postalFee > 0) {
+            total += postalFee / 11;
         }
         return total;
     }
 
     get total(): number {
         let total = this.subTotal;
-        if (this.formService.expedited) {
-            total += 475;
+        const expenditureFee = this.formService.fees()?.expenditureFee || 0;
+        if (this.formService.expedited && expenditureFee > 0) {
+            total += expenditureFee;
         }
-        if (this.formService.privacy) {
-            total += 95;
+        const postalFee = this.formService.fees()?.postalFee || 0;
+        if (this.formService.privacy && postalFee > 0) {
+            total += postalFee;
         }
         console.log(this.formService.expedited);
         return total;

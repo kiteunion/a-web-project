@@ -42,6 +42,10 @@ export interface Contact {
   phone:         string;
   declaration?:   boolean;
   ownershipType?: number;
+
+
+  businessNumber?:     string;
+  businessName?:     string;
 }
 
 export interface Image {

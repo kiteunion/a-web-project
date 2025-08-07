@@ -96,6 +96,11 @@ p-tag i.pi {
 
   --p-timeline-event-min-height: 0!important;
   /*--p-card-background: #f1f5f9!important;*/
+
+  --p-tabs-tab-active-color: var(--success-bg-button) !important;
+  --p-tabs-active-bar-background: var(--success-bg-button) !important;
+  --p-tabs-tab-color: inherit!important;
+  --p-tabs-tab-font-weight: normal!important;
 }
 
 .text-muted {
@@ -195,4 +200,13 @@ p-card.h-100 .p-card {
 
 .iti .selected-dial-code {
   margin-top: 15px;
+}
+
+
+.border-bottom {
+  border-radius: 0 0 6px 6px!important;
+}
+
+.no-shadow {
+  box-shadow: none!important;
 }

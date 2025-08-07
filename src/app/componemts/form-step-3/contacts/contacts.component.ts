@@ -1,0 +1,40 @@
+import {Component, Input} from '@angular/core';
+import {Button} from "primeng/button";
+import {Fieldset} from "primeng/fieldset";
+import {FormsModule, NgForm} from "@angular/forms";
+import {IftaLabel} from "primeng/iftalabel";
+import {InputText} from "primeng/inputtext";
+import {Message} from "primeng/message";
+import {CountryISO, NgxIntlTelInputModule, SearchCountryField} from "ngx-intl-tel-input";
+import {ApplicationData} from "../../../share/interface/form.interface";
+import {FormService} from "../../../share/services/form.service";
+
+@Component({
+    selector: 'app-contacts',
+    imports: [
+        Button,
+        Fieldset,
+        FormsModule,
+        IftaLabel,
+        InputText,
+        Message,
+        NgxIntlTelInputModule
+    ],
+    templateUrl: './contacts.component.html',
+    styleUrl: './contacts.component.scss'
+})
+export class ContactsComponent {
+    @Input() myForm!: NgForm;
+
+    protected readonly CountryISO = CountryISO;
+    protected readonly SearchCountryField = SearchCountryField;
+
+    get formData(): ApplicationData {
+        return this.formService.applicationData;
+    }
+
+    constructor(
+        public formService: FormService
+    ) {
+    }
+}

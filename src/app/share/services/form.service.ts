@@ -1,122 +1,175 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
-import { ApplicationData, FormInterface, SelectedClass } from '../interface/form.interface';
-import { NgForm, NgModel } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { ProductResultInterface } from '../interface/product.interface';
-import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { FeeResultInterface, FeesDataInterface } from '../interface/fee.interface';
-import { CountriesItem, CountriesResultInterface } from '../interface/countries.interface';
+import {Injectable, signal, WritableSignal} from '@angular/core';
+import {ApplicationData, Contact, FormInterface, SelectedClass} from '../interface/form.interface';
+import {NgForm, NgModel} from '@angular/forms';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {ProductResultInterface} from '../interface/product.interface';
+import {environment} from '../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {FeeResultInterface, FeesDataInterface} from '../interface/fee.interface';
+import {CountriesItem, CountriesResultInterface} from '../interface/countries.interface';
+import {ProductService} from "./product.service";
+import {MessageService} from "primeng/api";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 
 export class FormService {
-  public agree = undefined;
-  public expedited: boolean = false;
-  public privacy = undefined;
-  public trademarkType: 'logo' | 'words' = 'words';
-  public uploadedLogo?: File;
-  public uploadedLogoUri?: any;
+    public agree = undefined;
+    public expedited: boolean = false;
+    public privacy = undefined;
+    public trademarkType: 'logo' | 'words' = 'words';
+    public uploadedLogo?: File;
+    public uploadedLogoUri?: any;
+    public tabActive: number = 0;
 
-  public applicationRef: string | null = null;
-  public fees: WritableSignal<FeesDataInterface | null> = signal(null);
-  public applicationData: ApplicationData = {
-    source: 'site',
-    word: {
-      word: ""
-    },
-    image: {
-      imageRef: null
-    },
-    contacts: [
-      {email: '', phone: ''}
-    ],
-    contact: {
-      firstName: '',
-      lastName: 'Undefined',
-      email: '',
-      phone: '',
-      declaration: true,
-      ownershipType: 0
-    },
-    address: {
-      city: '',
-      address: '',
-      suburb: '',
-      postCode: '',
-      region: '',
-      countryCode: 'AU'
-    },
-    company: {
-      businessName: '',
-      citizenCountryCode: 'AU',
-      businessNumber: '',
-      australianCompanyNumber: '',
-      phoneNumber: ''
-    },
-    selectedClasses: []
-  };
-  countries: CountriesItem[] = [];
+    public applicationRef: string | null = null;
+    public fees: WritableSignal<FeesDataInterface | null> = signal(null);
 
-  constructor(
-    private http: HttpClient
-  ) {
-    this.restore();
-  }
+    public applicationData: ApplicationData = {
+        source: 'site',
+        word: {
+            word: ""
+        },
+        image: {
+            imageRef: null
+        },
+        contacts: [
+            {email: '', phone: ''}
+        ],
+        contact: {
+            firstName: '',
+            lastName: 'Undefined',
+            email: '',
+            phone: '',
+            declaration: true,
+            ownershipType: 0
+        },
+        address: {
+            city: '',
+            address: '',
+            suburb: '',
+            postCode: '',
+            region: '',
+            countryCode: 'AU'
+        },
+        company: {
+            businessName: '',
+            citizenCountryCode: 'AU',
+            businessNumber: '',
+            australianCompanyNumber: '',
+            phoneNumber: ''
+        },
+        selectedClasses: []
+    };
+    countries: CountriesItem[] = [];
 
-  restore() {
-    const applicationData = localStorage.getItem('applicationData');
-    if (applicationData) {
-      this.applicationData = JSON.parse(applicationData);
+    get formData(): ApplicationData {
+        return this.applicationData;
     }
-  }
 
-  save() {
-    localStorage.setItem('applicationData', JSON.stringify(this.applicationData));
-  }
+    constructor(
+        private messageService: MessageService,
+        private http: HttpClient
+    ) {
+        this.restore();
+    }
 
-  isValidField(field: NgModel, myForm: NgForm): boolean {
-    return myForm.submitted && myForm.invalid && field.errors?.['required']
-  }
+    restore() {
+        const applicationData = localStorage.getItem('applicationData');
+        if (applicationData) {
+            this.applicationData = JSON.parse(applicationData);
+        }
+    }
 
-  start(word: string, imageRef?: string): Observable<FormInterface> {
-    const url = `${environment.backendApiUrl}/application/start`;
-    return this.http.post<FormInterface>(url, {
-      data: {
-        word,
-        imageRef
-      }
-    });
-  }
+    save() {
+        localStorage.setItem('applicationData', JSON.stringify(this.applicationData));
+    }
 
-  update(): Observable<ProductResultInterface> {
-    const url = `${environment.backendApiUrl}/application/update`;
-    return this.http.post<ProductResultInterface>(url, {
-      data: {
-        applicationRef: this.applicationRef,
-        applicationData: this.applicationData,
-      }
-    });
-  }
+    isValidField(field: NgModel, myForm: NgForm): boolean {
+        return myForm.submitted && myForm.invalid && field.errors?.['required']
+    }
 
-  submit(): Observable<ProductResultInterface> {
-    const url = `${environment.backendApiUrl}/application/submit`;
-    return this.http.post<ProductResultInterface>(url, {
-      data: {
-        applicationRef: this.applicationRef
-      }
-    });
-  }
+    start(word: string, imageRef?: string): Observable<FormInterface> {
+        const url = `${environment.backendApiUrl}/application/start`;
+        return this.http.post<FormInterface>(url, {
+            data: {
+                word,
+                imageRef
+            }
+        });
+    }
 
-  getFees(): Observable<FeeResultInterface> {
-    const url = `${environment.backendApiUrl}/content/get-fees`;
-    return this.http.get<FeeResultInterface>(url);
-  }
+    update(): Observable<ProductResultInterface> {
+        const url = `${environment.backendApiUrl}/application/update`;
+        return this.http.post<ProductResultInterface>(url, {
+            data: {
+                applicationRef: this.applicationRef,
+                applicationData: this.applicationData,
+            }
+        });
+    }
 
-  getCountries(): Observable<CountriesResultInterface> {
-    const url = `${environment.backendApiUrl}/content/get-countries`;
-    return this.http.get<CountriesResultInterface>(url);
-  }
+    submit(): Observable<ProductResultInterface> {
+        const url = `${environment.backendApiUrl}/application/submit`;
+        return this.http.post<ProductResultInterface>(url, {
+            data: {
+                applicationRef: this.applicationRef
+            }
+        });
+    }
+
+    getFees(): Observable<FeeResultInterface> {
+        const url = `${environment.backendApiUrl}/content/get-fees`;
+        return this.http.get<FeeResultInterface>(url);
+    }
+
+    getCountries(): Observable<CountriesResultInterface> {
+        const url = `${environment.backendApiUrl}/content/get-countries`;
+        return this.http.get<CountriesResultInterface>(url);
+    }
+
+
+    onPhoneChange(phone: any, contact: Contact) {
+        if (phone && phone.e164Number) {
+            contact.phone = phone.e164Number; // Сохраняем только e164Number
+        } else {
+            contact.phone = ''; // Если номер некорректен
+        }
+        this.save();
+    }
+
+
+    removeContact(index: number) {
+        if (this.formData.contacts.length == 1) {
+            return;
+        }
+        this.formData.contacts.splice(index, 1);
+        this.tabActive = this.formData.contacts.length - 1;
+    }
+
+    addContact() {
+        if (this.formData.contacts.length >= 5) {
+            this.messageService.clear();
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Attention',
+                detail: 'The maximum number of contacts has been reached.'
+            });
+            return;
+        }
+        this.formData.contacts.push({
+            email: '', phone: ''
+        })
+        this.tabActive = this.formData.contacts.length - 1;
+    }
+
+    onSelectType() {
+        if (this.formData.contacts.length == 1 && this.formData.contact.ownershipType == 2) {
+            this.addContact();
+        }
+        if (this.formData.contact.ownershipType != 2) {
+            this.formData.contacts.length = 1;
+        }
+    }
 }

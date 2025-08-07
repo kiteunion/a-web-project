@@ -1,0 +1,113 @@
+
+    <p-tabs [value]="formService.tabActive" scrollable>
+        <p-tablist>
+            @for (contact of formData.contacts; track contact; let index = $index) {
+                <p-tab [value]="index">
+                    Partner {{index + 1}}
+                    <p-button
+                            size="small" [rounded]="true" [text]="true"
+                            (click)="formService.removeContact(index)"
+                            type="button" icon="pi pi-times-circle"
+                            [raised]="true" severity="danger" styleClass="no-shadow"/>
+                </p-tab>
+            }
+        </p-tablist>
+        <p-tabpanels>
+            @for (contact of formData.contacts; track contact; let index = $index) {
+                <p-tabpanel [value]="index">
+                    <div class="formgrid grid">
+                        <div class="field col">
+                            <p-iftalabel>
+                                <input #name="ngModel" [(ngModel)]="contact.businessName" name="name"
+                                       class="ng-dirty w-full" required
+                                       [class.ng-invalid]="formService.isValidField(name, myForm)"
+                                       placeholder="" pSize="large" pInputText id="field_1"/>
+                                <label for="field_1">Name of trademark owner&nbsp;<span
+                                        class="text-red-400">*</span></label>
+                            </p-iftalabel>
+                            @if (formService.isValidField(name, myForm)) {
+                                <p-message class="mt-2" severity="error" variant="simple" size="small">Name
+                                    is required
+                                </p-message>
+                            }
+                        </div>
+                        <div
+                                class="field col">
+                            <p-iftalabel>
+                                <input #abn="ngModel" [(ngModel)]="contact.businessNumber" name="abn"
+                                       class="w-full" placeholder="" pSize="large" pInputText id="field_2"/>
+                                <label for="field_2">
+                                    ABN
+                                </label>
+                            </p-iftalabel>
+                        </div>
+                    </div>
+                    <div class="formgrid grid">
+                        <div class="field col">
+                            <p-iftalabel>
+                                <input #email="ngModel" [(ngModel)]="contact.email" name="email"
+                                       class="ng-dirty w-full" required
+                                       [class.ng-invalid]="formService.isValidField(email, myForm)"
+                                       placeholder="" pSize="large" pInputText id="field_8" [value]="contact.email"/>
+                                <label for="field_8">E-mail&nbsp;<span class="text-red-400">*</span></label>
+                            </p-iftalabel>
+                            @if (formService.isValidField(email, myForm)) {
+                                <p-message class="mt-2" severity="error" variant="simple" size="small">
+                                    E-mail is required
+                                </p-message>
+                            }
+                        </div>
+                        <div class="field col">
+                            <p-iftalabel>
+                                <input #phone="ngModel" [(ngModel)]="contact.phone" name="phone" type="hidden">
+                                <ngx-intl-tel-input
+                                        [ngModelOptions]="{standalone: true}"
+                                        (ngModelChange)="formService.onPhoneChange($event, contact)"
+                                        [(ngModel)]="contact.phone"
+                                        [cssClass]="'custom'"
+                                        [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom]"
+                                        [enableAutoCountrySelect]="false"
+                                        [enablePlaceholder]="true"
+                                        [searchCountryFlag]="true"
+                                        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                        [selectFirstCountry]="false"
+                                        [selectedCountryISO]="CountryISO.Australia"
+                                        [maxLength]="15"
+                                        [value]="contact.phone"
+                                        [phoneValidation]="true"
+                                        [inputId]="'field_phone'"
+                                        [separateDialCode]="true"
+                                ></ngx-intl-tel-input>
+                                <!--<input class="w-full" placeholder="" pSize="large" required pInputText id="field_9"/>-->
+                                <label for="field_phone">Phone number <span class="text-red-400">*</span></label>
+                            </p-iftalabel>
+                            @if (formService.isValidField(phone, myForm)) {
+                                <p-message class="mt-2" severity="error" variant="simple" size="small">
+                                    Phone is required
+                                </p-message>
+                            }
+                        </div>
+                        <!--@if (formData.contacts.length > 1) {
+                            <div class="field col-auto">
+                                <p-button
+                                        size="large"
+                                        styleClass="h-95"
+                                        (click)="removeContact(index)"
+                                        type="button" icon="pi pi-minus"
+                                        [raised]="true" severity="danger"/>
+                            </div>
+                        }-->
+                    </div>
+                </p-tabpanel>
+            }
+        </p-tabpanels>
+    </p-tabs>
+
+
+<div>
+    <p-button
+            (click)="formService.addContact()"
+            type="button" label="Add partner" icon="pi pi-plus"
+            [raised]="true" [severity]="formData.contacts.length >= 5 ? 'secondary' : 'success'"
+            class="w-full" styleClass="w-full border-bottom"/>
+</div>

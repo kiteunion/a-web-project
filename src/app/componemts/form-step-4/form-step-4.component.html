@@ -64,8 +64,8 @@
               <i class="pi pi-shopping-bag pi-x2 mr-2"></i>
               Order summary
             </div>
-            <div class="col-fixed py-0">
-              {{productService.targetProducts.length}} items
+            <div [@numberChange]="total" class="col-fixed py-0">
+              {{cartCount}} items
             </div>
           </div>
         </h3>
@@ -99,7 +99,7 @@
           <div class="grid align-items-center" [style.margin-top.px]="-4">
             <div class="col py-0">
               <div class="order__item-name">
-                <div>{{ event.prefix }} <span>{{ event.name }}</span>&nbsp;<i tooltipPosition="left" pTooltip="*service fee (incl. GST) & govt fees (GST-exempt)" tooltipStyleClass="tooltip-wide" class="pi pi-info-circle mr-2"></i></div>
+                <div>{{ event.prefix }} <span>{{ event.name }}&nbsp;<i style="font-size: 13px" tooltipPosition="left" pTooltip="*service fee (incl. GST) & govt fees (GST-exempt)" tooltipStyleClass="tooltip-wide" class="pi pi-info-circle mr-2"></i></span></div>
               </div>
             </div>
             <div class="col-auto py-0">
