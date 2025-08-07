@@ -10,8 +10,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { definePreset } from '@primeng/themes';
-import Aura from '@primeng/themes/aura';
+import {definePreset} from '@primeuix/themes';
+import Aura from '@primeuix/themes/aura';
 
 const MyPreset = definePreset(Aura, {
   semantic: {
