@@ -10,6 +10,7 @@ import {ApplicationData} from "../../../share/interface/form.interface";
 import {FormService} from "../../../share/services/form.service";
 
 @Component({
+    standalone: true,
     selector: 'app-contacts',
     imports: [
         Button,

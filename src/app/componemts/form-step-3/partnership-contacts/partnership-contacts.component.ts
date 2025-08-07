@@ -15,6 +15,7 @@ import {Tab, TabList, TabPanel, TabPanels, Tabs} from "primeng/tabs";
 import {RouterLink} from "@angular/router";
 
 @Component({
+    standalone: true,
     selector: 'app-partnership-contacts',
     imports: [
         Button,
