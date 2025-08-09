@@ -51,7 +51,6 @@ export class FormStep2Component implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject();
 
-  q: string = '';
   private lastError: string = '';
   constructor(
     public formService: FormService,

@@ -15,6 +15,7 @@ import {MessageService} from "primeng/api";
 })
 
 export class FormService {
+    public q: string = '';
     public agree = undefined;
     public expedited: boolean = false;
     public privacy = undefined;

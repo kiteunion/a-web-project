@@ -30,6 +30,12 @@ export class TableTargetProductsComponent {
 
     //
     item.categories = item.categories.filter((v) => v.name !== category.name);
+
+    if (item.categories.length === 0) {
+      this.productService.targetProducts = this.productService.targetProducts
+          .filter(product => product.name !== item.name);
+    }
+
     this.productService.save();
     this.productService.targetProducts = this.productService.targetProducts.filter(product => product.categories.length > 0);
   }
