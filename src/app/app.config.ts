@@ -12,6 +12,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import {definePreset} from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
+import {provideNgxStripe} from "ngx-stripe";
 
 const MyPreset = definePreset(Aura, {
   semantic: {
@@ -61,5 +62,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(BrowserModule),
     importProvidersFrom(AnimateOnScrollModule),
     importProvidersFrom(BrowserAnimationsModule),
+    provideNgxStripe ( )
   ]
 };

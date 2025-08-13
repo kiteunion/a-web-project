@@ -72,7 +72,8 @@ export class FormStep2Component implements OnInit, OnDestroy {
             this.lastError = '';
           }, error => {
             console.log(error);
-            this.lastError = error.error?.errors?.title || 'Server error!';
+            alert('Error...');
+            // this.lastError = error.error?.errors?.title || 'Server error!';
           })
       })
   }

@@ -156,7 +156,7 @@
                     <p-iftalabel>
                         <p-select
                             #country="ngModel" [(ngModel)]="formData.address.countryCode" name="country"
-                            [options]="this.formService.countries"
+                            [options]="formService.countries"
                             optionLabel="name" [filter]="true" optionValue="Code2" filterBy="Name" id="field_3"
                             [showClear]="true" placeholder="Select a Country" class="w-full md:w-56">
                             <ng-template #selectedItem let-selectedOption>

@@ -61,6 +61,11 @@ export class FormStep1Component {
       console.log(file)
       this.formService.uploadedLogoUri = URL.createObjectURL(file);
       this.formService.uploadedLogo = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.formService.formData.logo = reader.result as string;
+      };
+      reader.readAsDataURL(file);
     }
 
     this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
@@ -69,13 +74,14 @@ export class FormStep1Component {
   reset() {
     delete this.formService.uploadedLogo;
     delete this.formService.uploadedLogoUri;
+    this.formService.formData.logo = '';
     this.formService.applicationData.word.word = '';
     this.fileUpload.clear();
   }
 
   next(): void {
     this.messageService.clear();
-    if (this.formService.trademarkType == 'words' && !this.formService.applicationData.word.word) {
+    if (this.formService.trademarkType == 'words' && !this.formService.formData.word.word) {
       this.messageService.add({
         severity: 'error',
         summary: 'Required field',
@@ -106,6 +112,8 @@ export class FormStep1Component {
     ).subscribe(({ fees, start }) => {
       this.formService.fees.set(fees.data);
       this.formService.applicationRef = start.data.applicationRef;
+      // TODO
+      localStorage.setItem('applicationRef', this.formService.applicationRef);
       this.onNext.emit();
     }, error => {
       console.error(error);

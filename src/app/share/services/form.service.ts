@@ -1,5 +1,5 @@
 import {Injectable, signal, WritableSignal} from '@angular/core';
-import {ApplicationData, Contact, FormInterface, SelectedClass} from '../interface/form.interface';
+import {ApplicationData, Contact, FormInterface, PartnershipContact, SelectedClass} from '../interface/form.interface';
 import {NgForm, NgModel} from '@angular/forms';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {ProductResultInterface} from '../interface/product.interface';
@@ -27,16 +27,23 @@ export class FormService {
     public applicationRef: string | null = null;
     public fees: WritableSignal<FeesDataInterface | null> = signal(null);
 
-    public applicationData: ApplicationData = {
+    public applicationData!: ApplicationData;
+    public applicationDataBuffer: ApplicationData = {
         source: 'site',
         word: {
             word: ""
         },
+        logo: '',
         image: {
             imageRef: null
         },
         contacts: [
-            {email: '', phone: ''}
+            {
+                email: '',
+                phone: '',
+                businessNumber: '',
+                businessName: ''
+            }
         ],
         contact: {
             firstName: '',
@@ -73,6 +80,7 @@ export class FormService {
         private messageService: MessageService,
         private http: HttpClient
     ) {
+        this.applicationData = this.applicationDataBuffer;
         this.restore();
     }
 
@@ -103,6 +111,11 @@ export class FormService {
 
     update(): Observable<ProductResultInterface> {
         const url = `${environment.backendApiUrl}/application/update`;
+        if (this.trademarkType === 'logo') {
+            this.applicationData.word.word = '';
+        }else{
+            this.applicationData.logo = '';
+        }
         return this.http.post<ProductResultInterface>(url, {
             data: {
                 applicationRef: this.applicationRef,
@@ -131,7 +144,7 @@ export class FormService {
     }
 
 
-    onPhoneChange(phone: any, contact: Contact) {
+    onPhoneChange(phone: any, contact: Contact | PartnershipContact) {
         if (phone && phone.e164Number) {
             contact.phone = phone.e164Number; // Сохраняем только e164Number
         } else {
@@ -160,7 +173,7 @@ export class FormService {
             return;
         }
         this.formData.contacts.push({
-            email: '', phone: ''
+            email: '', phone: '', businessName: ''
         })
         this.tabActive = this.formData.contacts.length - 1;
     }
@@ -172,5 +185,14 @@ export class FormService {
         if (this.formData.contact.ownershipType != 2) {
             this.formData.contacts.length = 1;
         }
+    }
+
+    clear() {
+        if (!environment.production) {
+            alert('Clear imitate dev');
+            return;
+        }
+        this.applicationData = this.applicationDataBuffer;
+        this.save();
     }
 }

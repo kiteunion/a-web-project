@@ -1,0 +1,17 @@
+<div class="result-page align-items-center justify-content-center d-flex">
+    <p-card class="result-card">
+        <div class="p-text-center">
+            <i class="pi pi-check-circle result-icon pi-x2"></i>
+            <h2 class="result-title">Payment Successful</h2>
+            <p class="result-message">
+                Thank you! Your trade mark application has been submitted successfully.<br>
+                A confirmation email with your receipt and application details has been sent to your email address.
+            </p>
+
+            <p-button
+                    (click)="goHome()"
+                    type="button" label="Create Another Application" icon="pi pi-refresh"
+                    [raised]="true" severity="success" class="w-full" styleClass="w-full"/>
+        </div>
+    </p-card>
+</div>

@@ -1,4 +1,13 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, Output, signal, WritableSignal} from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    OnDestroy,
+    OnInit,
+    Output,
+    signal,
+    WritableSignal
+} from '@angular/core';
 import {Fieldset} from "primeng/fieldset";
 import {IftaLabel} from "primeng/iftalabel";
 import {InputText} from "primeng/inputtext";
@@ -17,6 +26,8 @@ import {Tooltip} from "primeng/tooltip";
 import {PrimeTemplate} from "primeng/api";
 import {ClassInterface} from "../../share/interface/product.interface";
 import {trigger, state, style, animate, transition} from '@angular/animations';
+import {StripePayComponent} from "./stripe-pay/stripe-pay.component";
+import {environment} from "../../../environments/environment";
 
 
 @Component({
@@ -35,7 +46,8 @@ import {trigger, state, style, animate, transition} from '@angular/animations';
         CurrencyPipe,
         Checkbox,
         Tooltip,
-        PrimeTemplate
+        PrimeTemplate,
+        StripePayComponent
     ],
     templateUrl: './form-step-4.component.html',
     styleUrl: './form-step-4.component.scss',
@@ -51,10 +63,11 @@ import {trigger, state, style, animate, transition} from '@angular/animations';
         ]),
     ],
 })
-export class FormStep4Component implements OnDestroy {
+export class FormStep4Component implements OnInit, OnDestroy {
     @Output()
     public onBack: EventEmitter<void> = new EventEmitter();
     readonly isLoading: WritableSignal<boolean> = signal(false);
+    readonly isSubmitted: WritableSignal<boolean> = signal(false);
     public tooltipExpedited = "This option is recommended, especially if you are a startup and what to find out sooner than later if your brand is approved for registration within 14 working days. If the application comes back with descriptive issues, you can submit the “logo” mark for FREE if your logo is distinctive. And if the application is not accepted due to cited marks (potential infringement), you an submit another name for FREE! But you must have a second name ready within 4 working days or the offer is void.";
 
     private destroy$: Subject<void> = new Subject();
@@ -69,75 +82,11 @@ export class FormStep4Component implements OnDestroy {
         return count;
     }
 
-    get targetProducts(): ClassInterface[] {
-        const deepCopy = this.productService.targetProducts.map(item => ({...item}));
-        deepCopy.map((v, i) => {
-            v.price = this.formService.fees()?.classFee;
-            v.prefix = `Trade Mark ${i + 1}`;
-        })
-
-        if (this.formService.expedited) {
-            deepCopy.unshift({
-                categories: [],
-                name: "Expedite the trade mark application",
-                price: this.formService.fees()?.expenditureFee || 0,
-                prefix: ''
-            })
-        }
-
-        if (this.formService.privacy) {
-            deepCopy.unshift({
-                categories: [],
-                name: "Privacy option",
-                price: this.formService.fees()?.postalFee || 0,
-                prefix: ''
-            })
-        }
-        return deepCopy;
-    };
-
-    get classesCount(): number {
-        return this.productService.targetProducts.length;
+    get formData(): ApplicationData {
+        return this.formService.applicationData;
     }
 
-    get subTotal() {
-        return (this.classFee * this.classesCount);
-    }
 
-    get GST(): number {
-        const classGovFee = this.formService.fees()?.classGovFee || 0;
-        let total = (this.subTotal - (this.classesCount * classGovFee)) / 11;
-        const expenditureFee = this.formService.fees()?.expenditureFee || 0;
-        const expenditureGovFee = this.formService.fees()?.expenditureGovFee || 0;
-
-        if (this.formService.expedited && expenditureFee > 0) {
-            total += (expenditureFee - expenditureGovFee) / 11;
-        }
-
-        const postalFee = this.formService.fees()?.postalFee || 0;
-        if (this.formService.privacy && postalFee > 0) {
-            total += postalFee / 11;
-        }
-        return total;
-    }
-
-    get total(): number {
-        let total = this.subTotal;
-        const expenditureFee = this.formService.fees()?.expenditureFee || 0;
-        if (this.formService.expedited && expenditureFee > 0) {
-            total += expenditureFee;
-        }
-        const postalFee = this.formService.fees()?.postalFee || 0;
-        if (this.formService.privacy && postalFee > 0) {
-            total += postalFee;
-        }
-        console.log(this.formService.expedited);
-        return total;
-    }
-
-    get classFee(): number {
-        return this.formService.fees()?.classFee || 0;
-    }
 
     constructor(
         public formService: FormService,
@@ -146,8 +95,13 @@ export class FormStep4Component implements OnDestroy {
     ) {
     }
 
-    get formData(): ApplicationData {
-        return this.formService.applicationData;
+    ngOnInit() {
+        this.formService.update()
+            .subscribe(() => {
+            }, error => {
+                console.log(error);
+                alert('Error...');
+            })
     }
 
     submit() {
@@ -157,7 +111,10 @@ export class FormStep4Component implements OnDestroy {
                 this.isLoading.set(false);
             }))
             .subscribe(() => {
-                alert('Payment functionality in development')
+                this.isSubmitted.set(true);
+                if (!environment.production) {
+                    alert('Payment functionality in development')
+                }
             }, error => {
                 console.log(error);
             });

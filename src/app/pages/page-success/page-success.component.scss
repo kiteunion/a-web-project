@@ -1,0 +1,14 @@
+.result-page {
+  height: calc(100vh - 4rem);
+  display: flex;
+
+  .result-card {
+    text-align: center;
+
+    .pi-check-circle {
+      font-size: 200px;
+    }
+
+  }
+
+}

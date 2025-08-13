@@ -1,0 +1,12 @@
+@if (elementsOptions.clientSecret) {
+    <ngx-stripe-elements
+            [stripe]="stripe"
+            [elementsOptions]="elementsOptions"
+    >
+        <ngx-stripe-payment [options]="paymentElementOptions"/>
+    </ngx-stripe-elements>
+}
+<div class="pt-2 mb-3">
+    <p-button (click)="pay()" [fluid]="true" [loading]="paying()"
+              severity="success" class="w-full" size="large" label="Pay" icon="pi pi-wallet" />
+</div>
