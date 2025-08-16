@@ -15,6 +15,7 @@ import {MessageService} from "primeng/api";
 })
 
 export class FormService {
+    public maxStepReached: number = 1;
     public q: string = '';
     public agree = undefined;
     public expedited: boolean = false;
@@ -188,6 +189,7 @@ export class FormService {
     }
 
     clear() {
+        this.maxStepReached = 1;
         if (!environment.production) {
             alert('Clear imitate dev');
             return;

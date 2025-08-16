@@ -52,7 +52,8 @@ export class StripePayComponent implements OnInit {
             defaultCollapsed: false,
             radios: false,
             spacedAccordionItems: false
-        }
+        },
+        // paymentMethodOrder: ['amex']
     };
 
     // Replace with your own public key

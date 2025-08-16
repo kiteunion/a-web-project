@@ -22,7 +22,7 @@
         </ng-template>
     </label>
     <div>
-        <p-select-button [options]="stateOptions" [(ngModel)]="formData.contact.ownershipType"
+        <p-select [options]="stateOptions" [(ngModel)]="formData.contact.ownershipType"
                          optionLabel="label" optionValue="value"
                          aria-labelledby="basic" (ngModelChange)="formService.onSelectType()"/>
     </div>
