@@ -117,6 +117,10 @@ export class FormService {
         }else{
             this.applicationData.logo = '';
         }
+
+        if (this.formData.contact.ownershipType !== 2) {
+            this.applicationData.contacts = [];
+        }
         return this.http.post<ProductResultInterface>(url, {
             data: {
                 applicationRef: this.applicationRef,
