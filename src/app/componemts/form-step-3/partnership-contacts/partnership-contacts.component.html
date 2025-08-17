@@ -1,9 +1,9 @@
-
+<form #myFormContacts="ngForm">
     <p-tabs [value]="formService.tabActive" scrollable>
         <p-tablist>
             @for (contact of formData.contacts; track contact; let index = $index) {
                 <p-tab [value]="index">
-                    Partner {{index + 1}}
+                    Partner {{ index + 1 }}
                     <p-button
                             size="small" [rounded]="true" [text]="true"
                             (click)="formService.removeContact(index)"
@@ -20,12 +20,12 @@
                             <p-iftalabel>
                                 <input #name="ngModel" [(ngModel)]="contact.businessName" name="name"
                                        class="ng-dirty w-full" required
-                                       [class.ng-invalid]="formService.isValidField(name, myForm)"
+                                       [class.ng-invalid]="formService.isValidField(name, myFormContacts)"
                                        placeholder="" pSize="large" pInputText id="field_1"/>
                                 <label for="field_1">Name of trademark owner&nbsp;<span
                                         class="text-red-400">*</span></label>
                             </p-iftalabel>
-                            @if (formService.isValidField(name, myForm)) {
+                            @if (formService.isValidField(name, myFormContacts)) {
                                 <p-message class="mt-2" severity="error" variant="simple" size="small">Name
                                     is required
                                 </p-message>
@@ -44,15 +44,21 @@
                     <div class="formgrid grid">
                         <div class="field col">
                             <p-iftalabel>
-                                <input #email="ngModel" [(ngModel)]="contact.email" name="email"
+                                <input #email="ngModel" [(ngModel)]="contact.email" name="email" type="email" email
                                        class="ng-dirty w-full" required
-                                       [class.ng-invalid]="formService.isValidField(email, myForm)"
+                                       [class.ng-invalid]="formService.isValidField(email, myFormContacts)"
                                        placeholder="" pSize="large" pInputText id="field_8" [value]="contact.email"/>
                                 <label for="field_8">E-mail&nbsp;<span class="text-red-400">*</span></label>
                             </p-iftalabel>
-                            @if (formService.isValidField(email, myForm)) {
+                            @if (formService.isValidField(email, myFormContacts)) {
                                 <p-message class="mt-2" severity="error" variant="simple" size="small">
                                     E-mail is required
+                                </p-message>
+                            }
+
+                            @if (email.invalid && email.touched && email.errors?.['email']) {
+                                <p-message class="mt-2" severity="error" variant="simple" size="small">
+                                    Please enter a valid E-mail
                                 </p-message>
                             }
                         </div>
@@ -80,7 +86,7 @@
                                 <!--<input class="w-full" placeholder="" pSize="large" required pInputText id="field_9"/>-->
                                 <label for="field_phone">Phone number <span class="text-red-400">*</span></label>
                             </p-iftalabel>
-                            @if (formService.isValidField(phone, myForm)) {
+                            @if (formService.isValidField(phone, myFormContacts)) {
                                 <p-message class="mt-2" severity="error" variant="simple" size="small">
                                     Phone is required
                                 </p-message>
@@ -103,10 +109,11 @@
     </p-tabs>
 
 
-<div>
-    <p-button
-            (click)="formService.addContact()"
-            type="button" label="Add partner" icon="pi pi-plus"
-            [raised]="true" [severity]="formData.contacts.length >= 5 ? 'secondary' : 'success'"
-            class="w-full" styleClass="w-full border-bottom"/>
-</div>
+    <div>
+        <p-button
+                (click)="formService.addContact()"
+                type="button" label="Add partner" icon="pi pi-plus"
+                [raised]="true" [severity]="formData.contacts.length >= 5 ? 'secondary' : 'success'"
+                class="w-full" styleClass="w-full border-bottom"/>
+    </div>
+</form>

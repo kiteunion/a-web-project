@@ -15,6 +15,7 @@ import {MessageService} from "primeng/api";
 })
 
 export class FormService {
+    onCheckForm$: Subject<any> = new Subject();
     public maxStepReached: number = 1;
     public q: string = '';
     public agree = undefined;
@@ -161,11 +162,11 @@ export class FormService {
 
 
     onPhoneChange(phone: any, contact: Contact | PartnershipContact) {
-        if (phone && phone.e164Number) {
+        /*if (phone && phone.e164Number) {
             contact.phone = phone.e164Number; // Сохраняем только e164Number
         } else {
             contact.phone = ''; // Если номер некорректен
-        }
+        }*/
         this.save();
     }
 

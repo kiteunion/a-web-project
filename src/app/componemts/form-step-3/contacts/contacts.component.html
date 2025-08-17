@@ -1,47 +1,54 @@
-<p-fieldset legend="Contacts">
-    <div class="formgrid grid">
-        <div class="field col">
-            <p-iftalabel>
-                <input #email="ngModel" [(ngModel)]="formData.contact.email" name="email"
-                       class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(email, myForm)"
-                       placeholder="" pSize="large" pInputText id="field_8" [value]="formData.contact.email"/>
-                <label for="field_8">E-mail&nbsp;<span class="text-red-400">*</span></label>
-            </p-iftalabel>
-            @if (formService.isValidField(email, myForm)) {
-                <p-message class="mt-2" severity="error" variant="simple" size="small">
-                    E-mail is required
-                </p-message>
-            }
+<form #myFormContact="ngForm">
+    <p-fieldset legend="Contacts">
+        <div class="formgrid grid">
+            <div class="field col">
+                <p-iftalabel>
+                    <input #email="ngModel" [(ngModel)]="formData.contact.email" name="email" type="email" email
+                           class="ng-dirty w-full" required [class.ng-invalid]="formService.isValidField(email, myFormContact)"
+                           placeholder="" pSize="large" pInputText id="field_8" [value]="formData.contact.email"/>
+                    <label for="field_8">E-mail&nbsp;<span class="text-red-400">*</span></label>
+                </p-iftalabel>
+                @if (formService.isValidField(email, myFormContact)) {
+                    <p-message class="mt-2" severity="error" variant="simple" size="small">
+                        E-mail is required
+                    </p-message>
+                }
+                @if (email.invalid && email.touched && email.errors?.['email']) {
+                    <p-message class="mt-2" severity="error" variant="simple" size="small">
+                        Please enter a valid E-mail
+                    </p-message>
+                }
+            </div>
+            <div class="field col">
+                <p-iftalabel>
+                    <input #phone="ngModel" [(ngModel)]="formData.contact.phone" name="phone" type="hidden">
+                    <ngx-intl-tel-input
+                            [ngModelOptions]="{standalone: true}"
+                            (ngModelChange)="formService.onPhoneChange($event, formData.contact)"
+                            [(ngModel)]="formData.contact.phone"
+                            [cssClass]="'custom'"
+                            [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom]"
+                            [enableAutoCountrySelect]="false"
+                            [enablePlaceholder]="true"
+                            [searchCountryFlag]="true"
+                            [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                            [selectFirstCountry]="false"
+                            [selectedCountryISO]="CountryISO.Australia"
+                            [maxLength]="15"
+                            [value]="formData.contact.phone"
+                            [phoneValidation]="true"
+                            [inputId]="'field_phone'"
+                            [separateDialCode]="true"
+                    ></ngx-intl-tel-input>
+                    <!--<input class="w-full" placeholder="" pSize="large" required pInputText id="field_9"/>-->
+                    <label for="field_phone">Phone number <span class="text-red-400">*</span></label>
+                </p-iftalabel>
+                @if (formService.isValidField(phone, myFormContact)) {
+                    <p-message class="mt-2" severity="error" variant="simple" size="small">
+                        Phone is required
+                    </p-message>
+                }
+            </div>
         </div>
-        <div class="field col">
-            <p-iftalabel>
-                <input #phone="ngModel" [(ngModel)]="formData.contact.phone" name="phone" type="hidden">
-                <ngx-intl-tel-input
-                        [ngModelOptions]="{standalone: true}"
-                        (ngModelChange)="formService.onPhoneChange($event, formData.contact)"
-                        [(ngModel)]="formData.contact.phone"
-                        [cssClass]="'custom'"
-                        [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom]"
-                        [enableAutoCountrySelect]="false"
-                        [enablePlaceholder]="true"
-                        [searchCountryFlag]="true"
-                        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-                        [selectFirstCountry]="false"
-                        [selectedCountryISO]="CountryISO.Australia"
-                        [maxLength]="15"
-                        [value]="formData.contact.phone"
-                        [phoneValidation]="true"
-                        [inputId]="'field_phone'"
-                        [separateDialCode]="true"
-                ></ngx-intl-tel-input>
-                <!--<input class="w-full" placeholder="" pSize="large" required pInputText id="field_9"/>-->
-                <label for="field_phone">Phone number <span class="text-red-400">*</span></label>
-            </p-iftalabel>
-            @if (formService.isValidField(phone, myForm)) {
-                <p-message class="mt-2" severity="error" variant="simple" size="small">
-                    Phone is required
-                </p-message>
-            }
-        </div>
-    </div>
-</p-fieldset>
+    </p-fieldset>
+</form>

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Fieldset} from "primeng/fieldset";
 import {FormsModule, NgForm} from "@angular/forms";
 import {IftaLabel} from "primeng/iftalabel";
@@ -22,9 +22,10 @@ import {FormService} from "../../../share/services/form.service";
     templateUrl: './contacts.component.html',
     styleUrl: './contacts.component.scss'
 })
-export class ContactsComponent {
-    @Input() myForm!: NgForm;
-
+export class ContactsComponent implements OnInit, AfterViewInit {
+    @ViewChild('myFormContact') myFormContact!: NgForm;
+    @Output()
+    onFormInit: EventEmitter<NgForm> = new EventEmitter();
     protected readonly CountryISO = CountryISO;
     protected readonly SearchCountryField = SearchCountryField;
 
@@ -35,5 +36,11 @@ export class ContactsComponent {
     constructor(
         public formService: FormService
     ) {
+    }
+    ngAfterViewInit() {
+        this.onFormInit.emit(this.myFormContact)
+        console.log('Form in ViewChild:', this.myFormContact);
+    }
+    ngOnInit() {
     }
 }

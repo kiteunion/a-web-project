@@ -28,6 +28,7 @@ import {ClassInterface} from "../../share/interface/product.interface";
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import {StripePayComponent} from "./stripe-pay/stripe-pay.component";
 import {environment} from "../../../environments/environment";
+import {Message} from "primeng/message";
 
 
 @Component({
@@ -47,7 +48,8 @@ import {environment} from "../../../environments/environment";
         Checkbox,
         Tooltip,
         PrimeTemplate,
-        StripePayComponent
+        StripePayComponent,
+        Message
     ],
     templateUrl: './form-step-4.component.html',
     styleUrl: './form-step-4.component.scss',

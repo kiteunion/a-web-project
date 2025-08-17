@@ -14,50 +14,27 @@
                     </div>
                     <div class="field">
                         <p-iftalabel>
-                            <input #email="ngModel" [(ngModel)]="formData.contact.email" name="email"
-                                   class="w-full" placeholder="" pSize="large" pInputText id="field_8"/>
+                            <input #email="ngModel" [(ngModel)]="formData.contact.email" name="email" type="email" email
+                                   class="ng-dirty w-full" placeholder="" pSize="large" pInputText id="field_8"/>
                             <label for="field_8">E-mail</label>
                         </p-iftalabel>
+                        @if (formService.isValidField(email, myForm)) {
+                            <p-message class="mt-2" severity="error" variant="simple" size="small">
+                                E-mail is required
+                            </p-message>
+                        }
+
+                        @if (email.invalid && email.touched && email.errors?.['email']) {
+                            <p-message class="mt-2" severity="error" variant="simple" size="small">
+                                Please enter a valid E-mail
+                            </p-message>
+                        }
                     </div>
                 </form>
             </p-fieldset>
             <div class="mb-3"></div>
 
-            <p-fieldset legend="Extras">
-                <h4 class="mb-2 mt-0">Would you like to add to your order ?:</h4>
-                <div class="mb-3 text-gray-500">
-                    <small>
-                        Standard application takes 8 months to complete. It is examined at the 4-month mark.<br>
-                        I would like my application to be examined within 14 days.
-                    </small>
-                </div>
-                <div class="field mb-2 flex items-center gap-1">
-                    <p-checkbox #expedited="ngModel" [binary]="true" (ngModelChange)="onChangeExpedited()"
-                                [(ngModel)]="formService.expedited" name="expedited"
-                                class="ng-dirty" [value]="true" inputId="expedited"/>
-                    <label for="expedited" class="ml-2">
-                        Yes, expedite the examination period for my application
-                        <i [pTooltip]="tooltipExpedited" tooltipStyleClass="tooltip-wide"
-                           class="pi pi-info-circle mr-2"></i>
-                    </label>
-                </div>
 
-                <div class="mb-3 text-gray-500">
-                    <small>
-                        Privacy option
-                    </small>
-                </div>
-                <div class="field mb-0 flex items-center gap-1">
-                    <p-checkbox #privacy="ngModel" [binary]="true" [(ngModel)]="formService.privacy" name="privacy"
-                                class="ng-dirty" [value]="true" inputId="privacy"/>
-                    <label for="privacy" class="ml-2">
-                        Yes, I would like my address to be private
-                        <i pTooltip="Correspondence will be directed to PO BOX 20015, World Square, NSW 2002"
-                           tooltipStyleClass="tooltip-wide"
-                           class="pi pi-info-circle mr-2"></i>
-                    </label>
-                </div>
-            </p-fieldset>
             <ng-template #footer>
             </ng-template>
         </p-card>
@@ -154,7 +131,43 @@
             </div>
             <p-divider></p-divider>
 
+            <p-fieldset legend="Extras">
+                <h4 class="mb-2 mt-0">Would you like to add to your order ?:</h4>
+                <div class="mb-3 text-gray-500">
+                    <small>
+                        Standard application takes 8 months to complete. It is examined at the 4-month mark.<br>
+                        I would like my application to be examined within 14 days.
+                    </small>
+                </div>
+                <div class="field mb-2 flex items-center gap-1">
+                    <p-checkbox #expedited="ngModel" [binary]="true" (ngModelChange)="onChangeExpedited()"
+                                [(ngModel)]="formService.expedited" name="expedited"
+                                class="ng-dirty" [value]="true" inputId="expedited"/>
+                    <label for="expedited" class="ml-2">
+                        Yes, expedite the examination period for my application
+                        <i [pTooltip]="tooltipExpedited" tooltipStyleClass="tooltip-wide"
+                           class="pi pi-info-circle mr-2"></i>
+                    </label>
+                </div>
 
+                <div class="mb-3 text-gray-500">
+                    <small>
+                        Privacy option
+                    </small>
+                </div>
+                <div class="field mb-0 flex items-center gap-1">
+                    <p-checkbox #privacy="ngModel" [binary]="true" [(ngModel)]="formService.privacy" name="privacy"
+                                class="ng-dirty" [value]="true" inputId="privacy"/>
+                    <label for="privacy" class="ml-2">
+                        Yes, I would like my address to be private
+                        <i pTooltip="Correspondence will be directed to PO BOX 20015, World Square, NSW 2002"
+                           tooltipStyleClass="tooltip-wide"
+                           class="pi pi-info-circle mr-2"></i>
+                    </label>
+                </div>
+            </p-fieldset>
+            <div class="mb-3 text-gray-500">
+            </div>
             <p-fieldset legend="Order price">
                 <!--<div class="grid pt-2 align-items-center">
                 <div class="col text-gray-600">
@@ -172,21 +185,22 @@
                         {{ productService.GST | currency : 'AUD' :'symbol' : '1.0-0' }}
                     </div>
                 </div>
-                <div class="grid mb-3 align-items-center">
-                    <div class="col text-gray-600">
-                        Credit Card surcharges:
+
+                <div class="grid mb-0 align-items-center">
+                    <div class="col py-0 text-gray-600 text-lg">
+                        Subtotal:
                     </div>
-                    <div [@numberChange]="productService.creditCardSurcharges" class="col-fixed py-0">
-                        {{ productService.creditCardSurcharges | currency : 'AUD' :'symbol' : '1.0-0' }}
+                    <div [@numberChange]="productService.total" class="col-fixed py-0">
+                        {{ productService.total | currency : 'AUD' :'symbol' : '1.0-0' }}
                     </div>
                 </div>
 
                 <div class="grid mb-3 align-items-center">
-                    <div class="col py-0 text-gray-600 text-lg">
-                        Subtotal:
+                    <div class="col text-gray-600">
+                        Credit Card surcharges (2%):
                     </div>
-                    <div class="col-fixed py-0 text-lg">
-                        <b [@numberChange]="productService.total">{{ productService.total | currency : 'AUD' :'symbol' : '1.0-0' }}</b>
+                    <div [@numberChange]="productService.creditCardSurcharges" class="col-fixed py-0">
+                        {{ productService.creditCardSurcharges | currency : 'AUD' :'symbol' : '1.0-0' }}
                     </div>
                 </div>
 

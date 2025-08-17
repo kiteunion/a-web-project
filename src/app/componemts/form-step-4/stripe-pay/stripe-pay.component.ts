@@ -1,15 +1,9 @@
-import {Component, inject, OnInit, signal, ViewChild} from '@angular/core';
-import {ReactiveFormsModule, UntypedFormBuilder, Validators} from '@angular/forms';
+import {Component, OnInit, signal, ViewChild} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
-import {
-    injectStripe, StripeElementsDirective,
-    StripePaymentElementComponent, StripeService
-} from 'ngx-stripe';
-import {
-    StripeElementsOptions,
-    StripePaymentElementOptions
-} from '@stripe/stripe-js';
+import {injectStripe, StripeElementsDirective, StripePaymentElementComponent} from 'ngx-stripe';
+import {StripeElementsOptions, StripePaymentElementOptions} from '@stripe/stripe-js';
 import {environment} from "../../../../environments/environment.development";
 import {HttpClient} from "@angular/common/http";
 import {FormService} from "../../../share/services/form.service";
@@ -31,8 +25,6 @@ import {Router} from "@angular/router";
     ]
 })
 export class StripePayComponent implements OnInit {
-    private readonly fb = inject(UntypedFormBuilder);
-
     @ViewChild(StripePaymentElementComponent)
     paymentElement!: StripePaymentElementComponent;
 
@@ -40,9 +32,10 @@ export class StripePayComponent implements OnInit {
     public elementsOptions: StripeElementsOptions = {
         locale: 'en',
          // clientSecret: null,
-
+        // mode: 'payment',
+        // paymentMethodTypes: ['card'],
         appearance: {
-            theme: 'flat'
+            // theme: 'flat'
         }
     };
 
@@ -65,12 +58,16 @@ export class StripePayComponent implements OnInit {
         private messageService: MessageService,
         public productService: ProductService,
         public formService: FormService,
-        private http: HttpClient,
-        private stripeService: StripeService) {
+        private http: HttpClient
+    ) {
     }
 
 
     ngOnInit() {
+        this.getSecret();
+    }
+
+    getSecret() {
         const orderItems = this.productService.targetProductsList.map((v) => {
             return {
                 amount: v.price,
@@ -137,7 +134,7 @@ export class StripePayComponent implements OnInit {
                         summary: 'Error',
                         detail: result.error.message
                     });
-                    console.log({success: false, error: result.error.message});
+                    console.error('Payment error', result);
                 } else {
                     // The payment has been processed!
                     if (result.paymentIntent.status === 'succeeded') {
@@ -147,6 +144,12 @@ export class StripePayComponent implements OnInit {
                         this.productService.clear();
                         this.router.navigateByUrl('/success');
                     }
+                }
+            }, error => {
+                this.paying.set(false);
+                if (error.message.includes('clientSecret')) {
+                    this.getSecret();
+                    this.messageService.add({severity: 'error', summary: 'Payment error, please, retry', detail: ''});
                 }
             });
     }

@@ -113,10 +113,9 @@
 
         <div class="mb-3"></div>
         @if (formData.contact.ownershipType !== 2) {
-            <app-contacts [myForm]="myForm"></app-contacts>
-        }
-        @if (formData.contact.ownershipType === 2) {
-            <app-partnership-contacts [myForm]="myForm"></app-partnership-contacts>
+            <app-contacts (onFormInit)="myFormContact = $event"></app-contacts>
+        } @else {
+            <app-partnership-contacts (onFormInit)="myFormContacts = $event"></app-partnership-contacts>
         }
 
         <div class="mb-3"></div>

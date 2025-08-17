@@ -48,6 +48,8 @@ export class FormStep3Component implements OnInit, OnDestroy {
         {label: 'Partnership', value: 2},
         {label: 'Trustee', value: 3},
     ];
+    public myFormContact?: NgForm;
+    public myFormContacts?: NgForm;
     public states: any[] = [];
     readonly isLoading: WritableSignal<boolean> = signal(false);
     private destroy$: Subject<void> = new Subject();
@@ -75,8 +77,18 @@ export class FormStep3Component implements OnInit, OnDestroy {
     }
 
     onSubmit($event: any, myForm: NgForm) {
+        this.formService.onCheckForm$.next($event);
         this.messageService.clear();
-        if (myForm.invalid) {
+        
+        let contactForm = this.myFormContact;
+        if (this.formData.contact.ownershipType === 2) {
+            contactForm = this.myFormContacts;
+        }
+        if (contactForm) {
+            contactForm.onSubmit($event);
+        }
+
+        if (myForm.invalid || contactForm?.invalid) {
             this.messageService.add({severity: 'error', summary: 'Attention', detail: 'Please fill out the form'});
             return;
         }

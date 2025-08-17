@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Button} from "primeng/button";
 import {FormsModule, NgForm} from "@angular/forms";
 import {IftaLabel} from "primeng/iftalabel";
@@ -29,8 +29,11 @@ import {Tab, TabList, TabPanel, TabPanels, Tabs} from "primeng/tabs";
     templateUrl: './partnership-contacts.component.html',
     styleUrl: './partnership-contacts.component.scss'
 })
-export class PartnershipContactsComponent implements OnInit, OnDestroy {
-    @Input() myForm!: NgForm;
+export class PartnershipContactsComponent implements OnInit, OnDestroy, AfterViewInit {
+    @ViewChild('myFormContacts') myFormContacts!: NgForm;
+    @Output()
+    onFormInit: EventEmitter<NgForm> = new EventEmitter();
+
     protected readonly CountryISO = CountryISO;
     protected readonly SearchCountryField = SearchCountryField;
     private destroy$: Subject<void> = new Subject();
@@ -46,6 +49,11 @@ export class PartnershipContactsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
+    }
+
+    ngAfterViewInit() {
+        this.onFormInit.emit(this.myFormContacts)
+        console.log('Form in ViewChild:', this.myFormContacts);
     }
 
 
