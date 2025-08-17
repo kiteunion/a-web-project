@@ -78,8 +78,8 @@ export class StripePayComponent implements OnInit {
             }
         })
         orderItems.push({
-            amount: this.productService.creditCardSurcharges,
-            id: "Credit card surcharges"
+            amount: Math.round(this.productService.creditCardSurcharges),
+            id: "Credit Card surcharges"
         })
 
         this.http.post<{ data: {clientSecret: string} }>(

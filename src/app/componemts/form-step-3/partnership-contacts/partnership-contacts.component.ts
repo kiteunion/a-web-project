@@ -6,7 +6,6 @@ import {InputText} from "primeng/inputtext";
 import {Message} from "primeng/message";
 import {CountryISO, NgxIntlTelInputModule, SearchCountryField} from "ngx-intl-tel-input";
 import {FormService} from "../../../share/services/form.service";
-import {MessageService} from "primeng/api";
 import {ApplicationData} from "../../../share/interface/form.interface";
 import {Subject} from "rxjs";
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from "primeng/tabs";
@@ -41,7 +40,6 @@ export class PartnershipContactsComponent implements OnInit, OnDestroy {
     }
 
     constructor(
-        private messageService: MessageService,
         public formService: FormService
     ) {
     }

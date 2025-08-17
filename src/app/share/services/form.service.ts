@@ -86,14 +86,14 @@ export class FormService {
     }
 
     restore() {
-        const applicationData = localStorage.getItem('applicationData');
+        const applicationData = localStorage.getItem('applicationDataV2');
         if (applicationData) {
             this.applicationData = JSON.parse(applicationData);
         }
     }
 
     save() {
-        localStorage.setItem('applicationData', JSON.stringify(this.applicationData));
+        localStorage.setItem('applicationDataV2', JSON.stringify(this.applicationData));
     }
 
     isValidField(field: NgModel, myForm: NgForm): boolean {
@@ -111,20 +111,31 @@ export class FormService {
     }
 
     update(): Observable<ProductResultInterface> {
+        const applicationData: ApplicationData = JSON.parse(JSON.stringify(this.applicationData));
         const url = `${environment.backendApiUrl}/application/update`;
         if (this.trademarkType === 'logo') {
-            this.applicationData.word.word = '';
+            applicationData.word.word = '';
         }else{
-            this.applicationData.logo = '';
+            applicationData.logo = '';
         }
 
         if (this.formData.contact.ownershipType !== 2) {
-            this.applicationData.contacts = [];
+            applicationData.contacts = [];
         }
+        if (typeof applicationData.contact.phone === "object") {
+            // applicationData.contact.phone = (applicationData.contact.phone as any).e164Number;
+        }
+        applicationData.contacts.forEach((contact) => {
+            if (typeof contact.phone === "object") {
+                contact.phone = (contact.phone as any).e164Number;
+            }
+        });
+
+
         return this.http.post<ProductResultInterface>(url, {
             data: {
                 applicationRef: this.applicationRef,
-                applicationData: this.applicationData,
+                applicationData: applicationData,
             }
         });
     }
@@ -184,8 +195,10 @@ export class FormService {
     }
 
     onSelectType() {
-        if (this.formData.contacts.length == 1 && this.formData.contact.ownershipType == 2) {
-            this.addContact();
+        if (this.formData.contact.ownershipType === 2) {
+            while (this.formData.contacts.length < 2) {
+                this.addContact();
+            }
         }
         if (this.formData.contact.ownershipType != 2) {
             this.formData.contacts.length = 1;

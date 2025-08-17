@@ -51,7 +51,6 @@ export class FormStep2Component implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject();
 
-  private lastError: string = '';
   constructor(
     public formService: FormService,
     private messageService: MessageService,
@@ -66,15 +65,6 @@ export class FormStep2Component implements OnInit, OnDestroy {
       .subscribe(() => {
         this.calcTotal();
         this.buildSelectedClasses();
-        this.formService.update()
-          .subscribe(() => {
-            // this.onNext.emit();
-            this.lastError = '';
-          }, error => {
-            console.log(error);
-            alert('Error...');
-            // this.lastError = error.error?.errors?.title || 'Server error!';
-          })
       })
   }
 

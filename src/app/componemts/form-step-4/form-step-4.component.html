@@ -174,10 +174,19 @@
                 </div>
                 <div class="grid mb-3 align-items-center">
                     <div class="col text-gray-600">
-                        Credit card surcharges:
+                        Credit Card surcharges:
                     </div>
                     <div [@numberChange]="productService.creditCardSurcharges" class="col-fixed py-0">
                         {{ productService.creditCardSurcharges | currency : 'AUD' :'symbol' : '1.0-0' }}
+                    </div>
+                </div>
+
+                <div class="grid mb-3 align-items-center">
+                    <div class="col py-0 text-gray-600 text-lg">
+                        Subtotal:
+                    </div>
+                    <div class="col-fixed py-0 text-lg">
+                        <b [@numberChange]="productService.total">{{ productService.total | currency : 'AUD' :'symbol' : '1.0-0' }}</b>
                     </div>
                 </div>
 
@@ -185,9 +194,12 @@
                     <div class="col py-0 text-gray-600 font-bold text-lg">
                         Total:
                     </div>
-                    <div class="col-fixed py-0 text-lg">
-                        <b [@numberChange]="productService.total">{{ productService.total | currency : 'AUD' :'symbol' : '1.0-0' }}</b>
-                    </div>
+                    @if(productService.total + productService.creditCardSurcharges; as total) {
+                        <div class="col-fixed py-0 text-lg">
+                            <b [@numberChange]="total">{{total | currency : 'AUD' :'symbol' : '1.0-0' }}</b>
+                        </div>
+                    }
+
                 </div>
             </p-fieldset>
         </p-card>

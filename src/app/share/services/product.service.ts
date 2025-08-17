@@ -25,7 +25,7 @@ export class ProductService {
     }
 
     restore() {
-        const targetProducts = localStorage.getItem('target-products');
+        const targetProducts = localStorage.getItem('targetProductsV2');
         if (targetProducts) {
             this.targetProducts = JSON.parse(targetProducts);
             this.targetProductsChange$.next();
@@ -35,7 +35,7 @@ export class ProductService {
     save() {
         console.debug('Save products');
         this.targetProductsChange$.next();
-        localStorage.setItem('target-products', JSON.stringify(this.targetProducts));
+        localStorage.setItem('targetProductsV2', JSON.stringify(this.targetProducts));
     }
 
     findKeywords(region: string, searchWord: string): Observable<ProductResultInterface> {
@@ -138,8 +138,6 @@ export class ProductService {
         if (this.formService.privacy && postalFee > 0) {
             total += postalFee;
         }
-
-        total += total * this.cardSurcharges;
 
         return total;
     }
