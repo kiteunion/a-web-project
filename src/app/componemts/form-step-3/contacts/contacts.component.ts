@@ -7,6 +7,7 @@ import {Message} from "primeng/message";
 import {CountryISO, NgxIntlTelInputModule, SearchCountryField} from "ngx-intl-tel-input";
 import {ApplicationData} from "../../../share/interface/form.interface";
 import {FormService} from "../../../share/services/form.service";
+import {JsonPipe} from "@angular/common";
 
 @Component({
     standalone: true,
@@ -17,7 +18,8 @@ import {FormService} from "../../../share/services/form.service";
         IftaLabel,
         InputText,
         Message,
-        NgxIntlTelInputModule
+        NgxIntlTelInputModule,
+        JsonPipe
     ],
     templateUrl: './contacts.component.html',
     styleUrl: './contacts.component.scss'

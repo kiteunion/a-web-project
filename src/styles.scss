@@ -228,3 +228,9 @@ p-card.h-100 .p-card {
 .p-steppanels {
   padding: 0.875rem 0.5rem 1.125rem 0.5rem!important;
 }
+
+
+.iti__tel-input::placeholder {
+  color: #d3d3d3!important; /* Светлый цвет, например, светло-серый */
+  opacity: 1!important; /* Для кроссбраузерной совместимости */
+}

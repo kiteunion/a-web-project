@@ -64,7 +64,7 @@
                         </div>
                         <div class="field col">
                             <p-iftalabel>
-                                <input #phone="ngModel" [(ngModel)]="contact.phone" name="phone" type="hidden">
+                                <input #phone="ngModel" required [(ngModel)]="contact.phone" name="phone" type="hidden">
                                 <ngx-intl-tel-input
                                         [ngModelOptions]="{standalone: true}"
                                         (ngModelChange)="formService.onPhoneChange($event, contact)"
