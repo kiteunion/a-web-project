@@ -164,12 +164,20 @@
                   {{subTotal | currency : 'AUD' :'symbol' : '1.0-0'}}
                 </div>
               </div>-->
-                <div class="grid mb-3 align-items-center">
+                <div class="grid align-items-center">
                     <div class="col text-gray-600">
                         GST component:
                     </div>
                     <div [@numberChange]="productService.GST" class="col-fixed py-0">
                         {{ productService.GST | currency : 'AUD' :'symbol' : '1.0-0' }}
+                    </div>
+                </div>
+                <div class="grid mb-3 align-items-center">
+                    <div class="col text-gray-600">
+                        Credit card surcharges:
+                    </div>
+                    <div [@numberChange]="productService.creditCardSurcharges" class="col-fixed py-0">
+                        {{ productService.creditCardSurcharges | currency : 'AUD' :'symbol' : '1.0-0' }}
                     </div>
                 </div>
 

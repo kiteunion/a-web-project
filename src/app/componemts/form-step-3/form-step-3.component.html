@@ -151,49 +151,6 @@
                     }
                 </div>
             </ng-template>
-            <div class="formgrid grid">
-                <div class="field col">
-                    <p-iftalabel>
-                        <p-select
-                            #country="ngModel" [(ngModel)]="formData.address.countryCode" name="country"
-                            [options]="formService.countries"
-                            optionLabel="name" [filter]="true" optionValue="Code2" filterBy="Name" id="field_3"
-                            [showClear]="true" placeholder="Select a Country" class="w-full md:w-56">
-                            <ng-template #selectedItem let-selectedOption>
-                                <div class="flex items-center gap-2">
-                                    <img src="/assets/images/flag_placeholder.png"
-                                         [class]="'flag flag-' + selectedOption.Code2?.toLowerCase()"
-                                         style="width: 18px"/>
-                                    <div>{{ selectedOption.Name }}</div>
-                                </div>
-                            </ng-template>
-                            <ng-template let-country #item>
-                                <div class="flex items-center gap-2">
-                                    <img src="/assets/images/flag_placeholder.png"
-                                         [class]="'flag flag-' + country.Code2.toLowerCase()"
-                                         style="width: 18px"/>
-                                    <div>{{ country.Name }}</div>
-                                </div>
-                            </ng-template>
-                        </p-select>
-                        <label for="field_3">Country of residence<span class="text-red-400">*</span></label>
-                    </p-iftalabel>
-                </div>
-                <div class="field col">
-                    <p-iftalabel>
-                        <input #state="ngModel" [(ngModel)]="formData.address.region" name="state"
-                               class="ng-dirty w-full" required
-                               [class.ng-invalid]="formService.isValidField(state, myForm)"
-                               placeholder="" pSize="large" pInputText id="field_4"/>
-                        <label for="field_4">State or Region&nbsp;<span class="text-red-400">*</span></label>
-                    </p-iftalabel>
-                    @if (formService.isValidField(state, myForm)) {
-                        <p-message class="mt-2" severity="error" variant="simple" size="small">
-                            State is required
-                        </p-message>
-                    }
-                </div>
-            </div>
 
             <div class="field">
                 <p-iftalabel>
@@ -238,6 +195,70 @@
                             is required
                         </p-message>
                     }
+                </div>
+            </div>
+
+            <div class="formgrid grid">
+                <div class="field col">
+                    <p-iftalabel>
+                        <p-select
+                            #country="ngModel" [(ngModel)]="formData.address.countryCode" name="country"
+                            [options]="formService.countries" (ngModelChange)="onSelectCountry()"
+                            optionLabel="name" [filter]="true" optionValue="Code2" filterBy="Name" id="field_3"
+                            [showClear]="true" placeholder="Select a Country" class="w-full md:w-56">
+                            <ng-template #selectedItem let-selectedOption>
+                                <div class="flex items-center gap-2">
+                                    <img src="/assets/images/flag_placeholder.png"
+                                         [class]="'flag flag-' + selectedOption.Code2?.toLowerCase()"
+                                         style="width: 18px"/>
+                                    <div>{{ selectedOption.Name }}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template let-country #item>
+                                <div class="flex items-center gap-2">
+                                    <img src="/assets/images/flag_placeholder.png"
+                                         [class]="'flag flag-' + country.Code2.toLowerCase()"
+                                         style="width: 18px"/>
+                                    <div>{{ country.Name }}</div>
+                                </div>
+                            </ng-template>
+                        </p-select>
+                        <label for="field_3">Country of residence<span class="text-red-400">*</span></label>
+                    </p-iftalabel>
+                </div>
+                <div class="field col">
+                    @if (states.length > 0) {
+                        <p-iftalabel>
+                            <p-select class="ng-dirty w-full" #stateSelect="ngModel"
+                                      [class.ng-invalid]="formService.isValidField(stateSelect, myForm)"
+                                      [options]="states" [(ngModel)]="formData.address.region"
+                                      optionLabel="name" optionValue="name" name="state" required
+                                      aria-labelledby="basic" id="field_select_state"/>
+                            <label for="field_select_state">State or Region&nbsp;<span class="text-red-400">*</span></label>
+                        </p-iftalabel>
+                        @if (formService.isValidField(stateSelect, myForm)) {
+                            <p-message class="mt-2" severity="error" variant="simple" size="small">
+                                State is required
+                            </p-message>
+                        }
+                    }
+
+                    @if (states.length === 0) {
+                        <p-iftalabel>
+                            <input #state="ngModel" [(ngModel)]="formData.address.region" name="state"
+                                   class="ng-dirty w-full" required
+                                   [class.ng-invalid]="formService.isValidField(state, myForm)"
+                                   placeholder="" pSize="large" pInputText id="field_4"/>
+
+                            <label for="field_4">State or Region&nbsp;<span class="text-red-400">*</span></label>
+                        </p-iftalabel>
+                        @if (formService.isValidField(state, myForm)) {
+                            <p-message class="mt-2" severity="error" variant="simple" size="small">
+                                State is required
+                            </p-message>
+                        }
+                    }
+
                 </div>
             </div>
         </p-fieldset>

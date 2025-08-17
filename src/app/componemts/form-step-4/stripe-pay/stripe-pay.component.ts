@@ -77,6 +77,10 @@ export class StripePayComponent implements OnInit {
                 id: v.name
             }
         })
+        orderItems.push({
+            amount: this.productService.creditCardSurcharges,
+            id: "Credit card surcharges"
+        })
 
         this.http.post<{ data: {clientSecret: string} }>(
             `${environment.backendApiUrl}/application/createPaymentIntent`,

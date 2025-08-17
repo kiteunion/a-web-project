@@ -15,6 +15,7 @@ export class ProductService {
     readonly sourceProductsBuffer: WritableSignal<ClassInterface[]> = signal([]);
     public targetProducts: ClassInterface[] = [];
     public targetProductsChange$: Subject<void> = new Subject<void>();
+    private cardSurcharges = 0.02;
 
     constructor(
         public formService: FormService,
@@ -123,6 +124,10 @@ export class ProductService {
         return total;
     }
 
+    get creditCardSurcharges(): number {
+        return this.total * this.cardSurcharges;
+    }
+
     get total(): number {
         let total = this.subTotal;
         const expenditureFee = this.formService.fees()?.expenditureFee || 0;
@@ -133,7 +138,9 @@ export class ProductService {
         if (this.formService.privacy && postalFee > 0) {
             total += postalFee;
         }
-        console.log(this.formService.expedited);
+
+        total += total * this.cardSurcharges;
+
         return total;
     }
 

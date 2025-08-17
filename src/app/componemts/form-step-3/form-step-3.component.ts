@@ -1,5 +1,4 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output, signal, WritableSignal} from '@angular/core';
-import {SelectButton} from "primeng/selectbutton";
 import {FormsModule, NgForm, ReactiveFormsModule} from '@angular/forms';
 import {IftaLabel} from 'primeng/iftalabel';
 import {InputText} from 'primeng/inputtext';
@@ -18,13 +17,13 @@ import {Subject} from 'rxjs';
 import {Tooltip} from "primeng/tooltip";
 import {ContactsComponent} from "./contacts/contacts.component";
 import {PartnershipContactsComponent} from "./partnership-contacts/partnership-contacts.component";
+import {australianStatesAndTerritories, usStates} from "../../data/states";
 
 @Component({
     standalone: true,
     selector: 'app-form-step-3',
     imports: [
         ReactiveFormsModule,
-        SelectButton,
         FormsModule,
         IftaLabel,
         InputText,
@@ -49,6 +48,7 @@ export class FormStep3Component implements OnInit, OnDestroy {
         {label: 'Partnership', value: 2},
         {label: 'Trustee', value: 3},
     ];
+    public states: any[] = [];
     readonly isLoading: WritableSignal<boolean> = signal(false);
     private destroy$: Subject<void> = new Subject();
 
@@ -71,6 +71,7 @@ export class FormStep3Component implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.onSelectCountry();
     }
 
     onSubmit($event: any, myForm: NgForm) {
@@ -85,5 +86,15 @@ export class FormStep3Component implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.destroy$.next();
         this.destroy$.complete();
+    }
+
+    onSelectCountry() {
+        if (this.formData.address.countryCode == 'AU') {
+            this.states = australianStatesAndTerritories;
+        }else if (this.formData.address.countryCode == 'US') {
+            this.states = usStates;
+        }else{
+            this.states = [];
+        }
     }
 }
