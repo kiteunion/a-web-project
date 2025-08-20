@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Fieldset} from "primeng/fieldset";
 import {FormsModule, NgForm} from "@angular/forms";
 import {IftaLabel} from "primeng/iftalabel";
@@ -7,7 +7,6 @@ import {Message} from "primeng/message";
 import {CountryISO, NgxIntlTelInputModule, SearchCountryField} from "ngx-intl-tel-input";
 import {ApplicationData} from "../../../share/interface/form.interface";
 import {FormService} from "../../../share/services/form.service";
-import {JsonPipe} from "@angular/common";
 
 @Component({
     standalone: true,
@@ -18,8 +17,7 @@ import {JsonPipe} from "@angular/common";
         IftaLabel,
         InputText,
         Message,
-        NgxIntlTelInputModule,
-        JsonPipe
+        NgxIntlTelInputModule
     ],
     templateUrl: './contacts.component.html',
     styleUrl: './contacts.component.scss'

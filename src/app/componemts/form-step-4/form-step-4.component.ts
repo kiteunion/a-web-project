@@ -104,6 +104,12 @@ export class FormStep4Component implements OnInit, OnDestroy {
                 console.log(error);
                 alert('Error...');
             })
+
+
+        const findEmail = this.formData.contacts.find((v) => v.email);
+        if (this.formData.contact.ownershipType === 2 && !this.formData.contact.email && findEmail) {
+            this.formData.contact.email = findEmail.email;
+        }
     }
 
     submit() {

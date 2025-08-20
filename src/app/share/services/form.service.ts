@@ -127,8 +127,9 @@ export class FormService {
             // applicationData.contact.phone = (applicationData.contact.phone as any).e164Number;
         }
         applicationData.contacts.forEach((contact) => {
-            if (typeof contact.phone === "object") {
-                contact.phone = (contact.phone as any).e164Number;
+            const e164Number = (contact.phone as any)?.e164Number;
+            if (typeof contact.phone === "object" && e164Number) {
+                contact.phone = e164Number;
             }
         });
 
