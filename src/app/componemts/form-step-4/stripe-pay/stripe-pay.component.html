@@ -7,11 +7,11 @@
     </ngx-stripe-elements>
 }
 <div class="flex gap-4 pt-2 mb-3">
-    <p-button (click)="pay()" [fluid]="true" [loading]="paying()"
-              severity="success" class="w-full" size="large" label="Pay" icon="pi pi-wallet" />
     <p-button
             (click)="onBack.emit()"
             type="button" size="large" label="Back" icon="pi pi-angle-left"
             [raised]="true" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"/>
+    <p-button (click)="pay()" [fluid]="true" [loading]="paying()"
+              severity="success" class="w-full" size="large" label="Pay" icon="pi pi-wallet" />
 
 </div>
