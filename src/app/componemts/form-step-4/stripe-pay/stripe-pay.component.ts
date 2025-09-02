@@ -1,4 +1,13 @@
-import {Component, OnInit, signal, ViewChild} from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    OnInit,
+    Output,
+    signal,
+    ViewChild,
+    WritableSignal
+} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 
 
@@ -25,6 +34,10 @@ import {Router} from "@angular/router";
     ]
 })
 export class StripePayComponent implements OnInit {
+
+    @Output()
+    public onBack: EventEmitter<void> = new EventEmitter();
+
     @ViewChild(StripePaymentElementComponent)
     paymentElement!: StripePaymentElementComponent;
 
@@ -54,6 +67,7 @@ export class StripePayComponent implements OnInit {
     public paying = signal(false);
 
     constructor(
+        private cd: ChangeDetectorRef,
         private router: Router,
         private messageService: MessageService,
         public productService: ProductService,
@@ -88,6 +102,7 @@ export class StripePayComponent implements OnInit {
             }
         ).subscribe(res => {
             this.elementsOptions.clientSecret = res.data.clientSecret;
+            this.cd.detectChanges();
         });
     }
 

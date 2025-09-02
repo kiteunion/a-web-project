@@ -15,6 +15,7 @@ import {MessageService} from "primeng/api";
 })
 
 export class FormService {
+    public activeStep: number | undefined = 1;
     onCheckForm$: Subject<any> = new Subject();
     public maxStepReached: number = 1;
     public q: string = '';

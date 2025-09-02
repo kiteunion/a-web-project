@@ -1,0 +1,48 @@
+<p-fieldset legend="Order price">
+    <!--<div class="grid pt-2 align-items-center">
+    <div class="col text-gray-600">
+      Sub total:
+    </div>
+    <div class="col-fixed py-0">
+      {{subTotal | currency : 'AUD' :'symbol' : '1.0-0'}}
+    </div>
+  </div>-->
+    <div class="grid mb-1 align-items-center">
+        <div class="col text-gray-600">
+            GST component:
+        </div>
+        <div [@numberChange]="productService.GST" class="col-fixed py-0">
+            {{ productService.GST | currency : 'AUD' :'symbol' : '1.0-0' }}
+        </div>
+    </div>
+
+    <div class="grid mb-1 align-items-center">
+        <div class="col py-0 text-gray-600 font-bold text-lg">
+            Subtotal:
+        </div>
+        <div [@numberChange]="productService.total" class="col-fixed font-bold py-0">
+            {{ productService.total | currency : 'AUD' :'symbol' : '1.0-0' }}
+        </div>
+    </div>
+
+    <div class="grid mb-3 align-items-center">
+        <div class="col text-gray-600">
+            Credit Card surcharges (2%):
+        </div>
+        <div [@numberChange]="productService.creditCardSurcharges" class="col-fixed py-0">
+            {{ productService.creditCardSurcharges | currency : 'AUD' :'symbol' : '1.0-0' }}
+        </div>
+    </div>
+
+    <div class="grid align-items-center">
+        <div class="col py-0 text-gray-600 font-bold text-lg">
+            Total:
+        </div>
+        @if(productService.total + productService.creditCardSurcharges; as total) {
+            <div class="col-fixed py-0 text-lg">
+                <b [@numberChange]="total">{{total | currency : 'AUD' :'symbol' : '1.0-0' }}</b>
+            </div>
+        }
+
+    </div>
+</p-fieldset>

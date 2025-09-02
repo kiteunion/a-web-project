@@ -1,0 +1,229 @@
+<div class="grid">
+
+    <div class="col-12">
+        <p-card class="p-card-colored p-card-green text-color-secondary">
+            <ng-template #header>
+                <h3 class="m-0">
+                    <div class="grid justify-content-between align-items-center">
+                        <div class="col py-0">
+                            <i class="pi pi-shopping-bag pi-x2 mr-2"></i>
+                            Order summary
+                        </div>
+                    </div>
+                </h3>
+            </ng-template>
+            <app-form-order-summary></app-form-order-summary>
+            <p-divider></p-divider>
+            <app-form-order-total></app-form-order-total>
+        </p-card>
+
+        <p-divider></p-divider>
+
+        <p-card class="p-card-colored p-card-blue">
+            <ng-template #header>
+                <h3 class="m-0">
+                    <div class="grid justify-content-between align-items-center">
+                        <div class="col py-0">
+                            <i class="pi pi-user pi-x2 mr-2"></i>
+                            Trademark Owner Summary –
+                            @switch (formData.contact.ownershipType) {
+                                @case (0) {
+                                    Individual / Sole Trader
+                                }
+                                @case (1) {
+                                    Business
+                                }
+                                @case (2) {
+                                    Partnership
+                                }
+                                @case (3) {
+                                    Trustee
+                                }
+                                @default {
+                                    General
+                                }
+                            }
+                        </div>
+                        <p-button
+                                type="button"
+                                label="Edit"
+                                icon="pi pi-pencil"
+                                severity="secondary"
+                                [outlined]="true"
+                                size="small"
+                                (click)="editContacts()">
+                        </p-button>
+                    </div>
+                </h3>
+
+            </ng-template>
+
+            @if (formData.contact.ownershipType !== 2) {
+            <!-- Single Contact Information -->
+            <p-fieldset legend="Contact Information">
+                <div class="formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label class="font-semibold text-sm text-gray-600">Email:</label>
+                        <div class="mt-1">
+                            <i class="pi pi-envelope text-gray-500 mr-2"></i>
+                            <span class="text-gray-900">{{ formData.contact.email || 'Not provided' }}</span>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label class="font-semibold text-sm text-gray-600">Phone Number:</label>
+                        <div class="mt-1">
+                            <i class="pi pi-phone text-gray-500 mr-2"></i>
+                            <span class="text-gray-900">{{ displayPhone(formData.contact.phone) || 'Not provided' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </p-fieldset>
+            } @else {
+            <!-- Partnership Contacts -->
+            <p-fieldset legend="Partnership Details">
+                @if (formData.contacts && formData.contacts.length > 0) {
+                    <div class="grid">
+                        @for (contact of formData.contacts; track contact; let index = $index) {
+                            <div class="col-12 md:col-6 xl:col-4 mb-3">
+                                <p-card styleClass="h-full">
+                                    <ng-template #header>
+                                        <div class="flex align-items-center justify-content-between p-3 bg-blue-50 border-bottom-1 surface-border">
+                                            <div class="flex align-items-center">
+                                                <p-avatar
+                                                        [label]="(index + 1).toString()"
+                                                        styleClass="mr-2"
+                                                        size="normal"
+                                                        [style]="{'background-color': '#3B82F6', 'color': 'white'}">
+                                                </p-avatar>
+                                                <span class="font-semibold text-gray-800">Partner {{ index + 1 }}</span>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+
+                                    <div class="contact-info">
+                                        <div class="mb-3">
+                                            <div class="flex align-items-center mb-2">
+                                                <i class="pi pi-building text-gray-500 mr-2"></i>
+                                                <span class="font-semibold text-sm text-gray-600">Name of trademark owner:</span>
+                                            </div>
+                                            <p class="ml-4 text-gray-900 m-0">{{ contact.businessName || 'Not provided' }}</p>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <div class="flex align-items-center mb-2">
+                                                <i class="pi pi-id-card text-gray-500 mr-2"></i>
+                                                <span class="font-semibold text-sm text-gray-600">ABN:</span>
+                                            </div>
+                                            <p class="ml-4 text-gray-900 m-0">{{ contact.businessNumber || 'Not provided' }}</p>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <div class="flex align-items-center mb-2">
+                                                <i class="pi pi-envelope text-gray-500 mr-2"></i>
+                                                <span class="font-semibold text-sm text-gray-600">Email:</span>
+                                            </div>
+                                            <p class="ml-4 text-gray-900 m-0">{{ contact.email || 'Not provided' }}</p>
+                                        </div>
+
+                                        <div>
+                                            <div class="flex align-items-center mb-2">
+                                                <i class="pi pi-phone text-gray-500 mr-2"></i>
+                                                <span class="font-semibold text-sm text-gray-600">Phone:</span>
+                                            </div>
+                                            <p class="ml-4 text-gray-900 m-0">{{ displayPhone(contact.phone) || 'Not provided' }}</p>
+                                        </div>
+                                    </div>
+                                </p-card>
+                            </div>
+                        }
+                    </div>
+                } @else {
+                    <p-card>
+                        <div class="flex align-items-center justify-content-center p-4">
+                            <i class="pi pi-info-circle text-blue-500 mr-2"></i>
+                            <span class="text-gray-600">No partnership contacts provided</span>
+                        </div>
+                    </p-card>
+                }
+            </p-fieldset>
+        }
+
+
+
+            <div class="mb-3"></div>
+
+            <!-- Address Section -->
+            <p-fieldset>
+                <ng-template #header>
+                    <div class="font-semibold">
+                        @switch (formData.contact.ownershipType) {
+                            @case (0) {
+                                Address for Individual / Sole trader
+                            }
+                            @case (1) {
+                                Address for Business
+                            }
+                            @case (2) {
+                                Address for Partnership
+                            }
+                            @case (3) {
+                                Address for Trustee
+                            }
+                            @default {
+                                Address
+                            }
+                        }
+                    </div>
+                </ng-template>
+
+                <div class="formgrid grid">
+                    <div class="field col-12">
+                        <div class="mt-1 text-gray-600">
+                            <i class="pi pi-address-book text-gray-500"></i>
+                            {{
+                                [
+                                    formData.address.address || null,
+                                    formData.address.city || null,
+                                    formData.address.region || null,
+                                    formData.address.postCode || null,
+                                    getCountryName(formData.address.countryCode) || null
+                                ].filter(Boolean).join(', ') || 'Not provided'
+                            }}
+                        </div>
+                    </div>
+                </div>
+            </p-fieldset>
+            <div class="mb-3"></div>
+            <p-fieldset legend="Customer Information">
+                <div class="formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label class="font-semibold text-sm text-gray-600">Name:</label>
+                        <div class="mt-1">
+                            <i class="pi pi-envelope text-gray-500 mr-2"></i>
+                            <span class="text-gray-900">{{ formData.contact.firstName || 'Not provided' }}</span>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label class="font-semibold text-sm text-gray-600">Email:</label>
+                        <div class="mt-1">
+                            <i class="pi pi-envelope text-gray-500 mr-2"></i>
+                            <span class="text-gray-900">{{ formData.contact.email || 'Not provided' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </p-fieldset>
+
+
+        </p-card>
+        <p-divider></p-divider>
+    </div>
+
+
+    <div class="col-12">
+        <!--<img class="w-full logotypes" src="/assets/images/payments.png" alt="">-->
+        <p-card header="Pay for trade mark application(s):">
+            <app-stripe-pay (onBack)="onBack.emit()"></app-stripe-pay>
+        </p-card>
+
+    </div>
+</div>

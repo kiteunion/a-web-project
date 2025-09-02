@@ -21,12 +21,12 @@ p-card.p-card-colored {
   }
 
   &.p-card-green {
-    .p-card-title, .p-card-header {
+    & > .p-card-title, & > .p-card-header {
       background: var(--success-bg-button);
     }
   }
 
-  .p-card-title, .p-card-header {
+  & > .p-card-title, & > .p-card-header {
     background: var(--primary-bg-color);
     color: #fff;
     border-radius: var(--p-border-radius-xl) var(--p-border-radius-xl) 0 0;
@@ -233,4 +233,12 @@ p-card.h-100 .p-card {
 .iti__tel-input::placeholder {
   color: #d3d3d3!important; /* Светлый цвет, например, светло-серый */
   opacity: 1!important; /* Для кроссбраузерной совместимости */
+}
+
+.p-timeline-event {
+  margin-bottom: 5px;
+  align-items: center;
+}
+.p-timeline-event-opposite {
+  display: none;
 }

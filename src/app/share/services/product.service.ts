@@ -1,10 +1,9 @@
-import {ChangeDetectorRef, Injectable, signal, WritableSignal} from '@angular/core';
+import {Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {debounceTime, finalize, Observable, Subject, takeUntil} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {ClassInterface, ProductResultInterface} from '../interface/product.interface';
 import {FormService} from "./form.service";
-import {ApplicationData} from "../interface/form.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -80,7 +79,7 @@ export class ProductService {
         })
 
         if (this.formService.expedited) {
-            deepCopy.unshift({
+            deepCopy.push({
                 categories: [],
                 name: "Expedite the trade mark application",
                 price: this.formService.fees()?.expenditureFee || 0,
@@ -89,7 +88,7 @@ export class ProductService {
         }
 
         if (this.formService.privacy) {
-            deepCopy.unshift({
+            deepCopy.push({
                 categories: [],
                 name: "Privacy option",
                 price: this.formService.fees()?.postalFee || 0,

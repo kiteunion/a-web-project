@@ -33,104 +33,6 @@
                 </form>
             </p-fieldset>
             <div class="mb-3"></div>
-
-
-            <ng-template #footer>
-            </ng-template>
-        </p-card>
-
-        <img class="w-full" src="/assets/images/payments.png" alt="">
-        <p-card header="Pay for trade mark application(s):">
-            @if (!isSubmitted()) {
-                <div class="pt-2 mb-3">
-                    <p-button (click)="submit()" [fluid]="true" [loading]="isLoading()"
-                              severity="primary" class="w-full" size="large" label="Checkout now" icon="pi pi-wallet"/>
-                </div>
-            }
-            @if (isSubmitted()) {
-                <app-stripe-pay></app-stripe-pay>
-            }
-            <p-button
-                    (click)="onBack.emit()"
-                    type="button" label="Back" icon="pi pi-angle-left"
-                    [raised]="true" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"/>
-        </p-card>
-    </div>
-    <div class="col-6">
-        <p-card class="p-card-colored p-card-green text-color-secondary">
-            <ng-template #header>
-                <h3 class="m-0">
-                    <div class="grid justify-content-between align-items-center">
-                        <div class="col py-0">
-                            <i class="pi pi-shopping-bag pi-x2 mr-2"></i>
-                            Order summary
-                        </div>
-                        <!--<div [@numberChange]="cartCount" class="col-fixed py-0">
-                            {{ cartCount }} items
-                        </div>-->
-                    </div>
-                </h3>
-            </ng-template>
-
-
-            <div class="grid align-items-center">
-                <div class="col">
-                    <div class="flex align-items-center">
-                        @if (formService.trademarkType == 'logo') {
-                            <img width="60" class="mr-2" [src]="formService.uploadedLogoUri" alt="">
-                        }
-                        @if (formService.trademarkType == 'words') {
-                            <strong>{{ formData.word.word }}&nbsp;</strong>
-                        }
-                        Trademark in AU
-                    </div>
-                </div>
-                <!--<div *ngIf="formService.fees() as fees" class="col-fixed">
-                <b>AU${{fees?.baseFee}}</b>
-              </div>-->
-            </div>
-            <p-divider></p-divider>
-            <div class="order__list">
-                @if (formService.trademarkType == 'words') {
-                    <div></div>
-                }
-                <p-timeline [value]="productService.targetProductsList" class="w-full">
-                    <ng-template pTemplate="content" let-event>
-
-                        <div class="grid align-items-center" [style.margin-top.px]="-4">
-                            <div class="col py-0">
-                                <div class="order__item-name">
-                                    <div>{{ event.prefix }} <span>{{ event.name }}&nbsp;<i style="font-size: 13px"
-                                                                                           tooltipPosition="left"
-                                                                                           pTooltip="*service fee (incl. GST) & govt fees (GST-exempt)"
-                                                                                           tooltipStyleClass="tooltip-wide"
-                                                                                           class="pi pi-info-circle mr-2"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto py-0">
-                                <div class="order__item-price">{{ event.price | currency : 'AUD' :'symbol' : '1.0-0' }}</div>
-                            </div>
-                        </div>
-                        <!--<div>
-                        <ng-template let-tag let-index="index" ngFor [ngForOf]="event.categories">
-                          <div class="grid align-items-center mt-1">
-                            <div class="col py-0">
-                              <div class="order__item-name">
-                                <div><span>{{tag.name}}</span></div>
-                              </div>
-                            </div>
-                            <div class="col-auto py-0">
-                              <div class="order__item-price">AU$400</div>
-                            </div>
-                          </div>
-                        </ng-template>
-                      </div>-->
-                    </ng-template>
-                </p-timeline>
-            </div>
-            <p-divider></p-divider>
-
             <p-fieldset legend="Extras">
                 <h4 class="mb-2 mt-0">Would you like to add to your order ?:</h4>
                 <div class="mb-3 text-gray-500">
@@ -166,56 +68,45 @@
                     </label>
                 </div>
             </p-fieldset>
-            <div class="mb-3 text-gray-500">
-            </div>
-            <p-fieldset legend="Order price">
-                <!--<div class="grid pt-2 align-items-center">
-                <div class="col text-gray-600">
-                  Sub total:
-                </div>
-                <div class="col-fixed py-0">
-                  {{subTotal | currency : 'AUD' :'symbol' : '1.0-0'}}
-                </div>
-              </div>-->
-                <div class="grid mb-1 align-items-center">
-                    <div class="col text-gray-600">
-                        GST component:
-                    </div>
-                    <div [@numberChange]="productService.GST" class="col-fixed py-0">
-                        {{ productService.GST | currency : 'AUD' :'symbol' : '1.0-0' }}
-                    </div>
-                </div>
+            <!--<div class="mb-3 text-gray-500">
+            </div>-->
 
-                <div class="grid mb-1 align-items-center">
-                    <div class="col py-0 text-gray-600 font-bold text-lg">
-                        Subtotal:
-                    </div>
-                    <div [@numberChange]="productService.total" class="col-fixed font-bold py-0">
-                        {{ productService.total | currency : 'AUD' :'symbol' : '1.0-0' }}
-                    </div>
-                </div>
-
-                <div class="grid mb-3 align-items-center">
-                    <div class="col text-gray-600">
-                        Credit Card surcharges (2%):
-                    </div>
-                    <div [@numberChange]="productService.creditCardSurcharges" class="col-fixed py-0">
-                        {{ productService.creditCardSurcharges | currency : 'AUD' :'symbol' : '1.0-0' }}
-                    </div>
-                </div>
-
-                <div class="grid align-items-center">
-                    <div class="col py-0 text-gray-600 font-bold text-lg">
-                        Total:
-                    </div>
-                    @if(productService.total + productService.creditCardSurcharges; as total) {
-                        <div class="col-fixed py-0 text-lg">
-                            <b [@numberChange]="total">{{total | currency : 'AUD' :'symbol' : '1.0-0' }}</b>
-                        </div>
-                    }
-
-                </div>
-            </p-fieldset>
+            <ng-template #footer>
+            </ng-template>
         </p-card>
     </div>
+    <div class="col-6">
+        <p-card class="p-card-colored p-card-green text-color-secondary">
+            <ng-template #header>
+                <h3 class="m-0">
+                    <div class="grid justify-content-between align-items-center">
+                        <div class="col py-0">
+                            <i class="pi pi-shopping-bag pi-x2 mr-2"></i>
+                            Order summary
+                        </div>
+                        <!--<div [@numberChange]="cartCount" class="col-fixed py-0">
+                            {{ cartCount }} items
+                        </div>-->
+                    </div>
+                </h3>
+            </ng-template>
+
+            <app-form-order-summary></app-form-order-summary>
+            <p-divider></p-divider>
+            <app-form-order-total></app-form-order-total>
+        </p-card>
+    </div>
+
+    <div class="col-12">
+        <div class="flex gap-4 mt-1 align-items-center">
+            <p-button
+                    (click)="onBack.emit()"
+                    type="button" size="large" label="Back" icon="pi pi-angle-left"
+                    [raised]="true" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full"/>
+            <p-button (click)="next()" [fluid]="true" [loading]="isLoading()"
+                      severity="primary" class="w-full" size="large" label="Checkout now" icon="pi pi-wallet"/>
+        </div>
+    </div>
 </div>
+
+

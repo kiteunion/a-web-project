@@ -1,10 +1,11 @@
-<p-stepper [linear]="false" (valueChange)="onStepChange($event)" [value]="activeStep" class="basis-[50rem]">
+<p-stepper [linear]="false" (valueChange)="onStepChange($event)" [value]="formService.activeStep" class="basis-[50rem]">
   <p-card class="no-print" header="">
     <p-step-list>
       <p-step [value]="1">Enter your trade mark details</p-step>
       <p-step [disabled]="formService.maxStepReached < 2" [value]="2">Choose your brand protection</p-step>
       <p-step [disabled]="formService.maxStepReached < 3" [value]="3">Owner details</p-step>
-      <p-step [disabled]="formService.maxStepReached < 4" [value]="4">Review and pay</p-step>
+      <p-step [disabled]="formService.maxStepReached < 4" [value]="4">Review</p-step>
+      <p-step [disabled]="formService.maxStepReached < 5" [value]="5">Checkout</p-step>
     </p-step-list>
   </p-card>
   <p-step-panels>
@@ -15,18 +16,23 @@
     </p-step-panel>
     <p-step-panel [value]="2">
       <ng-template #content let-activateCallback="activateCallback">
-        <app-form-step-2 (onNext)="onStepChange(3)" (onBack)="activeStep = 1"></app-form-step-2>
+        <app-form-step-2 (onNext)="onStepChange(3)" (onBack)="formService.activeStep = 1"></app-form-step-2>
       </ng-template>
     </p-step-panel>
     <p-step-panel [value]="3">
       <ng-template #content let-activateCallback="activateCallback">
-        <app-form-step-3 (onNext)="onStepChange(4)" (onBack)="activeStep = 2"></app-form-step-3>
+        <app-form-step-3 (onNext)="onStepChange(4)" (onBack)="formService.activeStep = 2"></app-form-step-3>
       </ng-template>
     </p-step-panel>
-    <p-step-panel [value]="4">
-      <ng-template #content let-activateCallback="activateCallback">
-        <app-form-step-4 (onBack)="onStepChange(3)"></app-form-step-4>
-      </ng-template>
-    </p-step-panel>
+      <p-step-panel [value]="4">
+          <ng-template #content let-activateCallback="activateCallback">
+              <app-form-step-4 (onNext)="onStepChange(5)" (onBack)="onStepChange(3)"></app-form-step-4>
+          </ng-template>
+      </p-step-panel>
+      <p-step-panel [value]="5">
+          <ng-template #content let-activateCallback="activateCallback">
+              <app-form-step-5 (onBack)="onStepChange(4)"></app-form-step-5>
+          </ng-template>
+      </p-step-panel>
   </p-step-panels>
 </p-stepper>

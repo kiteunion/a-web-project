@@ -1,0 +1,43 @@
+
+<div class="grid align-items-center">
+    <div class="col">
+        <div class="flex align-items-center">
+            @if (formService.trademarkType == 'logo') {
+                <img width="60" class="mr-2" [src]="formService.uploadedLogoUri" alt="">
+            }
+            @if (formService.trademarkType == 'words') {
+                <strong>{{ formData.word.word }}&nbsp;</strong>
+            }
+            Trademark in AU
+        </div>
+    </div>
+    <!--<div *ngIf="formService.fees() as fees" class="col-fixed">
+    <b>AU${{fees?.baseFee}}</b>
+  </div>-->
+</div>
+<p-divider></p-divider>
+<div class="order__list">
+    @if (formService.trademarkType == 'words') {
+        <div></div>
+    }
+    <p-timeline [value]="productService.targetProductsList" class="w-full">
+        <ng-template pTemplate="content" let-event>
+
+            <div class="grid align-items-center" [style.margin-top.px]="-4">
+                <div class="col py-0">
+                    <div class="order__item-name">
+                        <div>{{ event.prefix }} <span>{{ event.name }}&nbsp;<i style="font-size: 13px"
+                                                                               tooltipPosition="left"
+                                                                               pTooltip="*service fee (incl. GST) & govt fees (GST-exempt)"
+                                                                               tooltipStyleClass="tooltip-wide"
+                                                                               class="pi pi-info-circle mr-2"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto py-0">
+                    <div class="order__item-price">{{ event.price | currency : 'AUD' :'symbol' : '1.0-0' }}</div>
+                </div>
+            </div>
+        </ng-template>
+    </p-timeline>
+</div>

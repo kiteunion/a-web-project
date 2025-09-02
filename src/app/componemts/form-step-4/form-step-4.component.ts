@@ -29,6 +29,8 @@ import {trigger, state, style, animate, transition} from '@angular/animations';
 import {StripePayComponent} from "./stripe-pay/stripe-pay.component";
 import {environment} from "../../../environments/environment";
 import {Message} from "primeng/message";
+import {FormOrderSummaryComponent} from "./form-order-summary/form-order-summary.component";
+import {FormOrderTotalComponent} from "./form-order-total/form-order-total.component";
 
 
 @Component({
@@ -49,7 +51,9 @@ import {Message} from "primeng/message";
         Tooltip,
         PrimeTemplate,
         StripePayComponent,
-        Message
+        Message,
+        FormOrderSummaryComponent,
+        FormOrderTotalComponent
     ],
     templateUrl: './form-step-4.component.html',
     styleUrl: './form-step-4.component.scss',
@@ -66,8 +70,13 @@ import {Message} from "primeng/message";
     ],
 })
 export class FormStep4Component implements OnInit, OnDestroy {
+
+    @Output()
+    onNext: EventEmitter<void> = new EventEmitter();
+
     @Output()
     public onBack: EventEmitter<void> = new EventEmitter();
+
     readonly isLoading: WritableSignal<boolean> = signal(false);
     readonly isSubmitted: WritableSignal<boolean> = signal(false);
     public tooltipExpedited = "This option is recommended, especially if you are a startup and what to find out sooner than later if your brand is approved for registration within 14 working days. If the application comes back with descriptive issues, you can submit the “logo” mark for FREE if your logo is distinctive. And if the application is not accepted due to cited marks (potential infringement), you an submit another name for FREE! But you must have a second name ready within 4 working days or the offer is void.";
@@ -136,5 +145,9 @@ export class FormStep4Component implements OnInit, OnDestroy {
 
     onChangeExpedited() {
         this.cd.detectChanges();
+    }
+
+    next() {
+        this.onNext.emit();
     }
 }
