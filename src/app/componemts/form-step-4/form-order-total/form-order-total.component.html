@@ -27,7 +27,7 @@
 
     <div class="grid mb-3 align-items-center">
         <div class="col text-gray-600">
-            Credit Card surcharges (2%):
+            Credit Card surcharges ({{ productService.cardSurcharges * 100}}%):
         </div>
         <div [@numberChange]="productService.creditCardSurcharges" class="col-fixed py-0">
             {{ productService.creditCardSurcharges | currency : 'AUD' :'symbol' : '1.0-0' }}

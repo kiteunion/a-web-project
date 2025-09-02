@@ -14,7 +14,7 @@ export class ProductService {
     readonly sourceProductsBuffer: WritableSignal<ClassInterface[]> = signal([]);
     public targetProducts: ClassInterface[] = [];
     public targetProductsChange$: Subject<void> = new Subject<void>();
-    private cardSurcharges = 0.017;
+    public cardSurcharges = 0.017;
 
     constructor(
         public formService: FormService,
