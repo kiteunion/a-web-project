@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {CurrencyPipe} from "@angular/common";
+import {CurrencyPipe, DecimalPipe} from "@angular/common";
 import {Fieldset} from "primeng/fieldset";
 import {ProductService} from "../../../share/services/product.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
@@ -8,7 +8,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   selector: 'app-form-order-total',
     imports: [
         CurrencyPipe,
-        Fieldset
+        Fieldset,
+        DecimalPipe
     ],
   templateUrl: './form-order-total.component.html',
   styleUrl: './form-order-total.component.scss',
