@@ -40,8 +40,13 @@
                                    class="ng-dirty w-full" required
                                    [class.ng-invalid]="formService.isValidField(name, myForm)"
                                    placeholder="" pSize="large" pInputText id="field_1"/>
-                            <label for="field_1">Name of trademark owner&nbsp;<span
-                                    class="text-red-400">*</span></label>
+                            <label for="field_1">
+                                @if (formData.contact.ownershipType === 3) {
+                                    Trustee name (the trustee can be an individual or a company)*&nbsp;
+                                }@else {
+                                    Name of trademark owner&nbsp;
+                                }
+                                <span class="text-red-400">*</span></label>
                         </p-iftalabel>
                         @if (formService.isValidField(name, myForm)) {
                             <p-message class="mt-2" severity="error" variant="simple" size="small">Name
@@ -60,9 +65,11 @@
                                        [class.ng-invalid]="formService.isValidField(acn, myForm)"
                                 />
                                 <label for="field_2">
-                                    ACN
+
                                     @if (formData.contact.ownershipType === 3) {
-                                        <span> of company</span>
+                                        ACN if it’s a company trustee or ABN if available for individual
+                                    } @else {
+                                        ACN
                                     }
                                     &nbsp;<span class="text-red-400">*</span>
                                 </label>

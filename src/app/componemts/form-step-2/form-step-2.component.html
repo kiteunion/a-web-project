@@ -1,3 +1,21 @@
+
+<div class="grid align-items-center">
+    <div class="col">
+        Trade mark Application for:
+    </div>
+    <div class="col">
+        <div class="flex align-items-center">
+            @if (formService.trademarkType == 'logo') {
+                <img width="60" class="mr-2" [src]="formService.uploadedLogoUri" alt="">
+            }
+            @if (formService.trademarkType == 'words') {
+                <strong>{{ formService.formData.word.word }}&nbsp;</strong>
+            }
+            Trademark in AU
+        </div>
+    </div>
+</div>
+<hr>
 <div class="grid">
   <div class="col-6">
     <p-card class="h-100 p-card-colored p-card-gray p-card-table">
@@ -27,6 +45,14 @@
 
 
                 <p>You may need more than 1 protection class depending on your service.</p>
+
+                <br>
+                <p><b>Please add the products from the previous column using the search:</b></p>
+
+                <ol>
+                    <li>Enter what you will use your trademark for, for example: "clothing" or "digital goods."</li>
+                    <li>Select the products for which you want to protect your trademark.</li>
+                </ol>
             </div>
         }
       <app-table-source-products (onLoad)="onLoaded()" [isLoading]="isLoading" [q]="formService.q"></app-table-source-products>

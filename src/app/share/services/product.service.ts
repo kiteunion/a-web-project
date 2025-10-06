@@ -75,7 +75,7 @@ export class ProductService {
         const deepCopy = this.targetProducts.map(item => ({...item}));
         deepCopy.map((v, i) => {
             v.price = this.formService.fees()?.classFee;
-            v.prefix = `Trade Mark ${i + 1}`;
+            v.prefix = `Trade mark ${i + 1} in `;
         })
 
         if (this.formService.expedited) {
