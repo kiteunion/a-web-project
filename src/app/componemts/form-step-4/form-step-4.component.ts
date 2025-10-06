@@ -13,9 +13,7 @@ import {IftaLabel} from "primeng/iftalabel";
 import {InputText} from "primeng/inputtext";
 import {Card} from 'primeng/card';
 import {Divider} from 'primeng/divider';
-import {Timeline} from 'primeng/timeline';
 import {FormService} from '../../share/services/form.service';
-import {CurrencyPipe} from '@angular/common';
 import {Button} from 'primeng/button';
 import {ProductService} from '../../share/services/product.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -23,10 +21,7 @@ import {ApplicationData} from '../../share/interface/form.interface';
 import {debounceTime, finalize, Subject, takeUntil} from 'rxjs';
 import {Checkbox} from "primeng/checkbox";
 import {Tooltip} from "primeng/tooltip";
-import {PrimeTemplate} from "primeng/api";
-import {ClassInterface} from "../../share/interface/product.interface";
-import {trigger, state, style, animate, transition} from '@angular/animations';
-import {StripePayComponent} from "./stripe-pay/stripe-pay.component";
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {environment} from "../../../environments/environment";
 import {Message} from "primeng/message";
 import {FormOrderSummaryComponent} from "./form-order-summary/form-order-summary.component";
@@ -42,15 +37,11 @@ import {FormOrderTotalComponent} from "./form-order-total/form-order-total.compo
         InputText,
         Card,
         Divider,
-        Timeline,
         Button,
         FormsModule,
         ReactiveFormsModule,
-        CurrencyPipe,
         Checkbox,
         Tooltip,
-        PrimeTemplate,
-        StripePayComponent,
         Message,
         FormOrderSummaryComponent,
         FormOrderTotalComponent
