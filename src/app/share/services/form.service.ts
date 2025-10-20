@@ -19,7 +19,7 @@ export class FormService {
     onCheckForm$: Subject<any> = new Subject();
     public maxStepReached: number = 1;
     public q: string = '';
-    public agree = undefined;
+    public agree?: boolean = undefined;
     public expedited: boolean = false;
     public privacy?: boolean = false;
     public trademarkType: 'logo' | 'words' = 'words';
@@ -66,6 +66,7 @@ export class FormService {
         },
         company: {
             businessName: '',
+            nameOfTrust: '',
             citizenCountryCode: 'AU',
             businessNumber: '',
             australianCompanyNumber: '',
@@ -136,7 +137,6 @@ export class FormService {
                 applicationData.contact.phone = contact.phone;
             }
         });
-        console.log(applicationData.contact.phone);
 
 
         return this.http.post<ProductResultInterface>(url, {
@@ -221,6 +221,7 @@ export class FormService {
         }*/
         this.privacy = false;
         this.expedited = false;
+        delete this.agree;
         delete this.uploadedLogoUri;
         this.applicationData = JSON.parse(JSON.stringify(this.applicationDataBuffer));
         this.save();

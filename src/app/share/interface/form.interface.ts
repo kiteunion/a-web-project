@@ -30,6 +30,7 @@ export interface Address {
 
 export interface Company {
     businessName: string;
+    nameOfTrust: string;
     citizenCountryCode: string;
     businessNumber: string;
     australianCompanyNumber: string;

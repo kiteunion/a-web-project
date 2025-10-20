@@ -84,7 +84,7 @@
                     @if (formData.contact.ownershipType === 3) {
                         <div class="field col-6">
                             <p-iftalabel>
-                                <input #name="ngModel" [(ngModel)]="formData.company.businessName" name="name"
+                                <input #name="ngModel" [(ngModel)]="formData.company.nameOfTrust" name="name"
                                        class="ng-dirty w-full" required
                                        [class.ng-invalid]="formService.isValidField(name, myForm)"
                                        placeholder="" pSize="large" pInputText id="field_1"/>
