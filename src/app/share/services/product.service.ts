@@ -147,6 +147,7 @@ export class ProductService {
 
     clear() {
         this.targetProducts = [];
+        this.sourceProducts.set([]);
         this.save();
     }
 }

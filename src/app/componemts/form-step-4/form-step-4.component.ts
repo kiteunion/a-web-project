@@ -73,16 +73,6 @@ export class FormStep4Component implements OnInit, OnDestroy {
     public tooltipExpedited = "This option is recommended, especially if you are a startup and what to find out sooner than later if your brand is approved for registration within 14 working days. If the application comes back with descriptive issues, you can submit the “logo” mark for FREE if your logo is distinctive. And if the application is not accepted due to cited marks (potential infringement), you an submit another name for FREE! But you must have a second name ready within 4 working days or the offer is void.";
 
     private destroy$: Subject<void> = new Subject();
-    get cartCount(): number {
-        let count = this.productService.targetProducts.length;
-        if (this.formService.expedited) {
-            count += 1;
-        }
-        if (this.formService.privacy) {
-            count += 1;
-        }
-        return count;
-    }
 
     get formData(): ApplicationData {
         return this.formService.applicationData;

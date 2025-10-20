@@ -45,7 +45,7 @@
                         <div class="field col">
                             <p-iftalabel>
                                 <input #email="ngModel" [(ngModel)]="contact.email" name="email" type="email" email
-                                       class="ng-dirty w-full" required
+                                       class="ng-dirty w-full" required (ngModelChange)="formService.checkEmail(email)"
                                        [class.ng-invalid]="formService.isValidField(email, myFormContacts)"
                                        placeholder="" pSize="large" pInputText id="field_8" [value]="contact.email"/>
                                 <label for="field_8">E-mail&nbsp;<span class="text-red-400">*</span></label>

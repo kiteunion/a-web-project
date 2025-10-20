@@ -100,7 +100,7 @@ export class FormService {
     }
 
     isValidField(field: NgModel, myForm: NgForm): boolean {
-        return myForm.submitted && myForm.invalid && field.errors?.['required']
+        return myForm.submitted && myForm.invalid && (field.errors?.['required'] || field.errors?.['invalidEmail'])
     }
 
     start(word: string, imageRef?: string): Observable<FormInterface> {
@@ -212,6 +212,17 @@ export class FormService {
         }
     }
 
+    validateEmail(email: string): boolean {
+        const strictEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return strictEmailRegex.test(email);
+    }
+
+    checkEmail(control: any) {
+        const emailError = !this.validateEmail(this.formData.contact.email);
+        control.control.setErrors(emailError ? { invalidEmail: true } : null);
+        console.log('field.errors', control.errors)
+    }
+
     clear() {
         this.maxStepReached = 1;
         this.activeStep = 1;
@@ -223,6 +234,7 @@ export class FormService {
         this.expedited = false;
         delete this.agree;
         delete this.uploadedLogoUri;
+        this.q = '';
         this.applicationData = JSON.parse(JSON.stringify(this.applicationDataBuffer));
         this.save();
     }

@@ -14,7 +14,8 @@
                     </div>
                     <div class="field">
                         <p-iftalabel>
-                            <input #email="ngModel" [(ngModel)]="formData.contact.email" name="email" type="email" email
+                            <input #email="ngModel" [(ngModel)]="formData.contact.email"
+                                   name="email" type="email" email (ngModelChange)="formService.checkEmail(email)"
                                    class="ng-dirty w-full" placeholder="" pSize="large" pInputText id="field_8"/>
                             <label for="field_8">E-mail</label>
                         </p-iftalabel>
