@@ -84,12 +84,12 @@ export class StripePayComponent implements OnInit {
     getSecret() {
         const orderItems = this.productService.targetProductsList.map((v) => {
             return {
-                amount: v.price,
+                amount: (v.price || 0) * 100,
                 id: v.name
             }
         })
         orderItems.push({
-            amount: Math.round(this.productService.creditCardSurcharges),
+            amount: Math.round(this.productService.creditCardSurcharges) * 100,
             id: "Credit Card surcharges"
         })
 

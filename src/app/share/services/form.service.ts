@@ -21,7 +21,7 @@ export class FormService {
     public q: string = '';
     public agree = undefined;
     public expedited: boolean = false;
-    public privacy = undefined;
+    public privacy?: boolean = false;
     public trademarkType: 'logo' | 'words' = 'words';
     public uploadedLogo?: File;
     public uploadedLogoUri?: any;
@@ -83,7 +83,7 @@ export class FormService {
         private messageService: MessageService,
         private http: HttpClient
     ) {
-        this.applicationData = this.applicationDataBuffer;
+        this.applicationData = JSON.parse(JSON.stringify(this.applicationDataBuffer));
         this.restore();
     }
 
@@ -132,7 +132,11 @@ export class FormService {
             if (typeof contact.phone === "object" && e164Number) {
                 contact.phone = e164Number;
             }
+            if (!applicationData.contact.phone) {
+                applicationData.contact.phone = contact.phone;
+            }
         });
+        console.log(applicationData.contact.phone);
 
 
         return this.http.post<ProductResultInterface>(url, {
@@ -210,11 +214,15 @@ export class FormService {
 
     clear() {
         this.maxStepReached = 1;
-        if (!environment.production) {
+        this.activeStep = 1;
+        /*if (!environment.production) {
             alert('Clear imitate dev');
             return;
-        }
-        this.applicationData = this.applicationDataBuffer;
+        }*/
+        this.privacy = false;
+        this.expedited = false;
+        delete this.uploadedLogoUri;
+        this.applicationData = JSON.parse(JSON.stringify(this.applicationDataBuffer));
         this.save();
     }
 }
