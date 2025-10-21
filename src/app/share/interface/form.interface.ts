@@ -59,7 +59,7 @@ export interface Image {
 
 export interface SelectedClass {
     referenceId: string;
-    classNumber: number;
+    classNumber: string;
     name: string;
 }
 

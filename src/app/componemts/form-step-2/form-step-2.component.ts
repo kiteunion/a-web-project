@@ -111,7 +111,7 @@ export class FormStep2Component implements OnInit, OnDestroy {
     this.productService.targetProducts.forEach((item) => {
       item.categories.forEach((category) => {
         this.formService.applicationData.selectedClasses.push({
-          classNumber: item.index || 0,
+          classNumber: item.name,
           name: category.name,
           referenceId: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
         })
