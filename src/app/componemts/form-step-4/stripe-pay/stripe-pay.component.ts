@@ -79,7 +79,15 @@ export class StripePayComponent implements OnInit {
 
 
     ngOnInit() {
-        this.getSecret();
+        this.productService.buildSelectedClasses();
+        this.formService.update()
+            .subscribe(() => {
+                this.getSecret();
+            }, error => {
+                console.log(error);
+                alert('Error...');
+            })
+
     }
 
     get orderItems(){
@@ -160,9 +168,9 @@ export class StripePayComponent implements OnInit {
                     if (result.paymentIntent.status === 'succeeded') {
                         // Show a success message to your customer
                         console.log({success: true});
+                        this.submit(result);
                         this.formService.clear();
                         this.productService.clear();
-                        this.submit(result);
                         this.router.navigateByUrl('/success');
                     }
                 }
@@ -182,9 +190,9 @@ export class StripePayComponent implements OnInit {
                 // this.isLoading.set(false);
             }))
             .subscribe(() => {
-                if (!environment.production) {
+               /* if (!environment.production) {
                     alert('Payment functionality in development')
-                }
+                }*/
             }, error => {
                 console.log(error);
             });

@@ -87,6 +87,7 @@ export class FormStep4Component implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.productService.buildSelectedClasses();
         this.formService.update()
             .subscribe(() => {
             }, error => {

@@ -45,7 +45,7 @@
                 </div>
                 <div class="field mb-2 flex items-center gap-1">
                     <p-checkbox #expedited="ngModel" [binary]="true" (ngModelChange)="onChangeExpedited()"
-                                [(ngModel)]="formService.expedited" name="expedited"
+                                [(ngModel)]="formService.formData.isExpedite" name="expedited"
                                 class="ng-dirty" [value]="true" inputId="expedited"/>
                     <label for="expedited" class="ml-2">
                         Yes, expedite the examination period for my application
@@ -60,7 +60,7 @@
                     </small>
                 </div>
                 <div class="field mb-0 flex items-center gap-1">
-                    <p-checkbox #privacy="ngModel" [binary]="true" [(ngModel)]="formService.privacy" name="privacy"
+                    <p-checkbox #privacy="ngModel" [binary]="true" [(ngModel)]="formService.formData.isPrivate" name="privacy"
                                 class="ng-dirty" [value]="true" inputId="privacy"/>
                     <label for="privacy" class="ml-2">
                         Yes, I would like my address to be private

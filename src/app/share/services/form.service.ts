@@ -19,8 +19,6 @@ export class FormService {
     public maxStepReached: number = 1;
     public q: string = '';
     public agree?: boolean = undefined;
-    public expedited: boolean = false;
-    public privacy?: boolean = false;
     public trademarkType: 'logo' | 'words' = 'words';
     public uploadedLogo?: File;
     public uploadedLogoUri?: any;
@@ -85,7 +83,9 @@ export class FormService {
             australianCompanyNumber: '',
             phoneNumber: ''
         },
-        selectedClasses: []
+        selectedClasses: [],
+        isPrivate: true,
+        isExpedite: true,
     };
     countries: CountriesItem[] = [];
 
@@ -138,14 +138,7 @@ export class FormService {
         if (this.formData.contact.ownershipType !== 2) {
             applicationData.contacts = [];
         }
-        if (typeof applicationData.contact.phone === "object") {
-            // applicationData.contact.phone = (applicationData.contact.phone as any).e164Number;
-        }
         applicationData.contacts.forEach((contact) => {
-            /*const e164Number = (contact.phone as any)?.e164Number;
-            if (typeof contact.phone === "object" && e164Number) {
-                contact.phone = e164Number;
-            }*/
             if (!applicationData.contact.phone) {
                 applicationData.contact.phone = contact.phone;
             }
@@ -252,8 +245,6 @@ export class FormService {
             alert('Clear imitate dev');
             return;
         }*/
-        this.privacy = false;
-        this.expedited = false;
         delete this.agree;
         delete this.uploadedLogoUri;
         this.q = '';

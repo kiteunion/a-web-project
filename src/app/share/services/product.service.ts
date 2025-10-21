@@ -77,7 +77,7 @@ export class ProductService {
             v.prefix = `Trade mark ${i + 1} in `;
         })
 
-        if (this.formService.expedited) {
+        if (this.formService.formData.isExpedite) {
             deepCopy.push({
                 categories: [],
                 name: "Expedite the trade mark application",
@@ -86,7 +86,7 @@ export class ProductService {
             })
         }
 
-        if (this.formService.privacy) {
+        if (this.formService.formData.isPrivate) {
             deepCopy.push({
                 categories: [],
                 name: "Privacy option",
@@ -111,12 +111,12 @@ export class ProductService {
         const expenditureFee = this.formService.fees()?.expenditureFee || 0;
         const expenditureGovFee = this.formService.fees()?.expenditureGovFee || 0;
 
-        if (this.formService.expedited && expenditureFee > 0) {
+        if (this.formService.formData.isExpedite && expenditureFee > 0) {
             total += (expenditureFee - expenditureGovFee) / 11;
         }
 
         const postalFee = this.formService.fees()?.postalFee || 0;
-        if (this.formService.privacy && postalFee > 0) {
+        if (this.formService.formData.isPrivate && postalFee > 0) {
             total += postalFee / 11;
         }
         return total;
@@ -129,11 +129,11 @@ export class ProductService {
     get total(): number {
         let total = this.subTotal;
         const expenditureFee = this.formService.fees()?.expenditureFee || 0;
-        if (this.formService.expedited && expenditureFee > 0) {
+        if (this.formService.formData.isExpedite && expenditureFee > 0) {
             total += expenditureFee;
         }
         const postalFee = this.formService.fees()?.postalFee || 0;
-        if (this.formService.privacy && postalFee > 0) {
+        if (this.formService.formData.isPrivate && postalFee > 0) {
             total += postalFee;
         }
 
@@ -142,6 +142,19 @@ export class ProductService {
 
     get classFee(): number {
         return this.formService.fees()?.classFee || 0;
+    }
+
+    public buildSelectedClasses() {
+        this.formService.applicationData.selectedClasses = [];
+        this.targetProducts.forEach((item) => {
+            item.categories.forEach((category) => {
+                this.formService.applicationData.selectedClasses.push({
+                    classNumber: item.name,
+                    name: category.name,
+                    referenceId: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                })
+            })
+        })
     }
 
     clear() {

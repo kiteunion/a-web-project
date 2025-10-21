@@ -16,6 +16,8 @@ export interface ApplicationData {
     address: Address;
     company: Company;
     selectedClasses: SelectedClass[];
+    isPrivate: boolean;
+    isExpedite: boolean;
     logo: string;
 }
 

@@ -64,7 +64,7 @@ export class FormStep2Component implements OnInit, OnDestroy {
       .pipe(debounceTime(500), takeUntil(this.destroy$))
       .subscribe(() => {
         this.calcTotal();
-        this.buildSelectedClasses();
+        this.productService.buildSelectedClasses();
       })
   }
 
@@ -106,18 +106,6 @@ export class FormStep2Component implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private buildSelectedClasses() {
-    this.formService.applicationData.selectedClasses = [];
-    this.productService.targetProducts.forEach((item) => {
-      item.categories.forEach((category) => {
-        this.formService.applicationData.selectedClasses.push({
-          classNumber: item.name,
-          name: category.name,
-          referenceId: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-        })
-      })
-    })
-  }
 
   private calcTotal() {
     this.totalPrice.set(
