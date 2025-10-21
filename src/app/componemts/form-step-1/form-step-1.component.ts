@@ -113,7 +113,7 @@ export class FormStep1Component {
       this.formService.fees.set(fees.data);
       this.formService.applicationRef = start.data.applicationRef;
       // TODO
-      localStorage.setItem('applicationRefV2', this.formService.applicationRef);
+      localStorage.setItem('applicationRefV3', this.formService.applicationRef);
       this.onNext.emit();
     }, error => {
       console.error(error);

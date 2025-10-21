@@ -1,13 +1,12 @@
 import {Injectable, signal, WritableSignal} from '@angular/core';
-import {ApplicationData, Contact, FormInterface, PartnershipContact, SelectedClass} from '../interface/form.interface';
+import {ApplicationData, Contact, FormInterface, PartnershipContact} from '../interface/form.interface';
 import {NgForm, NgModel} from '@angular/forms';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {ProductResultInterface} from '../interface/product.interface';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {FeeResultInterface, FeesDataInterface} from '../interface/fee.interface';
 import {CountriesItem, CountriesResultInterface} from '../interface/countries.interface';
-import {ProductService} from "./product.service";
 import {MessageService} from "primeng/api";
 
 @Injectable({
@@ -43,7 +42,14 @@ export class FormService {
         contacts: [
             {
                 email: '',
-                phone: '',
+                phone: {
+                    dialCode: '',
+                    countryCode: '',
+                    e164Number: '',
+                    nationalNumber: '',
+                    internationalNumber: '',
+                    number: ''
+                },
                 businessNumber: '',
                 businessName: ''
             }
@@ -52,7 +58,14 @@ export class FormService {
             firstName: '',
             lastName: 'Undefined',
             email: '',
-            phone: '',
+            phone: {
+                dialCode: '',
+                countryCode: '',
+                e164Number: '',
+                nationalNumber: '',
+                internationalNumber: '',
+                number: ''
+            },
             declaration: true,
             ownershipType: 0
         },
@@ -89,14 +102,14 @@ export class FormService {
     }
 
     restore() {
-        const applicationData = localStorage.getItem('applicationDataV2');
+        const applicationData = localStorage.getItem('applicationDataV3');
         if (applicationData) {
             this.applicationData = JSON.parse(applicationData);
         }
     }
 
     save() {
-        localStorage.setItem('applicationDataV2', JSON.stringify(this.applicationData));
+        localStorage.setItem('applicationDataV3', JSON.stringify(this.applicationData));
     }
 
     isValidField(field: NgModel, myForm: NgForm): boolean {
@@ -129,10 +142,10 @@ export class FormService {
             // applicationData.contact.phone = (applicationData.contact.phone as any).e164Number;
         }
         applicationData.contacts.forEach((contact) => {
-            const e164Number = (contact.phone as any)?.e164Number;
+            /*const e164Number = (contact.phone as any)?.e164Number;
             if (typeof contact.phone === "object" && e164Number) {
                 contact.phone = e164Number;
-            }
+            }*/
             if (!applicationData.contact.phone) {
                 applicationData.contact.phone = contact.phone;
             }
@@ -196,7 +209,14 @@ export class FormService {
             return;
         }
         this.formData.contacts.push({
-            email: '', phone: '', businessName: ''
+            email: '', phone: {
+                dialCode: '',
+                countryCode: '',
+                e164Number: '',
+                nationalNumber: '',
+                internationalNumber: '',
+                number: ''
+            }, businessName: ''
         })
         this.tabActive = this.formData.contacts.length - 1;
     }
@@ -237,5 +257,6 @@ export class FormService {
         this.q = '';
         this.applicationData = JSON.parse(JSON.stringify(this.applicationDataBuffer));
         this.save();
+        // location.reload();
     }
 }

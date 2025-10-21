@@ -41,14 +41,14 @@ export interface Contact {
     firstName: string;
     lastName: string;
     email: string;
-    phone: string;
+    phone: Phone;
     declaration?: boolean;
     ownershipType: number;
 }
 
 export interface PartnershipContact {
     email: string;
-    phone: string;
+    phone: Phone;
     businessNumber?: string;
     businessName: string;
 }
@@ -65,4 +65,13 @@ export interface SelectedClass {
 
 export interface Word {
     word: string;
+}
+
+interface Phone {
+    dialCode: string;
+    countryCode: string;
+    e164Number: string;
+    nationalNumber: string;
+    internationalNumber: string;
+    number: string;
 }

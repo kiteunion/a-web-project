@@ -18,11 +18,11 @@
                     <div class="formgrid grid">
                         <div class="field col">
                             <p-iftalabel>
-                                <input #name="ngModel" [(ngModel)]="contact.businessName" name="name"
+                                <input #name="ngModel" [(ngModel)]="contact.businessName" name="field_name_{{index}}"
                                        class="ng-dirty w-full" required
                                        [class.ng-invalid]="formService.isValidField(name, myFormContacts)"
-                                       placeholder="" pSize="large" pInputText id="field_1"/>
-                                <label for="field_1">Name of trademark owner&nbsp;<span
+                                       placeholder="" pSize="large" pInputText id="field_name_{{index}}"/>
+                                <label for="field_name_{{index}}">Name of trademark owner&nbsp;<span
                                         class="text-red-400">*</span></label>
                             </p-iftalabel>
                             @if (formService.isValidField(name, myFormContacts)) {
@@ -33,9 +33,9 @@
                         </div>
                         <div class="field col">
                             <p-iftalabel>
-                                <input #abn="ngModel" [(ngModel)]="contact.businessNumber" name="abn"
-                                       class="w-full" placeholder="" pSize="large" pInputText id="field_2"/>
-                                <label for="field_2">
+                                <input #abn="ngModel" [(ngModel)]="contact.businessNumber" name="field_abn_{{index}}"
+                                       class="w-full" placeholder="" pSize="large" pInputText id="field_abn_{{index}}"/>
+                                <label for="field_abn_{{index}}">
                                     ABN
                                 </label>
                             </p-iftalabel>
@@ -44,11 +44,11 @@
                     <div class="formgrid grid">
                         <div class="field col">
                             <p-iftalabel>
-                                <input #email="ngModel" [(ngModel)]="contact.email" name="email" type="email" email
+                                <input #email="ngModel" [(ngModel)]="contact.email" name="field_email_{{index}}" type="email" email
                                        class="ng-dirty w-full" required (ngModelChange)="formService.checkEmail(email)"
                                        [class.ng-invalid]="formService.isValidField(email, myFormContacts)"
-                                       placeholder="" pSize="large" pInputText id="field_8" [value]="contact.email"/>
-                                <label for="field_8">E-mail&nbsp;<span class="text-red-400">*</span></label>
+                                       placeholder="" pSize="large" pInputText id="field_email_{{index}}" [value]="contact.email"/>
+                                <label for="field_email_{{index}}">E-mail&nbsp;<span class="text-red-400">*</span></label>
                             </p-iftalabel>
                             @if (formService.isValidField(email, myFormContacts)) {
                                 <p-message class="mt-2" severity="error" variant="simple" size="small">
@@ -64,7 +64,7 @@
                         </div>
                         <div class="field col">
                             <p-iftalabel>
-                                <input #phone="ngModel" required [(ngModel)]="contact.phone" name="phone" type="hidden">
+                                <input #phone="ngModel" required [(ngModel)]="contact.phone" name="field_phone_{{index}}" type="hidden">
                                 <ngx-intl-tel-input
                                         [ngModelOptions]="{standalone: true}"
                                         (ngModelChange)="formService.onPhoneChange($event, contact)"
@@ -78,13 +78,13 @@
                                         [selectFirstCountry]="false"
                                         [selectedCountryISO]="CountryISO.Australia"
                                         [maxLength]="15"
-                                        [value]="contact.phone"
+
                                         [phoneValidation]="true"
-                                        [inputId]="'field_phone'"
+                                        [inputId]="'field_email_{{index}}'"
                                         [separateDialCode]="true"
                                 ></ngx-intl-tel-input>
                                 <!--<input class="w-full" placeholder="" pSize="large" required pInputText id="field_9"/>-->
-                                <label for="field_phone">Phone number <span class="text-red-400">*</span></label>
+                                <label for="field_phone_{{index}}">Phone number <span class="text-red-400">*</span></label>
                             </p-iftalabel>
                             @if (formService.isValidField(phone, myFormContacts)) {
                                 <p-message class="mt-2" severity="error" variant="simple" size="small">
