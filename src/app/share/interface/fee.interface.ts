@@ -12,4 +12,5 @@ export interface FeesDataInterface {
   expenditureFee: number; // 475
   expenditureGovFee: number; // 230
   postalFee: number; // 95
+  creditCardSurchargeFee: number; // 1.7
 }

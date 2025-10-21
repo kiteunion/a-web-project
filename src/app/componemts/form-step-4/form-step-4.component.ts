@@ -18,11 +18,10 @@ import {Button} from 'primeng/button';
 import {ProductService} from '../../share/services/product.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ApplicationData} from '../../share/interface/form.interface';
-import {debounceTime, finalize, Subject, takeUntil} from 'rxjs';
+import {Subject} from 'rxjs';
 import {Checkbox} from "primeng/checkbox";
 import {Tooltip} from "primeng/tooltip";
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {environment} from "../../../environments/environment";
 import {Message} from "primeng/message";
 import {FormOrderSummaryComponent} from "./form-order-summary/form-order-summary.component";
 import {FormOrderTotalComponent} from "./form-order-total/form-order-total.component";
@@ -100,22 +99,6 @@ export class FormStep4Component implements OnInit, OnDestroy {
         if (this.formData.contact.ownershipType === 2 && !this.formData.contact.email && findEmail) {
             this.formData.contact.email = findEmail.email;
         }
-    }
-
-    submit() {
-        this.isLoading.set(true);
-        this.formService.submit()
-            .pipe(debounceTime(500), takeUntil(this.destroy$), finalize(() => {
-                this.isLoading.set(false);
-            }))
-            .subscribe(() => {
-                this.isSubmitted.set(true);
-                if (!environment.production) {
-                    alert('Payment functionality in development')
-                }
-            }, error => {
-                console.log(error);
-            });
     }
 
 

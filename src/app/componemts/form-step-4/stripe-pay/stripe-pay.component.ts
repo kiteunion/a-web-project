@@ -20,6 +20,7 @@ import {Button} from "primeng/button";
 import {ProductService} from "../../../share/services/product.service";
 import {MessageService} from "primeng/api";
 import {Router} from "@angular/router";
+import {debounceTime, finalize} from "rxjs";
 
 @Component({
     selector: 'app-stripe-pay',
@@ -81,7 +82,7 @@ export class StripePayComponent implements OnInit {
         this.getSecret();
     }
 
-    getSecret() {
+    get orderItems(){
         const orderItems = this.productService.targetProductsList.map((v) => {
             return {
                 amount: (v.price || 0) * 100,
@@ -93,11 +94,15 @@ export class StripePayComponent implements OnInit {
             id: "Credit Card surcharges"
         })
 
+        return orderItems;
+    }
+
+    getSecret() {
         this.http.post<{ data: {clientSecret: string} }>(
             `${environment.backendApiUrl}/application/createPaymentIntent`,
             {
                 data: {
-                    orderItems: orderItems
+                    orderItems: this.orderItems
                 }
             }
         ).subscribe(res => {
@@ -157,6 +162,7 @@ export class StripePayComponent implements OnInit {
                         console.log({success: true});
                         this.formService.clear();
                         this.productService.clear();
+                        this.submit(result);
                         this.router.navigateByUrl('/success');
                     }
                 }
@@ -169,5 +175,18 @@ export class StripePayComponent implements OnInit {
             });
     }
 
-
+    submit(paymentData: any) {
+        // this.isLoading.set(true);
+        this.formService.submit(paymentData, this.orderItems)
+            .pipe(debounceTime(500), finalize(() => {
+                // this.isLoading.set(false);
+            }))
+            .subscribe(() => {
+                if (!environment.production) {
+                    alert('Payment functionality in development')
+                }
+            }, error => {
+                console.log(error);
+            });
+    }
 }

@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {CurrencyPipe, DecimalPipe} from "@angular/common";
 import {Fieldset} from "primeng/fieldset";
 import {ProductService} from "../../../share/services/product.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {FormService} from "../../../share/services/form.service";
 
 @Component({
-  selector: 'app-form-order-total',
+    selector: 'app-form-order-total',
     imports: [
         CurrencyPipe,
         Fieldset,
         DecimalPipe
     ],
-  templateUrl: './form-order-total.component.html',
-  styleUrl: './form-order-total.component.scss',
+    templateUrl: './form-order-total.component.html',
+    styleUrl: './form-order-total.component.scss',
     animations: [
         trigger('numberChange', [
             state('void', style({opacity: 0, transform: 'translateY(20px)'})),
@@ -28,6 +29,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 })
 export class FormOrderTotalComponent {
 
-    constructor(public productService: ProductService) {
+    constructor(
+        public productService: ProductService,
+        public formService: FormService) {
     }
 }

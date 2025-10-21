@@ -14,7 +14,6 @@ export class ProductService {
     readonly sourceProductsBuffer: WritableSignal<ClassInterface[]> = signal([]);
     public targetProducts: ClassInterface[] = [];
     public targetProductsChange$: Subject<void> = new Subject<void>();
-    public cardSurcharges = 0.017;
 
     constructor(
         public formService: FormService,
@@ -124,7 +123,7 @@ export class ProductService {
     }
 
     get creditCardSurcharges(): number {
-        return this.total * this.cardSurcharges;
+        return this.total * ((this.formService.fees()?.creditCardSurchargeFee || 1.7) / 100);
     }
 
     get total(): number {
