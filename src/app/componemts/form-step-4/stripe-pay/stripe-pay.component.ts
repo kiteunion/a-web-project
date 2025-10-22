@@ -12,7 +12,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 
 import {injectStripe, StripeElementsDirective, StripePaymentElementComponent} from 'ngx-stripe';
-import {StripeElementsOptions, StripePaymentElementOptions} from '@stripe/stripe-js';
+import {PaymentIntentResult, StripeElementsOptions, StripePaymentElementOptions} from '@stripe/stripe-js';
 import {environment} from "../../../../environments/environment.development";
 import {HttpClient} from "@angular/common/http";
 import {FormService} from "../../../share/services/form.service";
@@ -153,25 +153,22 @@ export class StripePayComponent implements OnInit {
                 },
                 redirect: 'if_required'
             })
-            .subscribe(result => {
+            .subscribe((paymentIntentResult: PaymentIntentResult) => {
                 this.paying.set(false);
-                if (result.error) {
+                if (paymentIntentResult.error) {
                     // Show error to your customer (e.g., insufficient funds)
                     this.messageService.add({
                         severity: 'error',
                         summary: 'Error',
-                        detail: result.error.message
+                        detail: paymentIntentResult.error.message
                     });
-                    console.error('Payment error', result);
+                    console.error('Payment error', paymentIntentResult);
                 } else {
                     // The payment has been processed!
-                    if (result.paymentIntent.status === 'succeeded') {
+                    if (paymentIntentResult.paymentIntent.status === 'succeeded') {
                         // Show a success message to your customer
                         console.log({success: true});
-                        this.submit({
-                            ...result,
-                            ...{clientSecret: this.elementsOptions.clientSecret}
-                        });
+                        this.submit(paymentIntentResult);
                         this.formService.clear();
                         this.productService.clear();
                         this.router.navigateByUrl('/success');
@@ -186,9 +183,12 @@ export class StripePayComponent implements OnInit {
             });
     }
 
-    submit(paymentData: any) {
+    submit(paymentData: PaymentIntentResult) {
         // this.isLoading.set(true);
-        this.formService.submit(paymentData, this.orderItems)
+        this.formService.submit({
+            paymentStatus: paymentData?.paymentIntent?.status,
+            paymentIntentId: paymentData?.paymentIntent?.id,
+        }, this.orderItems)
             .pipe(debounceTime(500), finalize(() => {
                 // this.isLoading.set(false);
             }))
