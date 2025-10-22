@@ -20,7 +20,7 @@
     @if (formService.trademarkType == 'words') {
         <div></div>
     }
-    <p-timeline [value]="productService.targetProductsList" class="w-full">
+    <p-timeline [value]="productService.targetProductsList()" class="w-full">
         <ng-template pTemplate="content" let-event>
 
             <div class="grid align-items-center" [style.margin-top.px]="-4">

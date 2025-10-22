@@ -70,14 +70,14 @@ export class ProductService {
     }
 
 
-    get targetProductsList(): ClassInterface[] {
+    targetProductsList(isExpedite = true, isPrivate = true): ClassInterface[] {
         const deepCopy = this.targetProducts.map(item => ({...item}));
         deepCopy.map((v, i) => {
             v.price = this.formService.fees()?.classFee;
             v.prefix = `Trade mark ${i + 1} in `;
         })
 
-        if (this.formService.formData.isExpedite) {
+        if (isExpedite && this.formService.formData.isExpedite) {
             deepCopy.push({
                 categories: [],
                 name: "Expedite the trade mark application",
@@ -86,7 +86,7 @@ export class ProductService {
             })
         }
 
-        if (this.formService.formData.isPrivate) {
+        if (isPrivate && this.formService.formData.isPrivate) {
             deepCopy.push({
                 categories: [],
                 name: "Privacy option",

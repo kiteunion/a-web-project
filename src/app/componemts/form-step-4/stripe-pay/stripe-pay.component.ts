@@ -45,7 +45,7 @@ export class StripePayComponent implements OnInit {
 
     public elementsOptions: StripeElementsOptions = {
         locale: 'en',
-         // clientSecret: null,
+        // clientSecret: null,
         // mode: 'payment',
         // paymentMethodTypes: ['card'],
         appearance: {
@@ -90,27 +90,30 @@ export class StripePayComponent implements OnInit {
 
     }
 
-    get orderItems(){
-        const orderItems = this.productService.targetProductsList.map((v) => {
-            return {
-                amount: (v.price || 0) * 100,
-                id: v.name
-            }
-        })
-        orderItems.push({
-            amount: Math.round(this.productService.creditCardSurcharges) * 100,
-            id: "Credit Card surcharges"
-        })
+    orderItems(isExpedite = true, isPrivate = true, cardSurcharges = true) {
+        const orderItems = this.productService.targetProductsList(isExpedite, isPrivate)
+            .map((v) => {
+                return {
+                    amount: (v.price || 0) * 100,
+                    id: v.name
+                }
+            })
+        if (cardSurcharges) {
+            orderItems.push({
+                amount: Math.round(this.productService.creditCardSurcharges) * 100,
+                id: "Credit Card surcharges"
+            })
+        }
 
         return orderItems;
     }
 
     getSecret() {
-        this.http.post<{ data: {clientSecret: string} }>(
+        this.http.post<{ data: { clientSecret: string } }>(
             `${environment.backendApiUrl}/application/createPaymentIntent`,
             {
                 data: {
-                    orderItems: this.orderItems
+                    orderItems: this.orderItems()
                 }
             }
         ).subscribe(res => {
@@ -184,18 +187,47 @@ export class StripePayComponent implements OnInit {
     }
 
     submit(paymentData: PaymentIntentResult) {
+        const order = {
+            "orderSummary": {
+                "total": this.productService.total + this.productService.creditCardSurcharges,
+                "surcharges": Math.round(this.productService.creditCardSurcharges) * 100,
+                "subtotal": this.productService.total,
+                "gst": this.productService.GST
+            },
+            "orderExtras": [
+                {
+                    "amount": 0,
+                    "id": "string"
+                }
+            ],
+            "orderItems": this.orderItems(false, false, false)
+        };
+        if (this.formService.formData.isExpedite) {
+            order.orderExtras.push({
+                amount: this.formService.fees()?.expenditureFee || 0,
+                id: "Expedite the trade mark application",
+            })
+        }
+
+        if (this.formService.formData.isPrivate) {
+            order.orderExtras.push({
+                amount: this.formService.fees()?.postalFee || 0,
+                id: "Privacy option",
+            })
+        }
+
         // this.isLoading.set(true);
         this.formService.submit({
             paymentStatus: paymentData?.paymentIntent?.status,
             paymentIntentId: paymentData?.paymentIntent?.id,
-        }, this.orderItems)
+        }, order)
             .pipe(debounceTime(500), finalize(() => {
                 // this.isLoading.set(false);
             }))
             .subscribe(() => {
-               /* if (!environment.production) {
-                    alert('Payment functionality in development')
-                }*/
+                /* if (!environment.production) {
+                     alert('Payment functionality in development')
+                 }*/
             }, error => {
                 console.log(error);
             });

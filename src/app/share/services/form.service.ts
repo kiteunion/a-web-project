@@ -153,13 +153,13 @@ export class FormService {
         });
     }
 
-    submit(paymentData: any, orderItems: any): Observable<ProductResultInterface> {
+    submit(paymentData: any, order: any): Observable<ProductResultInterface> {
         const url = `${environment.backendApiUrl}/application/submit`;
         return this.http.post<ProductResultInterface>(url, {
             data: {
                 applicationRef: this.applicationRef,
                 paymentData: paymentData,
-                orderItems: orderItems
+                order: order
             }
         });
     }
