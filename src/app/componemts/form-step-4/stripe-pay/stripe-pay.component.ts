@@ -168,7 +168,10 @@ export class StripePayComponent implements OnInit {
                     if (result.paymentIntent.status === 'succeeded') {
                         // Show a success message to your customer
                         console.log({success: true});
-                        this.submit(result);
+                        this.submit({
+                            ...result,
+                            ...{clientSecret: this.elementsOptions.clientSecret}
+                        });
                         this.formService.clear();
                         this.productService.clear();
                         this.router.navigateByUrl('/success');
