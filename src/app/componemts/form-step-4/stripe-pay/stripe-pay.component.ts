@@ -113,7 +113,8 @@ export class StripePayComponent implements OnInit {
             `${environment.backendApiUrl}/application/createPaymentIntent`,
             {
                 data: {
-                    orderItems: this.orderItems()
+                    applicationRef: this.formService.applicationRef,
+                    order: this.order
                 }
             }
         ).subscribe(res => {
@@ -186,41 +187,40 @@ export class StripePayComponent implements OnInit {
             });
     }
 
-    submit(paymentData: PaymentIntentResult) {
-        const order = {
+    get order() {
+        const order: any = {
             "orderSummary": {
-                "total": this.productService.total + this.productService.creditCardSurcharges,
+                "total": Math.round(this.productService.total + this.productService.creditCardSurcharges),
                 "surcharges": Math.round(this.productService.creditCardSurcharges) * 100,
-                "subtotal": this.productService.total,
-                "gst": this.productService.GST
+                "subtotal": Math.round(this.productService.total),
+                "gst": Math.round(this.productService.GST)
             },
-            "orderExtras": [
-                {
-                    "amount": 0,
-                    "id": "string"
-                }
-            ],
+            "orderExtras": [],
             "orderItems": this.orderItems(false, false, false)
         };
         if (this.formService.formData.isExpedite) {
             order.orderExtras.push({
-                amount: this.formService.fees()?.expenditureFee || 0,
+                amount: Math.round(this.formService.fees()?.expenditureFee || 0),
                 id: "Expedite the trade mark application",
             })
         }
 
         if (this.formService.formData.isPrivate) {
             order.orderExtras.push({
-                amount: this.formService.fees()?.postalFee || 0,
+                amount: Math.round(this.formService.fees()?.postalFee || 0),
                 id: "Privacy option",
             })
         }
+        return order;
+    }
+
+    submit(paymentData: PaymentIntentResult) {
 
         // this.isLoading.set(true);
         this.formService.submit({
             paymentStatus: paymentData?.paymentIntent?.status,
             paymentIntentId: paymentData?.paymentIntent?.id,
-        }, order)
+        }, this.order)
             .pipe(debounceTime(500), finalize(() => {
                 // this.isLoading.set(false);
             }))
