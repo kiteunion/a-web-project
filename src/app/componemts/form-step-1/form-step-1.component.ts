@@ -119,4 +119,8 @@ export class FormStep1Component {
       console.error(error);
     });
   }
+
+  onInput() {
+    this.formService.applicationData.word.word = this.formService.applicationData.word.word.toUpperCase();
+  }
 }

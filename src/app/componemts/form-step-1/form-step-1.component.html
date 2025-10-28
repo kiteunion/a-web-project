@@ -38,7 +38,7 @@
         <p-iftalabel>
           <input
             #word="ngModel" [(ngModel)]="formService.applicationData.word.word" name="word"
-            class="ng-dirty w-30rem max-w-full" required [class.ng-invalid]="formService.isValidField(word, myForm)"
+            class="ng-dirty w-30rem max-w-full" (input)="onInput()" required [class.ng-invalid]="formService.isValidField(word, myForm)"
             placeholder="Enter you trademark" pSize="large" pInputText id="trademark"/>
           <label for="trademark">Trade mark (word/words)</label>
         </p-iftalabel>

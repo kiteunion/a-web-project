@@ -32,6 +32,13 @@
                                                                                tooltipStyleClass="tooltip-wide"
                                                                                class="pi pi-info-circle mr-2"></i></span>
                         </div>
+                        <div class="small text-muted mb-2">
+                            <small>
+                            @for (category of event.categories; track category; let index = $index) {
+                                {{category.name}};
+                            }
+                            </small>
+                        </div>
                     </div>
                 </div>
                 <div class="col-auto py-0">

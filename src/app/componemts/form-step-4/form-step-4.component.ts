@@ -16,7 +16,7 @@ import {Divider} from 'primeng/divider';
 import {FormService} from '../../share/services/form.service';
 import {Button} from 'primeng/button';
 import {ProductService} from '../../share/services/product.service';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, NgForm, ReactiveFormsModule} from '@angular/forms';
 import {ApplicationData} from '../../share/interface/form.interface';
 import {Subject} from 'rxjs';
 import {Checkbox} from "primeng/checkbox";
@@ -25,6 +25,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Message} from "primeng/message";
 import {FormOrderSummaryComponent} from "./form-order-summary/form-order-summary.component";
 import {FormOrderTotalComponent} from "./form-order-total/form-order-total.component";
+import {MessageService} from "primeng/api";
 
 
 @Component({
@@ -80,6 +81,7 @@ export class FormStep4Component implements OnInit, OnDestroy {
 
 
     constructor(
+        private messageService: MessageService,
         public formService: FormService,
         public productService: ProductService,
         private cd: ChangeDetectorRef,
@@ -112,7 +114,11 @@ export class FormStep4Component implements OnInit, OnDestroy {
         this.cd.detectChanges();
     }
 
-    next() {
+    next(myForm: NgForm) {
+        if (myForm.invalid) {
+            this.messageService.add({severity: 'error', summary: 'Attention', detail: 'Please fill out the form'});
+            return;
+        }
         this.onNext.emit();
     }
 }
