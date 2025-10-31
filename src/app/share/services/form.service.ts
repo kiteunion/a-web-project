@@ -84,8 +84,8 @@ export class FormService {
             phoneNumber: ''
         },
         selectedClasses: [],
-        isPrivate: true,
-        isExpedite: true,
+        isPrivate: false,
+        isExpedite: false,
     };
     countries: CountriesItem[] = [];
 

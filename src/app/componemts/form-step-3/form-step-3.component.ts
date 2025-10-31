@@ -77,6 +77,11 @@ export class FormStep3Component implements OnInit, OnDestroy {
     }
 
     onSubmit($event: any, myForm: NgForm) {
+        if (!this.formService.agree) {
+            this.messageService.add({severity: 'error', summary: 'Attention', detail: 'Please acknowledge the terms before continuing.'});
+            return;
+        }
+
         this.formService.onCheckForm$.next($event);
         this.messageService.clear();
         

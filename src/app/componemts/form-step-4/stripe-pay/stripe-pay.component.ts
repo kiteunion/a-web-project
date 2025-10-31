@@ -94,13 +94,13 @@ export class StripePayComponent implements OnInit {
         const orderItems = this.productService.targetProductsList(isExpedite, isPrivate)
             .map((v) => {
                 return {
-                    amount: (v.price || 0) * 100,
+                    amount: (v.price || 0) * 10000,
                     id: v.name
                 }
             })
         if (cardSurcharges) {
             orderItems.push({
-                amount: Math.round(this.productService.creditCardSurcharges) * 100,
+                amount: Math.round(this.productService.creditCardSurcharges) * 10000,
                 id: "Credit Card surcharges"
             })
         }

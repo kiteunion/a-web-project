@@ -23,7 +23,7 @@
     <p-timeline [value]="productService.targetProductsList()" class="w-full">
         <ng-template pTemplate="content" let-event>
 
-            <div class="grid align-items-center" [style.margin-top.px]="-4">
+            <div class="grid align-items-start" [style.margin-top.px]="-4">
                 <div class="col py-0">
                     <div class="order__item-name">
                         <div>{{ event.prefix }} <span>{{ event.name }}&nbsp;<i style="font-size: 13px"
